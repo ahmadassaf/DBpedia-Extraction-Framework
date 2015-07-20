@@ -1,8 +1,6 @@
-templates|4
+templates|2
 Location map
 Gutenberg author
-Quote box
-Παράθεμα
 
 properties|0
 

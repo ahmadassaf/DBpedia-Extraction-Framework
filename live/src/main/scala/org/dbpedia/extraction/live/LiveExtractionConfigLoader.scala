@@ -1,11 +1,10 @@
 package org.dbpedia.extraction.live.extraction
 
 import java.net.URL
-import org.slf4j.LoggerFactory
-
 import collection.immutable.ListMap
 import java.util.Properties
 import java.io.File
+import org.apache.log4j.Logger
 import org.dbpedia.extraction.mappings._
 import org.dbpedia.extraction.util.Language
 import org.dbpedia.extraction.sources.{WikiPage, WikiSource, Source, XMLSource}
@@ -18,6 +17,7 @@ import collection.mutable.ArrayBuffer
 import org.dbpedia.extraction.live.storage.JSONCache
 import org.dbpedia.extraction.live.queue.LiveQueueItem
 import scala.xml._
+import org.dbpedia.extraction.wikiparser.impl.WikiParserWrapper
 import org.dbpedia.extraction.wikiparser.impl.json.JsonWikiParser
 import org.dbpedia.extraction.live.extractor.LiveExtractor
 
@@ -37,7 +37,7 @@ object LiveExtractionConfigLoader
   private var extractors : List[Extractor[_]] = null;
   private var reloadOntologyAndMapping = true;
   private var ontologyAndMappingsUpdateTime : Long = 0;
-  val logger = LoggerFactory.getLogger("LiveExtractionConfigLoader");
+  val logger = Logger.getLogger("LiveExtractionConfigLoader");
 
   /** Ontology source */
   val ontologySource = WikiSource.fromNamespaces(
@@ -47,7 +47,7 @@ object LiveExtractionConfigLoader
 
   /** Mappings source */
   val mappingsSource =  WikiSource.fromNamespaces(
-    namespaces = Set(Namespace.mappings(Language.apply(LiveOptions.language))),
+    namespaces = Set(Namespace.mappings(Language.apply(LiveOptions.options.get("language")))),
     url = new URL(Language.Mappings.apiUri),
     language = Language.Mappings );
 
@@ -134,8 +134,16 @@ object LiveExtractionConfigLoader
         val liveCache = new JSONCache(wikiPage.id, wikiPage.title.decoded)
 
         var destList = new ArrayBuffer[LiveDestination]()  // List of all final destinations
+        if (liveCache.performCleanUpdate) {
+          destList += new SPARULDelAllDestination(liveCache.cacheObj.subjects, policies)
+          destList += new SPARULAddAllDestination(policies)
+        } else {
+          // *Delete first* When a triple is deleted from one extractor and added from another extractor
+          destList += new SPARULDestination(false, policies) // delete triples
+          destList += new SPARULDestination(true, policies) // add triples
+        }
         destList += new JSONCacheUpdateDestination(liveCache)
-        destList += new PublisherDiffDestination(wikiPage.id, liveCache.performCleanUpdate, if (liveCache.cacheObj != null) liveCache.cacheObj.subjects else new java.util.HashSet[String]())
+        destList += new PublisherDiffDestination(wikiPage.id, policies)
         destList += new LoggerDestination(wikiPage.id, wikiPage.title.decoded) // Just to log extraction results
 
         val compositeDest: LiveDestination = new CompositeLiveDestination(destList.toSeq: _*) // holds all main destinations
@@ -232,9 +240,6 @@ object LiveExtractionConfigLoader
       try {
         extractorList = extractorList ::: List[Class[Extractor[_]]](listiterator.next().asInstanceOf[Class[Extractor[_]]]);
       }
-      catch {
-        case e: Exception =>  logger.warn("Cannot instantiate Extractor List", e)
-      }
     }
     extractorList;
   }
@@ -284,7 +289,7 @@ object LiveExtractionConfigLoader
     /** Mappings source */
     val mappingsSource =  WikiSource.fromNamespaces(namespaces = Set(Namespace.mappings(Language.apply(LiveOptions.options.get("language")))),
       url = new URL("http://mappings.dbpedia.org/api.php"),
-      language = Language.apply(LiveOptions.language) );
+      language = Language.apply(LiveOptions.options.get("language")) );
 
     /**
      *  Loads the extractors classes from the configuration.

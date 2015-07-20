@@ -7,14 +7,13 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class XPathUtil
 {
-	private static Logger	logger	= LoggerFactory.getLogger(XPathUtil.class);
+	private static Logger	logger	= Logger.getLogger(XPathUtil.class);
 	private static XPath	xPath	= null;
 
 	private static XPath getXPath()

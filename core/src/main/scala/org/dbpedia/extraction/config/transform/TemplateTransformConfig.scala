@@ -1,10 +1,11 @@
 package org.dbpedia.extraction.config.transform
 
-import java.net.URI
-
 import org.dbpedia.extraction.wikiparser._
-import org.dbpedia.extraction.util.{UriUtils, Language}
+import org.dbpedia.extraction.util.Language
 import org.dbpedia.extraction.wikiparser.TextNode
+import java.net.URI
+import scala.collection.mutable.ArrayBuffer
+import scala.collection.immutable
 
 /**
  * Template transformations.
@@ -48,18 +49,20 @@ object TemplateTransformConfig {
         PropertyNode("link-title", List(TextNode("", node.line)), node.line)
       }
 
+      var uri = new URI(extractTextFromPropertyNode(node.property("1")))
+
       // Check if this uri has a scheme. If it does not, add a default http:// scheme
       // From https://en.wikipedia.org/wiki/Template:URL:
       // The first parameter is parsed to see if it takes the form of a complete URL.
       // If it doesn't start with a URI scheme (such as "http:", "https:", or "ftp:"),
       // an "http://" prefix will be prepended to the specified generated target URL of the link.
-      val uri = new URI(extractTextFromPropertyNode(node.property("1")))
-      val uriWithScheme = if (uri.getScheme() == null) new URI("http://" + uri.toString)
-                          else uri
+      if (uri.getScheme == null) {
+        uri = new URI("http://" + uri.toString)
+      }
 
       List(
         ExternalLinkNode(
-          uriWithScheme,
+          uri,
           node.property("2").getOrElse(defaultLinkTitle(node)).children,
           node.line
         )
@@ -73,15 +76,8 @@ object TemplateTransformConfig {
   private val transformMap : Map[String, Map[String, (TemplateNode, Language) => List[Node]]] = Map(
 
     "en" -> Map(
-      "Dash" -> textNode(" – ") _ ,
-      "Spaced ndash" -> textNode(" – ") _ ,
-      "Ndash" -> textNode("–") _ ,
-      "Mdash" -> textNode(" — ") _ ,
-      "Emdash" -> textNode(" — ") _ ,
       "-" -> textNode("<br />") _ ,
       "Clr" -> textNode("<br />") _ ,
-      "Nowrap" -> extractChildren { p => true }  _,
-      "Nobr" -> extractChildren { p => true }  _,
       "Flatlist" -> extractChildren { p : PropertyNode => !(Set("class", "style", "indent").contains(p.key)) }  _,
       "Plainlist" -> extractChildren { p : PropertyNode => !(Set("class", "style", "indent").contains(p.key)) } _ ,
       "Hlist" ->  extractChildren { p : PropertyNode => !(Set("class", "style", "ul_style", "li_style", "indent").contains(p.key)) } _ ,

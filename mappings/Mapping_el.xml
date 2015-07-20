@@ -195,7 +195,34 @@
 	{{PropertyMapping | templateProperty = penalties1 | ontologyProperty = penaltiesTeamA }}
 	{{PropertyMapping | templateProperty = penalties2 | ontologyProperty = penaltiesTeamB }}
 	{{PropertyMapping | templateProperty = penaltyscore | ontologyProperty = penaltyScore }}
-}}</text></revision></page><page><title>Mapping el:Έργο Ζωγραφικής</title><ns>304</ns><id>2805</id><revision><id>32217</id><timestamp>2014-03-02T18:54:27Z</timestamp><text>{{TemplateMapping
+}}</text></revision></page><page><title>Mapping el:Quote box</title><ns>304</ns><id>6245</id><revision><id>23374</id><timestamp>2013-01-20T20:19:40Z</timestamp><text>{{TemplateMapping
+| mapToClass = Road
+| mappings =
+
+{{PropertyMapping | templateProperty = width | ontologyProperty = width | unit = Length }}
+{{PropertyMapping | templateProperty = source | ontologyProperty = source }} 
+{{PropertyMapping | templateProperty = bgcolor | ontologyProperty = colour }} 
+{{PropertyMapping | templateProperty = border | ontologyProperty = border }} 
+{{ PropertyMapping | templateProperty = fontsize| ontologyProperty = area }} 
+{{PropertyMapping | templateProperty = qstyle | ontologyProperty = style }} 
+{{PropertyMapping | templateProperty = sstyle | ontologyProperty = style }}
+{{PropertyMapping | templateProperty = style | ontologyProperty = style }}
+{{PropertyMapping | templateProperty = title| ontologyProperty = title }} 
+{{PropertyMapping | templateProperty = title_bg| ontologyProperty = title }} 
+{{PropertyMapping | templateProperty = title_fnt| ontologyProperty = title }} 
+{{PropertyMapping | templateProperty = tstyle | ontologyProperty = style }}
+{{PropertyMapping | templateProperty = align | ontologyProperty = picture }} 
+{{PropertyMapping | templateProperty = salign | ontologyProperty = picture }} 
+{{PropertyMapping | templateProperty = halign | ontologyProperty = picture }} 
+{{PropertyMapping | templateProperty = qalign | ontologyProperty = picture }} 
+ {{ PropertyMapping | templateProperty = 1 | ontologyProperty = number }} 
+ {{ PropertyMapping | templateProperty = 2 | ontologyProperty = number }} 
+{{ PropertyMapping | templateProperty = quote | ontologyProperty = category }} 
+
+{{ PropertyMapping | templateProperty = quoted | ontologyProperty = category }} 
+
+
+ }}</text></revision></page><page><title>Mapping el:Έργο Ζωγραφικής</title><ns>304</ns><id>2805</id><revision><id>32217</id><timestamp>2014-03-02T18:54:27Z</timestamp><text>{{TemplateMapping
 | mapToClass = Painting
 | mappings =
 	
@@ -380,74 +407,72 @@
 	{{PropertyMapping | templateProperty = Ιδρυτής | ontologyProperty = foundingPerson }}
 	{{PropertyMapping | templateProperty = Πρόεδρος | ontologyProperty = director }}
 	{{PropertyMapping | templateProperty = Επίσημος Ιστότοπος | ontologyProperty = foaf:homepage }}
-}}</text></revision></page><page><title>Mapping el:Ακούστε</title><ns>304</ns><id>6227</id><revision><id>45359</id><timestamp>2015-02-16T09:29:08Z</timestamp><text>{{TemplateMapping | mapToClass = owl:Thing
+}}</text></revision></page><page><title>Mapping el:Ακούστε</title><ns>304</ns><id>6227</id><revision><id>20882</id><timestamp>2012-12-23T18:54:03Z</timestamp><text>{{TemplateMapping
+| mapToClass = Listen
 | mappings =
-  {{IntermediateNodeMapping | nodeClass = Sound | correspondingProperty = soundRecording | mappings =
-    {{ PropertyMapping | templateProperty = type          | ontologyProperty = dc:type }}
-    {{ PropertyMapping | templateProperty = filename      | ontologyProperty = filename }}
-    {{ PropertyMapping | templateProperty = title         | ontologyProperty = title }}
-    {{ PropertyMapping | templateProperty = description   | ontologyProperty = description }}
-  }}
-  {{IntermediateNodeMapping | nodeClass = Sound | correspondingProperty = soundRecording | mappings =
-    {{ PropertyMapping | templateProperty = type          | ontologyProperty = dc:type }}
-    {{ PropertyMapping | templateProperty = filename1     | ontologyProperty = filename }}
-    {{ PropertyMapping | templateProperty = title1        | ontologyProperty = title }}
-    {{ PropertyMapping | templateProperty = description1  | ontologyProperty = description }}
-  }}
-  {{IntermediateNodeMapping | nodeClass = Sound | correspondingProperty = soundRecording | mappings =
-    {{ PropertyMapping | templateProperty = type          | ontologyProperty = dc:type }}
-    {{ PropertyMapping | templateProperty = filename2     | ontologyProperty = filename }}
-    {{ PropertyMapping | templateProperty = title2        | ontologyProperty = title }}
-    {{ PropertyMapping | templateProperty = description2  | ontologyProperty = description }}
-  }}
-  {{IntermediateNodeMapping | nodeClass = Sound | correspondingProperty = soundRecording | mappings =
-    {{ PropertyMapping | templateProperty = type          | ontologyProperty = dc:type }}
-    {{ PropertyMapping | templateProperty = filename3     | ontologyProperty = filename }}
-    {{ PropertyMapping | templateProperty = title3        | ontologyProperty = title }}
-    {{ PropertyMapping | templateProperty = description3  | ontologyProperty = description }}
-  }}
-  {{IntermediateNodeMapping | nodeClass = Sound | correspondingProperty = soundRecording | mappings =
-    {{ PropertyMapping | templateProperty = type          | ontologyProperty = dc:type }}
-    {{ PropertyMapping | templateProperty = filename4     | ontologyProperty = filename }}
-    {{ PropertyMapping | templateProperty = title4        | ontologyProperty = title }}
-    {{ PropertyMapping | templateProperty = description4  | ontologyProperty = description }}
-  }}
-  {{IntermediateNodeMapping | nodeClass = Sound | correspondingProperty = soundRecording | mappings =
-    {{ PropertyMapping | templateProperty = type          | ontologyProperty = dc:type }}
-    {{ PropertyMapping | templateProperty = filename5     | ontologyProperty = filename }}
-    {{ PropertyMapping | templateProperty = title5        | ontologyProperty = title }}
-    {{ PropertyMapping | templateProperty = description5  | ontologyProperty = description }}
-  }}
-  {{IntermediateNodeMapping | nodeClass = Sound | correspondingProperty = soundRecording | mappings =
-    {{ PropertyMapping | templateProperty = type          | ontologyProperty = dc:type }}
-    {{ PropertyMapping | templateProperty = filename6     | ontologyProperty = filename }}
-    {{ PropertyMapping | templateProperty = title6        | ontologyProperty = title }}
-    {{ PropertyMapping | templateProperty = description6  | ontologyProperty = description }}
-  }}
-  {{IntermediateNodeMapping | nodeClass = Sound | correspondingProperty = soundRecording | mappings =
-    {{ PropertyMapping | templateProperty = type          | ontologyProperty = dc:type }}
-    {{ PropertyMapping | templateProperty = filename7     | ontologyProperty = filename }}
-    {{ PropertyMapping | templateProperty = title7        | ontologyProperty = title }}
-    {{ PropertyMapping | templateProperty = description7  | ontologyProperty = description }}
-  }}
-  {{IntermediateNodeMapping | nodeClass = Sound | correspondingProperty = soundRecording | mappings =
-    {{ PropertyMapping | templateProperty = type          | ontologyProperty = dc:type }}
-    {{ PropertyMapping | templateProperty = filename8     | ontologyProperty = filename }}
-    {{ PropertyMapping | templateProperty = title8        | ontologyProperty = title }}
-    {{ PropertyMapping | templateProperty = description8  | ontologyProperty = description }}
-  }}
-  {{IntermediateNodeMapping | nodeClass = Sound | correspondingProperty = soundRecording | mappings =
-    {{ PropertyMapping | templateProperty = type          | ontologyProperty = dc:type }}
-    {{ PropertyMapping | templateProperty = filename9     | ontologyProperty = filename }}
-    {{ PropertyMapping | templateProperty = title9        | ontologyProperty = title }}
-    {{ PropertyMapping | templateProperty = description9  | ontologyProperty = description }}
-  }}
-  {{IntermediateNodeMapping | nodeClass = Sound | correspondingProperty = soundRecording | mappings =
-    {{ PropertyMapping | templateProperty = type          | ontologyProperty = dc:type }}
-    {{ PropertyMapping | templateProperty = filename10    | ontologyProperty = filename }}
-    {{ PropertyMapping | templateProperty = title10       | ontologyProperty = title }}
-    {{ PropertyMapping | templateProperty = description10 | ontologyProperty = description }}
-  }}
+
+        {{PropertyMapping | templateProperty = play | ontologyProperty = foaf:name}}
+        {{PropertyMapping | templateProperty = play2 | ontologyProperty = foaf:name}}
+        {{PropertyMapping | templateProperty = play3 | ontologyProperty = foaf:name}}
+        {{PropertyMapping | templateProperty = play4 | ontologyProperty = foaf:name}}
+        {{PropertyMapping | templateProperty = play5 | ontologyProperty = foaf:name}}
+        {{PropertyMapping | templateProperty = play6 | ontologyProperty = foaf:name}}
+        {{PropertyMapping | templateProperty = play7 | ontologyProperty = foaf:name}}
+        {{PropertyMapping | templateProperty = play8 | ontologyProperty = foaf:name}}
+        {{PropertyMapping | templateProperty = play9 | ontologyProperty = foaf:name}}
+        {{PropertyMapping | templateProperty = play10 | ontologyProperty = foaf:name}}
+
+        {{PropertyMapping | templateProperty = header | ontologyProperty = title}}
+        {{PropertyMapping | templateProperty = help| ontologyProperty = notes}}
+        {{PropertyMapping | templateProperty = pos| ontologyProperty = notes}}
+        {{PropertyMapping | templateProperty = plain| ontologyProperty = notes}}
+        {{PropertyMapping | templateProperty = title | ontologyProperty = title}}
+        {{PropertyMapping | templateProperty = title2 | ontologyProperty = title}}
+        {{PropertyMapping | templateProperty = title3 | ontologyProperty = title}}
+        {{PropertyMapping | templateProperty = title4 | ontologyProperty = title}}
+        {{PropertyMapping | templateProperty = title5 | ontologyProperty = title}}
+        {{PropertyMapping | templateProperty = title6 | ontologyProperty = title}}
+        {{PropertyMapping | templateProperty = title7 | ontologyProperty = title}}
+        {{PropertyMapping | templateProperty = title8 | ontologyProperty = title}}
+        {{PropertyMapping | templateProperty = title9 | ontologyProperty = title}}
+        {{PropertyMapping | templateProperty = title10 | ontologyProperty = title}}
+	{{PropertyMapping | templateProperty = description | ontologyProperty = description }}
+	{{PropertyMapping | templateProperty = description2 | ontologyProperty = description }}
+	{{PropertyMapping | templateProperty = description3 | ontologyProperty = description }}
+	{{PropertyMapping | templateProperty = description4 | ontologyProperty = description }}
+	{{PropertyMapping | templateProperty = description5 | ontologyProperty = description }}
+	{{PropertyMapping | templateProperty = description6 | ontologyProperty = description }}
+	{{PropertyMapping | templateProperty = description7 | ontologyProperty = description }}
+	{{PropertyMapping | templateProperty = description8 | ontologyProperty = description }}
+	{{PropertyMapping | templateProperty = description9 | ontologyProperty = description }}
+	{{PropertyMapping | templateProperty = description10 | ontologyProperty = description }}
+
+
+        {{PropertyMapping | templateProperty = image | ontologyProperty = picture}}
+        {{PropertyMapping | templateProperty = style | ontologyProperty = genre}}
+        {{PropertyMapping | templateProperty = alt | ontologyProperty = notes}}
+        {{PropertyMapping | templateProperty = alt2 | ontologyProperty = notes}}
+        {{PropertyMapping | templateProperty = alt3 | ontologyProperty = notes}}
+        {{PropertyMapping | templateProperty = alt4 | ontologyProperty = notes}}
+        {{PropertyMapping | templateProperty = alt5 | ontologyProperty = notes}}
+        {{PropertyMapping | templateProperty = alt6 | ontologyProperty = notes}}
+        {{PropertyMapping | templateProperty = alt7 | ontologyProperty = notes}}
+        {{PropertyMapping | templateProperty = alt8 | ontologyProperty = notes}}
+        {{PropertyMapping | templateProperty = alt9 | ontologyProperty = notes}}
+        {{PropertyMapping | templateProperty = alt10 | ontologyProperty = notes}}
+
+        {{PropertyMapping | templateProperty = filename | ontologyProperty = filename }}
+        {{PropertyMapping | templateProperty = filename2 | ontologyProperty = filename }}
+        {{PropertyMapping | templateProperty = filename3 | ontologyProperty = filename }}
+        {{PropertyMapping | templateProperty = filename4 | ontologyProperty = filename }}
+        {{PropertyMapping | templateProperty = filename5 | ontologyProperty = filename }}
+        {{PropertyMapping | templateProperty = filename6 | ontologyProperty = filename }}
+        {{PropertyMapping | templateProperty = filename7 | ontologyProperty = filename }}
+        {{PropertyMapping | templateProperty = filename8 | ontologyProperty = filename }}
+        {{PropertyMapping | templateProperty = filename9 | ontologyProperty = filename }}
+        {{PropertyMapping | templateProperty = filename10 | ontologyProperty = filename }}
+
+
 }}</text></revision></page><page><title>Mapping el:Ανατομία</title><ns>304</ns><id>3002</id><revision><id>32097</id><timestamp>2014-02-24T15:22:43Z</timestamp><text>{{TemplateMapping
 | mapToClass = AnatomicalStructure
 | mappings =
@@ -1599,25 +1624,6 @@
 
     
 
-}}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών Λογισμικού</title><ns>304</ns><id>9693</id><revision><id>36780</id><timestamp>2014-07-09T16:50:29Z</timestamp><text>{{TemplateMapping
-| mapToClass = Software
-| mappings =
-	{{PropertyMapping | templateProperty = Αυθεντικός συντάκτης | ontologyProperty = developer }}
-	{{PropertyMapping | templateProperty = τελευταία έκδοση κυκλοφορίας | ontologyProperty = latestReleaseVersion }}
-        {{PropertyMapping | templateProperty = τελευταία_έκδοση_κυκλοφορίας | ontologyProperty = latestReleaseVersion }}
-	{{PropertyMapping | templateProperty = ημερομηνία τελευταίας έκδοσης | ontologyProperty = latestReleaseDate | select = first}}
-        {{PropertyMapping | templateProperty = ημερομηνία_τελευταίας_έκδοσης | ontologyProperty = latestReleaseDate | select = first}}
-	{{PropertyMapping | templateProperty = συχνά ανανεώσιμο | ontologyProperty = frequentlyUpdated }}
-	{{PropertyMapping | templateProperty = συχνά_ανανεώσιμο | ontologyProperty = frequentlyUpdated }}
-	{{PropertyMapping | templateProperty = Λειτουργικό σύστημα | ontologyProperty = operatingSystem }}
-	{{PropertyMapping | templateProperty = πλατφόρμα | ontologyProperty = computingPlatform }}
-	{{PropertyMapping | templateProperty = μέγεθος | ontologyProperty = fileSize | unit = megabyte }}
-	{{PropertyMapping | templateProperty = στάδιο | ontologyProperty = status }}
-	{{PropertyMapping | templateProperty = άδεια | ontologyProperty = license }}
-	{{PropertyMapping | templateProperty = όνομα | ontologyProperty = foaf:name }}
-	{{PropertyMapping | templateProperty = Συγγραφέας | ontologyProperty = author }}
-	{{PropertyMapping | templateProperty = Τύπος | ontologyProperty = genre }}
-	{{PropertyMapping | templateProperty = Ιστότοπος | ontologyProperty = foaf:homepage }}
 }}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών Νομοθετικού σώματος</title><ns>304</ns><id>6273</id><revision><id>21526</id><timestamp>2012-12-30T18:31:58Z</timestamp><text>{{TemplateMapping
 | mapToClass = 	Legislature
 | mappings =
@@ -1731,19 +1737,6 @@
 {{PropertyMapping | templateProperty = αναπτύχθηκε από  | ontologyProperty = predecessor}}
 {{PropertyMapping | templateProperty = Παραλλαγές  | ontologyProperty = variantOf}}
 {{PropertyMapping | templateProperty = εξελίχθηκε_σε  | ontologyProperty = successor}}
-}}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών αρχιτέκτονα</title><ns>304</ns><id>9689</id><revision><id>36766</id><timestamp>2014-07-09T12:57:54Z</timestamp><text>{{TemplateMapping
-| mapToClass = Architect
-| mappings =
-	{{PropertyMapping | templateProperty = κτίρια | ontologyProperty = significantBuilding }}
-	{{PropertyMapping | templateProperty = πρότζεκτ | ontologyProperty = significantProject }}
-	{{PropertyMapping | templateProperty = σχεδιάσεις | ontologyProperty = significantDesign }}
-	{{PropertyMapping | templateProperty = όνομα | ontologyProperty = foaf:name }}
-	{{PropertyMapping | templateProperty = έτος_γεννήσεως | ontologyProperty = birthDate }}
-	{{PropertyMapping | templateProperty = τόπος_γεννήσεως | ontologyProperty = birthPlace }}
-	{{PropertyMapping | templateProperty = έτος_απεβίωσης | ontologyProperty = deathDate }}
-	{{PropertyMapping | templateProperty = τόπος_απεβίωσης | ontologyProperty = deathPlace }}
-	{{PropertyMapping | templateProperty = σχολές_φοίτησης | ontologyProperty = almaMater }}
-	{{PropertyMapping | templateProperty = βραβεία | ontologyProperty = award }}
 }}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών ασθένειας</title><ns>304</ns><id>2792</id><revision><id>11116</id><timestamp>2011-03-22T10:57:48Z</timestamp><text>{{TemplateMapping
 | mapToClass = Disease
 | mappings =
@@ -1853,14 +1846,6 @@
 {{PropertyMapping | templateProperty = τέρματα | ontologyProperty = goalsInNationalTeam }}
 {{PropertyMapping | templateProperty = παίκτης | ontologyProperty = playerInTeam }}
 {{PropertyMapping | templateProperty = τρίτος | ontologyProperty = thirdTeam }}
-}}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών εθνικής ποδοσφαιρικής ομάδας</title><ns>304</ns><id>9695</id><revision><id>36785</id><timestamp>2014-07-09T17:47:59Z</timestamp><text>{{TemplateMapping 
-| mapToClass = SoccerClub
-| mappings = 
-
-       {{ PropertyMapping | templateProperty = όνομα | ontologyProperty = foaf:name }} 
-       {{ PropertyMapping | templateProperty = προπονητής | ontologyProperty = coach }} 
-       {{ PropertyMapping | templateProperty = ψευδώνυμο | ontologyProperty = foaf:nick }}
-       {{ PropertyMapping | templateProperty = στάδιο_έδρας | ontologyProperty = stadium }}
 }}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών εκλογών</title><ns>304</ns><id>6381</id><revision><id>23624</id><timestamp>2013-01-30T09:15:20Z</timestamp><text>{{TemplateMapping
 | mapToClass = PrimeMinister
 | mappings =
@@ -2605,16 +2590,7 @@
 	{{PropertyMapping | templateProperty = γλώσσα | ontologyProperty = language }}
 	{{PropertyMapping | templateProperty = συντάκτης | ontologyProperty = author }}
         {{PropertyMapping | templateProperty = url | ontologyProperty = foaf:homepage }}
-}}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών καλαθοσφαιρικού συλλόγου</title><ns>304</ns><id>9690</id><revision><id>36767</id><timestamp>2014-07-09T13:09:19Z</timestamp><text>{{ TemplateMapping | mapToClass = BasketballTeam | mappings = 
-    {{ PropertyMapping | templateProperty = όνομα | ontologyProperty = foaf:name }}
-    {{ PropertyMapping | templateProperty = ψευδώνυμο | ontologyProperty = foaf:nick }}
-    {{ PropertyMapping | templateProperty = πρωταθλήματα | ontologyProperty = league }}
-    {{ PropertyMapping | templateProperty = έτος_ίδρυσης | ontologyProperty = foundingYear }}
-    {{ PropertyMapping | templateProperty = έδρα | ontologyProperty = homeArena }}
-    {{ PropertyMapping | templateProperty = περιοχή | ontologyProperty = location }}
-    {{ PropertyMapping | templateProperty = πρόεδρος | ontologyProperty = president }}
-    {{ PropertyMapping | templateProperty = προπονητής | ontologyProperty = coach }}
-    {{ PropertyMapping | templateProperty = ιστοσελίδα | ontologyProperty = foaf:homepage }} }}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών κολλέγιο</title><ns>304</ns><id>2974</id><revision><id>13089</id><timestamp>2011-05-19T16:59:24Z</timestamp><text>{{TemplateMapping
+}}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών κολλέγιο</title><ns>304</ns><id>2974</id><revision><id>13089</id><timestamp>2011-05-19T16:59:24Z</timestamp><text>{{TemplateMapping
 |mapToClass= College
 |mappings=
 {{PropertyMapping|templateProperty=όνομα|ontologyProperty=foaf:name}}
@@ -2723,22 +2699,6 @@
 | mappings =
 	
 
-}}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών οικονομολόγου</title><ns>304</ns><id>9688</id><revision><id>36765</id><timestamp>2014-07-09T11:33:35Z</timestamp><text>{{TemplateMapping
-| mapToClass = Economist
-| mappings =
-    {{PropertyMapping | templateProperty = όνομα | ontologyProperty = foaf:name }}
-    {{PropertyMapping | templateProperty = γέννηση | ontologyProperty = birthDate }}
-    {{PropertyMapping | templateProperty = τόπος γέννησης | ontologyProperty = birthPlace }}
-    {{PropertyMapping | templateProperty = θάνατος | ontologyProperty = deathDate }}
-    {{PropertyMapping | templateProperty = τόπος θανάτου | ontologyProperty = deathPlace }}
-    {{PropertyMapping | templateProperty = εθνικότητα | ontologyProperty = nationality }}
-    {{PropertyMapping | templateProperty = ίδρυμα | ontologyProperty = institution }}
-    {{PropertyMapping | templateProperty = βραβεία | ontologyProperty = award }}
-    {{PropertyMapping | templateProperty = σπουδές | ontologyProperty = almaMater }}
-    {{PropertyMapping | templateProperty = πεδίο | ontologyProperty = field }}
-    {{PropertyMapping | templateProperty = επηρεάστηκε από | ontologyProperty = influencedBy }}
-    {{PropertyMapping | templateProperty = επηρέασε | ontologyProperty = influenced }}
-    &lt;!-- templateProperty color could be used to set a ConditionaMapping --&gt;
 }}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών ομάδας NBA</title><ns>304</ns><id>9362</id><revision><id>34692</id><timestamp>2014-05-06T12:52:00Z</timestamp><text>{{ TemplateMapping | mapToClass = BasketballTeam | mappings = 
  {{ PropertyMapping | templateProperty = έδρα | ontologyProperty = homeArena }}
  {{ PropertyMapping | templateProperty = εικόνα | ontologyProperty = picture }}
@@ -2787,7 +2747,7 @@
 
 
 
-}}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών παίχτη γκολφ</title><ns>304</ns><id>9694</id><revision><id>36782</id><timestamp>2014-07-09T17:19:43Z</timestamp><text></text></revision></page><page><title>Mapping el:Κουτί πληροφοριών περιοδικού</title><ns>304</ns><id>3067</id><revision><id>32138</id><timestamp>2014-02-24T21:22:29Z</timestamp><text>{{TemplateMapping
+}}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών περιοδικού</title><ns>304</ns><id>3067</id><revision><id>32138</id><timestamp>2014-02-24T21:22:29Z</timestamp><text>{{TemplateMapping
 | mapToClass = Magazine
 | mappings =
 	{{PropertyMapping | templateProperty = συντάκτης | ontologyProperty = editor }}
@@ -2986,15 +2946,11 @@
 
 
 
-}}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών ποταμού</title><ns>304</ns><id>2845</id><revision><id>36783</id><timestamp>2014-07-09T17:20:46Z</timestamp><text>{{TemplateMapping
+}}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών ποταμού</title><ns>304</ns><id>2845</id><revision><id>10567</id><timestamp>2010-11-19T18:30:29Z</timestamp><text>{{TemplateMapping
 | mapToClass = River
 | mappings =
-	{{PropertyMapping | templateProperty = Μέση παροχή | ontologyProperty = discharge | unit = cubicMetrePerSecond }}
-	{{PropertyMapping | templateProperty = Πηγάζει | ontologyProperty = origin }}
-	{{PropertyMapping | templateProperty = Μήκος | ontologyProperty = length | unit = kilometre }}
-	{{PropertyMapping | templateProperty = Εκβάλει | ontologyProperty = mouthPlace }}
-	{{PropertyMapping | templateProperty = Όνομα | ontologyProperty = foaf:name }}
-	{{PropertyMapping | templateProperty = Μήκος | ontologyProperty = length | unit = kilometre }}
+	
+
 }}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών πυραύλου</title><ns>304</ns><id>3520</id><revision><id>12642</id><timestamp>2011-05-05T20:04:34Z</timestamp><text>{{TemplateMapping 
 | mapToClass = Rocket 
 | mappings = 
@@ -3268,22 +3224,6 @@
 {{PropertyMapping|templateProperty=Ιστοσελίδα|ontologyProperty=foaf:homepage}}
 {{PropertyMapping|templateProperty=Εικόνα|ontologyProperty=picture}}
 {{PropertyMapping|templateProperty=Διάρκεια|ontologyProperty=duration}}
-
-}}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών τηλεοπτικού σταθμού</title><ns>304</ns><id>9696</id><revision><id>36786</id><timestamp>2014-07-09T18:51:47Z</timestamp><text>{{TemplateMapping
-| mapToClass = TelevisionStation
-| mappings =
-{{PropertyMapping | templateProperty = name | ontologyProperty = foaf:name }}
-{{PropertyMapping | templateProperty = Έναρξη λειτουργίας | ontologyProperty = firstAirDate }}
-{{PropertyMapping | templateProperty = Τέλος λειτουργίας | ontologyProperty = lastAirDate }}
-{{PropertyMapping | templateProperty = Αναλογία Πλευρών| ontologyProperty = pictureFormat }}
-{{PropertyMapping | templateProperty = Τηλεθέαση | ontologyProperty = shareOfAudience }}
-{{PropertyMapping | templateProperty = Ημέρες Τηλεθέασης | ontologyProperty = shareDate }}
-{{PropertyMapping | templateProperty = Ιδιοκτήτης | ontologyProperty = owningCompany }}
-{{PropertyMapping | templateProperty = Σλόγκαν | ontologyProperty = slogan }}
-{{PropertyMapping | templateProperty = Χώρα | ontologyProperty = country }}
-{{PropertyMapping | templateProperty = Γλώσσα | ontologyProperty = language }}
-{{PropertyMapping | templateProperty = Περιοχή εκπομπής | ontologyProperty = broadcastArea }}
-{{PropertyMapping | templateProperty = Ιστοσελίδα | ontologyProperty = foaf:homepage }}
 
 }}</text></revision></page><page><title>Mapping el:Κουτί πληροφοριών τραγουδιού</title><ns>304</ns><id>3070</id><revision><id>11525</id><timestamp>2011-04-01T08:34:29Z</timestamp><text>{{TemplateMapping
 | mapToClass = Song
@@ -3582,8 +3522,8 @@
 
 
 
-}}</text></revision></page><page><title>Mapping el:Νοσοκομείο</title><ns>304</ns><id>3135</id><revision><id>46220</id><timestamp>2015-03-18T11:09:51Z</timestamp><text>{{TemplateMapping
-| mapToClass = Hospital
+}}</text></revision></page><page><title>Mapping el:Νοσοκομείο</title><ns>304</ns><id>3135</id><revision><id>32051</id><timestamp>2014-02-23T18:42:59Z</timestamp><text>{{TemplateMapping
+| mapToClass = Building
 | mappings = 
  {{PropertyMapping | templateProperty = όνομα | ontologyProperty = foaf:name }}
  {{PropertyMapping | templateProperty = οργανισμός | ontologyProperty = owningOrganisation  }}
@@ -4555,17 +4495,17 @@
  {{PropertyMapping | templateProperty = caption | ontologyProperty = title }}
  {{PropertyMapping | templateProperty = other | ontologyProperty = title }}
  {{PropertyMapping | templateProperty = άλλες | ontologyProperty = title }}
- }}</text></revision></page><page><title>Mapping el:Πληροφορίες ασθένειας</title><ns>304</ns><id>6082</id><revision><id>39156</id><timestamp>2015-01-11T16:03:17Z</timestamp><text>{{TemplateMapping
+ }}</text></revision></page><page><title>Mapping el:Πληροφορίες ασθένειας</title><ns>304</ns><id>6082</id><revision><id>20633</id><timestamp>2012-12-23T10:51:28Z</timestamp><text>{{TemplateMapping
 | mapToClass = Disease
 | mappings =
-	{{PropertyMapping | templateProperty = DiseasesDB | ontologyProperty = diseasesDb }}
+	{{PropertyMapping | templateProperty = DiseasesDB | ontologyProperty = diseasesdb }}
 	{{PropertyMapping | templateProperty = ICD10 | ontologyProperty = icd10 }}
 	{{PropertyMapping | templateProperty = ICD9 | ontologyProperty = icd9 }}
 	{{PropertyMapping | templateProperty = ICDO | ontologyProperty = icdo }}
 	{{PropertyMapping | templateProperty = OMIM | ontologyProperty = omim }}
-	{{PropertyMapping | templateProperty = MedlinePlus | ontologyProperty = medlinePlus }}
-	{{PropertyMapping | templateProperty = eMedicineSubj | ontologyProperty = eMedicineSubject }}
-	{{PropertyMapping | templateProperty = eMedicineTopic | ontologyProperty = eMedicineTopic }}
+	{{PropertyMapping | templateProperty = MedlinePlus | ontologyProperty = medlineplus }}
+	{{PropertyMapping | templateProperty = eMedicineSubj | ontologyProperty = emedicineSubject }}
+	{{PropertyMapping | templateProperty = eMedicineTopic | ontologyProperty = emedicineTopic }}
 	{{PropertyMapping | templateProperty = MeshID | ontologyProperty = meshId }}
 	{{PropertyMapping | templateProperty = ονομασία | ontologyProperty = foaf:name }}
         {{PropertyMapping | templateProperty = MeshName | ontologyProperty = meshName }} 
@@ -4577,14 +4517,15 @@
         {{PropertyMapping | templateProperty = Caption | ontologyProperty = rdfs:label}} 
         {{PropertyMapping | templateProperty = λεζάντα | ontologyProperty = rdfs:label}} 
         {{PropertyMapping | templateProperty = Alt | ontologyProperty = rdfs:label}} 
-        {{PropertyMapping | templateProperty = GeneReviewsID | ontologyProperty = geneReviewsId}}
-         {{PropertyMapping | templateProperty = GeneReviewsName | ontologyProperty = geneReviewsName}} 
+        {{PropertyMapping | templateProperty = GeneReviewsID | ontologyProperty = genereviewsid}}
+ 
+        {{PropertyMapping | templateProperty = GeneReviewsName | ontologyProperty = genereviewsname}} 
         {{PropertyMapping | templateProperty = Background | ontologyProperty = background }} 
-        {{PropertyMapping | templateProperty = DiseasesDB_mult| ontologyProperty = diseasesDb}} 
-        {{PropertyMapping | templateProperty = MedlinePlus_mult | ontologyProperty = medlinePlus }} 
+        {{PropertyMapping | templateProperty = DiseasesDB_mult| ontologyProperty = diseasesdb}} 
+        {{PropertyMapping | templateProperty = MedlinePlus_mult | ontologyProperty = medlineplus }} 
         {{PropertyMapping | templateProperty = MeshYear | ontologyProperty = year }} 
         {{PropertyMapping | templateProperty = OMIM_mult | ontologyProperty = omim }} 
-        {{PropertyMapping | templateProperty = eMedicine_mult | ontologyProperty = eMedicineSubject}} 
+        {{PropertyMapping | templateProperty = eMedicine_mult | ontologyProperty = emedicineSubject}} 
         {{PropertyMapping | templateProperty = εικόνα | ontologyProperty = picture}} 
 
 }}</text></revision></page><page><title>Mapping el:Πληροφορίες αστροναύτη</title><ns>304</ns><id>2461</id><revision><id>35057</id><timestamp>2014-06-03T10:34:05Z</timestamp><text>{{TemplateMapping
@@ -4998,44 +4939,6 @@
 	{{PropertyMapping | templateProperty = απογραφή | ontologyProperty = censusYear }}
 	{{PropertyMapping | templateProperty = ιστοσελίδα | ontologyProperty = foaf:homepage }}
 
-}}</text></revision></page><page><title>Mapping el:Πληροφορίες πλανήτη</title><ns>304</ns><id>9692</id><revision><id>36769</id><timestamp>2014-07-09T16:27:15Z</timestamp><text>{{TemplateMapping
-| mapToClass = Planet
-| mappings =
-	{{PropertyMapping | templateProperty = Ονομασίες | ontologyProperty = foaf:name }}
-	{{PropertyMapping | templateProperty = Ανακαλύφθηκε_από | ontologyProperty = discoverer }}
-	{{PropertyMapping | templateProperty = Ανακάλυψη_παραπομπή | ontologyProperty = foaf:homepage }}
-	{{PropertyMapping | templateProperty = Ημερομηνία_ανακάλυψης | ontologyProperty = discovered }}
-	{{PropertyMapping | templateProperty = Μέθοδος_ανακάλυψης | ontologyProperty = detectionMethod }}
-	{{PropertyMapping | templateProperty = Άλλα_ονόματα| ontologyProperty = formerName }}
-	{{PropertyMapping | templateProperty = Αστρονομική_Εποχή | ontologyProperty = epoch }}
-	{{PropertyMapping | templateProperty = Λευκαύγεια | ontologyProperty = albedo }}
-	{{PropertyMapping | templateProperty = Περίαψις | ontologyProperty = periapsis | unit = Length }}
-	{{PropertyMapping | templateProperty = Απόαψις | ontologyProperty = apoapsis | unit = Length }}
-	{{PropertyMapping | templateProperty = Περιήλιο | ontologyProperty = periapsis | unit = astronomicalUnit }}
-	{{PropertyMapping | templateProperty = Αφήλιο | ontologyProperty = apoapsis | unit = astronomicalUnit }}
-	{{PropertyMapping | templateProperty = Μέση_τροχιακή_ταχύτητα | ontologyProperty = averageSpeed | unit = kilometrePerSecond }}
-	{{PropertyMapping | templateProperty = Ταχύτητα_διαφυγής | ontologyProperty = escapeVelocity | unit = kilometrePerSecond }}
-	{{PropertyMapping | templateProperty = Περίοδος_περιφοράς | ontologyProperty = orbitalPeriod | unit = day }}
-	{{PropertyMapping | templateProperty = Περίοδος_περιστροφής | ontologyProperty = rotationPeriod | unit = day }}
-	{{PropertyMapping | templateProperty = Μέση_ακτίνα | ontologyProperty = meanRadius | unit = Length }}
-	{{PropertyMapping | templateProperty = Εμβαδόν_επιφάνειας | ontologyProperty = surfaceArea | unit = Area }}
-	{{PropertyMapping | templateProperty = Όγκος | ontologyProperty = volume | unit = cubicMetre }}
-	{{PropertyMapping | templateProperty = Μέση_πυκνότητα | ontologyProperty = density | unit = Density }}
-	{{PropertyMapping | templateProperty = Μάζα | ontologyProperty = mass | unit = Mass }}
-	{{PropertyMapping | templateProperty = Απόλυτο_μέγεθος | ontologyProperty = absoluteMagnitude }}
-	{{PropertyMapping | templateProperty = Φαινόμενο_μέγεθος | ontologyProperty = apparentMagnitude }}
-
-}}</text></revision></page><page><title>Mapping el:Πληροφορίες ποδηλάτη</title><ns>304</ns><id>9691</id><revision><id>36768</id><timestamp>2014-07-09T13:21:51Z</timestamp><text>{{TemplateMapping
-| mapToClass = Cyclist
-| mappings =
-	{{PropertyMapping | templateProperty = ονοματεπώνυμο | ontologyProperty = foaf:name }}
-	{{PropertyMapping | templateProperty = ψευδώνυμο | ontologyProperty = foaf:nick }}
-	{{PropertyMapping | templateProperty = ημερομηνία_γέννησης | ontologyProperty = birthDate }}
-	{{PropertyMapping | templateProperty = πόλη_γεννήσεως | ontologyProperty = birthPlace }}
-	{{PropertyMapping | templateProperty = ημερομηνία_θανάτου | ontologyProperty = deathDate }}
-	{{PropertyMapping | templateProperty = πόλη_θανάτου | ontologyProperty = deathPlace }}
-	{{PropertyMapping | templateProperty = ύψος | ontologyProperty = height | unit = Length }}
-	{{PropertyMapping | templateProperty = βάρος | ontologyProperty = weight | unit = Mass }}
 }}</text></revision></page><page><title>Mapping el:Πληροφορίες ποδοσφαιριστή</title><ns>304</ns><id>2848</id><revision><id>34990</id><timestamp>2014-05-28T17:33:36Z</timestamp><text>{{TemplateMapping
 | mapToClass = SoccerPlayer
 | mappings =
@@ -5488,22 +5391,10 @@
         {{PropertyMapping | templateProperty = λεζάντα | ontologyProperty =recordLabel}}
       
       
-}}</text></revision></page><page><title>Mapping el:Πληροφορίες χημικής ένωσης</title><ns>304</ns><id>4240</id><revision><id>36764</id><timestamp>2014-07-09T11:04:55Z</timestamp><text>{{TemplateMapping
+}}</text></revision></page><page><title>Mapping el:Πληροφορίες χημικής ένωσης</title><ns>304</ns><id>4240</id><revision><id>14368</id><timestamp>2011-07-21T12:33:20Z</timestamp><text>{{TemplateMapping
 | mapToClass = ChemicalCompound
 | mappings =
-        {{PropertyMapping | templateProperty = πυκνότητα | ontologyProperty = density | unit = Density }}
-	{{PropertyMapping | templateProperty = σημείο τήξης | ontologyProperty = meltingPoint | unit = Temperature }}
-	{{PropertyMapping | templateProperty = σημείο βρασμού | ontologyProperty = boilingPoint | unit = Temperature }}
-	{{PropertyMapping | templateProperty = άλλη ονομασία | ontologyProperty = foaf:name }}
-        {{PropertyMapping | templateProperty = όνομα IUPAC | ontologyProperty = iupacName }}
-	{{PropertyMapping | templateProperty = εικόνα δομή | ontologyProperty = foaf:thumbnail }}
-        {{PropertyMapping | templateProperty = εικόνα χημική | ontologyProperty = foaf:thumbnail }}
-        {{PropertyMapping | templateProperty = εικόνα 3D | ontologyProperty = foaf:thumbnail }}
-        {{PropertyMapping | templateProperty = PubChem CID | ontologyProperty = pubchem }}
-        {{PropertyMapping | templateProperty = CAS numb. | ontologyProperty = casNumber }}
-        {{PropertyMapping | templateProperty = nChI ident. | ontologyProperty = inchi }}
-        {{PropertyMapping | templateProperty = UN num. | ontologyProperty = fdaUniiCode }}
-        {{PropertyMapping | templateProperty = SMILES ident. | ontologyProperty = smiles }}	
+	
 
 }}</text></revision></page><page><title>Mapping el:Πληροφορίες χημικού στοιχείου</title><ns>304</ns><id>4241</id><revision><id>21940</id><timestamp>2013-01-04T18:18:00Z</timestamp><text>{{TemplateMapping
 | mapToClass = ChemicalElement

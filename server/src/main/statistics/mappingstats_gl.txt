@@ -1,7 +1,0 @@
-wikiStats|gl
-
-redirects|0
-
-templates|0
-
-

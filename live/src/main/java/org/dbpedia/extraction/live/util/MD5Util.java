@@ -3,12 +3,11 @@ package org.dbpedia.extraction.live.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 public class MD5Util
 {
-	private static Logger logger = LoggerFactory.getLogger(MD5Util.class);
+	private static Logger logger = Logger.getLogger(MD5Util.class);
 	
 	public static String generateMD5(String str)
 	{
@@ -16,7 +15,7 @@ public class MD5Util
 		try {
 			result = _generateMD5(str);
 		} catch(Exception e) {
-			logger.error(ExceptionUtil.toString(e), e);
+			logger.error(ExceptionUtil.toString(e));
 		}
 		
 		return result;

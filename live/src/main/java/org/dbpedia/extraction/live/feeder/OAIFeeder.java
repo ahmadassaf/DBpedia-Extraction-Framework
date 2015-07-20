@@ -1,10 +1,16 @@
 package org.dbpedia.extraction.live.feeder;
 
 
+import org.apache.log4j.Logger;
+import org.dbpedia.extraction.live.queue.LiveQueue;
 import org.dbpedia.extraction.live.queue.LiveQueueItem;
 import org.dbpedia.extraction.live.queue.LiveQueuePriority;
+import org.dbpedia.extraction.live.util.ExceptionUtil;
+import org.dbpedia.extraction.live.util.Files;
 import org.dbpedia.extraction.live.util.OAIUtil;
+import scala.actors.threadpool.Arrays;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -20,12 +26,12 @@ import java.util.List;
  */
 public class OAIFeeder extends Feeder {
 
-    protected final String oaiUri;
-    protected final String oaiPrefix;
-    protected final String baseWikiUri;
+    protected String oaiUri;
+    protected String oaiPrefix;
+    protected String baseWikiUri;
 
-    protected final long pollInterval;              // in miliseconds
-    protected final long sleepInterval;             // in miliseconds
+    protected long pollInterval;              // in miliseconds
+    protected long sleepInterval;             // in miliseconds
 
     protected Iterator<LiveQueueItem> oaiRecordIterator;
 
@@ -51,7 +57,7 @@ public class OAIFeeder extends Feeder {
 
     @Override
     protected List<LiveQueueItem> getNextItems() {
-        List<LiveQueueItem> i = new ArrayList<>();
+        List<LiveQueueItem> i = new ArrayList<LiveQueueItem>();
         i.add(oaiRecordIterator.next());
         return i;
     }

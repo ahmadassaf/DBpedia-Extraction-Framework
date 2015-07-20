@@ -1,16 +1,11 @@
 package org.dbpedia.extraction.util
 
-import java.net._
-import java.util.regex.Pattern
+import java.net.URI
 
 object UriUtils
 {
     private val knownSchemes = Set("http", "https", "ftp")
-
-    private val knownPrefixes = knownSchemes.map(_ + "://")
-
-    def hasKnownScheme(uri: String) : Boolean = knownPrefixes.exists(uri.startsWith(_))
-
+    
     /**
      * TODO: comment
      */
@@ -34,5 +29,4 @@ object UriUtils
         if (path eq child) throw new IllegalArgumentException("["+parent+"] is not a parent directory of ["+child+"]")
         path
     }
-
 }

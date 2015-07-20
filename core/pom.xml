@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.dbpedia</groupId>
         <artifactId>extraction</artifactId>
-        <version>4.1-SNAPSHOT</version>
+        <version>4.0-SNAPSHOT</version>
     </parent>
 
     <groupId>org.dbpedia.extraction</groupId>
@@ -73,7 +73,7 @@
 
         <dependency>
             <groupId>org.scalatest</groupId>
-            <artifactId>scalatest_2.11</artifactId>
+            <artifactId>scalatest_2.10</artifactId>
         </dependency>
 
         <dependency>
@@ -86,19 +86,19 @@
         <dependency>
             <groupId>org.sweble.wikitext</groupId>
             <artifactId>swc-engine</artifactId>
-            <version>1.1.1</version>
+            <version>1.1.1-SNAPSHOT</version>
         </dependency>
 
 	 <dependency>
 		<groupId>org.wikidata.wdtk</groupId>
 		<artifactId>wdtk-dumpfiles</artifactId>
-		<version>0.4.0</version>
+		<version>0.2.0</version>
 	 </dependency>	
 	 
 	 <dependency>
               <groupId>org.wikidata.wdtk</groupId>
               <artifactId>wdtk-datamodel</artifactId>
-              <version>0.4.0</version>
+              <version>0.2.0</version>
          </dependency>
 
         <dependency>
@@ -106,18 +106,23 @@
             <artifactId>scala-library</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-xml</artifactId>
-        </dependency>
-
-       <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.5.0</version>
-        </dependency>
-
     </dependencies>
+
+    <repositories>
+
+        <repository>
+          <id>osr-public-releases</id>
+          <name>OSR Public Releases</name>
+          <url>http://mojo.informatik.uni-erlangen.de/nexus/content/repositories/public-releases</url>
+        </repository>
+
+        <repository>
+          <id>osr-public-snapshots</id>
+          <name>OSR Public snapshots</name>
+          <url>http://mojo.informatik.uni-erlangen.de/nexus/content/repositories/public-snapshots</url>
+        </repository>
+
+    </repositories>
 
 </project>
 

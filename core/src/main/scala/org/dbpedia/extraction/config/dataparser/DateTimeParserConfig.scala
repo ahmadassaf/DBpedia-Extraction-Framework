@@ -8,7 +8,6 @@ object DateTimeParserConfig
         // Don't change this unless you know how it is done.
         "ar" -> Map("جانفي"->1,"فيفري"->2,"مارس"->3,"أفريل"->4,"ماي"->5,"جوان"->6,"جويلية"->7,"أوت"->8,"سبتمبر"->9,"أكتوبر"->10,"نوفمبر"->11,"ديسمبر"->12,
           "يناير"->1,"فبراير"->2,"أبريل"->4,"مايو"->5,"يونيو"->6,"يوليو"->7,"يوليوز"->7,"أغسطس"->8,"غشت"->8,"شتنبر"->9,"نونبر"->11,"دجنبر"->12),
-        "bg" -> Map("януари"->1,"февруари"->2,"март"->3,"април"->4,"май"->5,"юни"->6,"юли"->7,"август"->8,"септември"->9,"октомври"->10,"ноември"->11,"декември"->12),
         "cs" -> Map("leden"->1,"únor"->2,"březen"->3,"duben"->4,"květen"->5,"červen"->6,"červenec"->7,"srpen"->8,"září"->9,"říjen"->10,"listopad"->11,"prosinec"->12),
         "de" -> Map("januar"->1,"februar"->2,"märz"->3,"maerz"->3,"april"->4,"mai"->5,"juni"->6,"juli"->7,"august"->8,"september"->9,"oktober"->10,"november"->11,"dezember"->12),
         "el" -> Map("ιανουάριος"->1,"φεβρουάριος"->2,"μάρτιος"->3,"απρίλιος"->4,"μάϊος"->5,"μάιος"->5,"ιούνιος"->6,"ιούλιος"->7,"αύγουστος"->8,"σεπτέμβριος"->9,"οκτώβριος"->10,"νοέμβριος"->11,"δεκέμβριος"->12,
@@ -16,9 +15,7 @@ object DateTimeParserConfig
         "en" -> Map("january"->1,"february"->2,"march"->3,"april"->4,"may"->5,"june"->6,"july"->7,"august"->8,"september"->9,"october"->10,"november"->11,"december"->12),
         "eo" -> Map("januaro"->1,"februaro"->2,"marto"->3,"aprilo"->4,"majo"->5,"junio"->6,"julio"->7,"aŭgusto"->8,"septembro"->9,"oktobro"->10,"novembro"->11,"decembro"->12),
         "es" -> Map("enero"->1,"febrero"->2,"marzo"->3,"abril"->4,"mayo"->5,"junio"->6,"julio"->7,"agosto"->8,"septiembre"->9,"octubre"->10,"noviembre"->11,"diciembre"->12),
-        "eu" -> Map("urtarrila"->1,"otsaila"->2,"martxoa"->3,"apirila"->4,"maiatza"->5,"ekaina"->6,"uztaila"->7,"abuztua"->8,"iraila"->9,"urria"->10,"azaroa"->11,"abendua"->12),
         "fr" -> Map("janvier"->1,"février"->2,"mars"->3,"avril"->4,"mai"->5,"juin"->6,"juillet"->7,"août"->8,"septembre"->9,"octobre"->10,"novembre"->11,"décembre"->12),
-        "ga" -> Map("eanáir"->1,"feabhra"->2,"marta"->3,"aibreán"->4,"bealtaine"->5,"meitheamh"->6,"iúil"->7,"lúnasa"->8,"meán fómhair"->9,"deireadh fómhair"->10,"samhain"->11,"nollaig"->12),
         "hr" -> Map("siječanj"->1,"veljača"->2,"ožujak"->3,"travanj"->4,"svibanj"->5,"lipanj"->6,"srpanj"->7,"kolovoz"->8,"rujan"->9,"listopad"->10,"studeni"->11,"prosinac"->12),
         "id" -> Map("januari"->1,"februari"->2,"maret"->3,"april"->4,"mei"->5,"juni"->6,"juli"->7,"agustus"->8,"september"->9,"oktober"->10,"november"->11,"desember"->12),
         "it" -> Map("gennaio"->1,"febbraio"->2,"marzo"->3,"aprile"->4,"maggio"->5,"giugno"->6,"luglio"->7,"agosto"->8,"settembre"->9,"ottobre"->10,"novembre"->11,"dicembre"->12),
@@ -31,7 +28,6 @@ object DateTimeParserConfig
                     "янв"->1,"фев"->2,"мар"->3,"апр"->4,"май"->5,"июн"->6,"июл"->7,"авг"->8,"сен"->9,"окт"->10,"ноя"->11,"дек"->12,
                     "января"->1,"февраля"->2,"марта"->3,"апреля"->4,"мая"->5,"июня"->6,"июля"->7,"августа"->8,"сентября"->9,"октября"->10,"ноября"->11,"декабря"->12),
         "sk" -> Map("január"->1,"február"->2,"marec"->3,"apríl"->4,"máj"->5,"jún"->6,"júl"->7,"august"->8,"september"->9,"október"->10,"november"->11,"december"->12),
-        "sv" -> Map("januari"->1, "februari"->2, "mars"->3, "april"->4, "maj"->5, "juni"->6, "juli"->7, "augusti"->8, "september"->9, "oktober"->10, "november"->11, "december"->12),
         "uk" -> Map("січень"->1,"лютий"->2,"березень"->3,"квітень"->4,"травень"->5,"червень"->6,"липень"->7,"серпень"->8,"вересень"->9,"жовтень"->10,"листопад"->11,"грудень"->12,
                     "січня"->1,"лютого"->2,"березня"->3,"квітня"->4,"травня"->5,"червня"->6,"липня"->7,"серпня"->8,"вересня"->9,"жовтня"->10,"листопада"->11,"грудня"->12)
     )
@@ -46,18 +42,13 @@ object DateTimeParserConfig
         // For "ar" configuration, right-to-left rendering may seem like a bug, but it's not.
         // Don't change this unless you know how it is done.
         "ar" -> Map("ق.م." -> -1, "م." -> 1),
-        "bg" -> Map("пр\\.н\\.е\\." -> -1),
         "el" -> Map("ΠΧ"-> -1, "Π\\.Χ\\."-> -1, "Π\\.Χ"-> -1 , "ΜΧ"-> 1 , "Μ\\.Χ\\."-> 1, "Μ\\.Χ"-> 1),
         "eo" -> Map("a.K." -> -1, "p.K." -> -1),
         "es" -> Map("AC"-> -1, "A\\.C\\."-> -1, "DC"-> 1, "D\\.C\\."-> 1, "AD"-> 1, "A\\.D\\."-> 1, "AEC"-> 1, "A\\.E\\.C\\."-> 1 , "EC"-> 1, "E\\.C\\."-> 1),
-        "eu" -> Map("K\\.a\\."-> -1, "A\\. D\\."-> 1),
         "fr" -> Map("av\\. J\\.-C\\."-> -1, "ap\\. J\\.-C\\." -> 1),
-        "ga" -> Map("B\\.C\\." -> -1, "R\\.C\\." -> -1, "r\\. Chr\\." -> -1, "BC" -> -1, "RC" -> -1, "A\\.D\\." -> 1, "AD" -> 1, "I\\.C\\." -> 1, "IC" -> 1),
         "it" -> Map("AC"-> -1, "A\\.C\\."-> -1, "DC"-> 1, "D\\.C\\."-> 1, "AD"-> 1, "A\\.D\\."-> 1, "PEV"-> -1, "P\\.E\\.V\\."-> -1, "EV"-> 1, "E\\.V\\." -> 1),
         "nl" -> Map("v\\.Chr\\." -> -1, "n\\.C\\."-> 1, "v\\.C\\." -> -1, "n\\.Chr\\."-> 1, "voor Chr\\." -> -1, "na Chr\\."-> 1), 
-        "pl" -> Map("p\\.n\\.e\\." -> -1, "n\\.e\\." -> 1),
-        "pt" -> Map("AC"-> -1, "A\\.C\\."-> -1, "DC"-> 1, "D\\.C\\."-> 1, "AD"-> 1, "A\\.D\\."-> 1, "AEC"-> 1, "A\\.E\\.C\\."-> 1 , "EC"-> 1, "E\\.C\\."-> 1),
-        "sv" -> Map("f\\.Kr\\." -> -1, "e\\.Kr\\." -> 1, "f\\.v\\.t\\." -> -1, "e\\.v\\.t\\." -> 1)
+        "pt" -> Map("AC"-> -1, "A\\.C\\."-> -1, "DC"-> 1, "D\\.C\\."-> 1, "AD"-> 1, "A\\.D\\."-> 1, "AEC"-> 1, "A\\.E\\.C\\."-> 1 , "EC"-> 1, "E\\.C\\."-> 1)
     )
 
     //suffixes for 1st, 2nd etc. (maybe add this to infobox extractor RankRegex val)
@@ -67,14 +58,11 @@ object DateTimeParserConfig
         "el" -> "η|ης",
         "eo" -> "-a|-an",
         "es" -> "°|\\.°|°\\.",
-        "eu" -> "\\.",
         "fr" -> "er|nd|ème",
-        "ga" -> "ú",
         "it" -> "°|\\.°|°\\.",
         "nl" -> "ste|de|e",
         "pt" -> "°|\\.°|°\\.",
-        "sk" -> "\\.",
-        "sv" -> ":e"
+        "sk" -> "\\."
     )
 
     //specifies for a template name (lower-cased) the property keys of year, month and day
@@ -126,13 +114,6 @@ object DateTimeParserConfig
           "تاريخ الازدياد"                 -> Map ("year" -> "1", "month"-> "2", "day" -> "3"),
           "تاريخ البدأ"                 -> Map ("year" -> "1", "month"-> "2", "day" -> "3")
         ),
-        "bg" -> Map(
-            "Дата на раждане и години" -> Map ("year" -> "1", "month"-> "2", "day" -> "3"),
-            "Дата на раждане"          -> Map ("year" -> "1", "month"-> "2", "day" -> "3"),
-            "Дата на смърт и години"   -> Map ("year" -> "1", "month"-> "2", "day" -> "3"),
-            "Дата на смърт"            -> Map ("year" -> "1", "month"-> "2", "day" -> "3"),
-            "роден"                    -> Map ("year" -> "3", "month"-> "2", "day" -> "1")
-        ),
         "ca" -> Map(
             "Edat"                  -> Map ("year" -> "3", "month"-> "2", "day" -> "1"),
             "Data naixement i edat" -> Map ("year" -> "3", "month"-> "2", "day" -> "1"),
@@ -160,26 +141,12 @@ object DateTimeParserConfig
         ),
         "eu" -> Map(
             "adina"                -> Map ("year" -> "1", "month"-> "2", "day" -> "3"),
-            "adin parentesigabea"  -> Map ("year" -> "1", "month"-> "2", "day" -> "3"),
-            "data"                 -> Map ("year" -> "1", "month"-> "2", "day" -> "3")
+            "adin parentesigabea"  -> Map ("year" -> "1", "month"-> "2", "day" -> "3")
         ),
         "fr" -> Map(
-            "date"                            -> Map ("year" -> "3", "month"-> "2", "day" -> "1"),
-            "date de naissance"               -> Map ("year" -> "3", "month"-> "2", "day" -> "1"),
-            "date de décès"                   -> Map ("year" -> "3", "month"-> "2", "day" -> "1"),
-            "date sport"                      -> Map ("year" -> "3", "month"-> "2", "day" -> "1"),
-            "date début"                      -> Map ("year" -> "1", "month"-> "2", "day" -> "3"),
-            "birth date and age"              -> Map ("year" -> "1", "month"-> "2", "day" -> "3"),
-            //conditional mapping
-            "naissance décès âge"             -> Map ("ifPropertyNum" -> "1", "ifPropertyNumHasValue" -> "N",
-                                                      "year" -> "4", "month"-> "3", "day" -> "2",
-                                                      "elseYear" -> "7", "elseMonth"-> "6", "elseDay" -> "5"),
-            "année de naissance et âge"       -> Map ("year" -> "1", "month"-> "2"),
-            "année de décès et âge"           -> Map ("year" -> "1", "month"-> "3")
-        ),
-        "ga" -> Map(
-            "dáta breithe agus aois"  -> Map ("bliain" -> "1", "mí"-> "2", "lá" -> "3"), //"Lá breithe agus aois"
-            "dáta breithe"        -> Map ("bliain" -> "1", "mí"-> "2", "lá" -> "3") //"Birth date"
+            "date"      -> Map ("year" -> "3", "month"-> "2", "day" -> "1"),
+            "date de naissance"      -> Map ("year" -> "3", "month"-> "2", "day" -> "1"),
+            "date de décès"      -> Map ("year" -> "3", "month"-> "2", "day" -> "1")
         ),
         "id" -> Map(
             "Mula tanggal dan usia"         -> Map ("year" -> "1", "month"-> "2", "day" -> "3"),

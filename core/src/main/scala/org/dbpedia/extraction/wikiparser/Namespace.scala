@@ -41,13 +41,13 @@ private class NamespaceBuilder {
   
   // map from namespace name to namespace (only dbpedia namespaces)
   val dbpedias = new HashMap[String, Namespace]
-
+    
   def ns(code: Int, name: String, dbpedia: Boolean) : Namespace = {
     // also create 'talk'namespace, except for the first few namespaces, they are special
     if (code % 2 == 0 && code >= 2) create(code + 1, name+" talk", dbpedia)
     create(code, name, dbpedia)
   }
-
+  
   def create(code: Int, name: String, dbpedia: Boolean) : Namespace = {
     val namespace = new Namespace(code, name, dbpedia)
     val previous = values.put(code, namespace)
@@ -65,9 +65,7 @@ private class NamespaceBuilder {
   // Most languages use 100-113, but hu uses 90-99.
   // en added 446,447,710,711 in late 2012. Let's go up to 999 to prepare for future additions.
   // wikidata added 120-123, 1198,1199 in early 2013. Let's go up to 1999 to prepare for future additions.
-  // en added 2600 in July 2014. Let's go up to 2999. Namespaces > 3000 are discouraged according to 
-  // https://www.mediawiki.org/wiki/Extension_default_namespaces
-  for (code <- (90 to 148 by 2) ++ (400 to 2998 by 2)) ns(code, "Namespace "+code, false)
+  for (code <- (90 to 148 by 2) ++ (400 to 1998 by 2)) ns(code, "Namespace "+code, false)
     
   // Namespaces used on http://mappings.dbpedia.org, sorted by number. 
   // see http://mappings.dbpedia.org/api.php?action=query&meta=siteinfo&siprop=namespaces
@@ -77,11 +75,9 @@ private class NamespaceBuilder {
   
   val map = Map(
     "en"->204,"de"->208,"fr"->210,"it"->212,"es"->214,"nl"->216,"pt"->218,"pl"->220,"ru"->222,
-    "cs"->224,"ca"->226,"bn"->228,"hi"->230,"ja"->232,"uk"->234,"zh"->236,"hu"->238,"commons"->240,
-    "ko"->242,"fi"->244,"tr"->246,"ar"->250,"id"->254,"sr"->256,"ro"->258,"sk"->262,"bg"->264,"sl"->268,
-    "da"->270,"eu"->272,"eo"->274,"lt"->276,"et"->282,"hr"->284,"hy"->286,"gl"->292,"az"->302,"el"->304,
-    "sv"->306,"mk"->310,"be"->312,"cy"->328,"lv"->332,"ur"->378,"ga"->396,"war"->380,"vi"->382,"fa"->384,
-    "mt"->386,"ceb"->388
+    "cs"->224,"ca"->226,"bn"->228,"hi"->230,"ja"->232,"zh"->236,"hu"->238,"commons"->240,
+    "ko"->242,"tr"->246,"ar"->250,"id"->254,"sr"->256,"sk"->262,"bg"->264,"sl"->268,"eu"->272,
+    "eo"->274,"et"->282,"hr"->284,"el"->304,"be"->312,"cy"->328,"ur"->378,"ga"->396
   )
   
   for ((lang,code) <- map) mappings(Language(lang)) = ns(code, "Mapping "+lang, true)
@@ -117,7 +113,6 @@ object Namespace extends NamespaceBuilderDisposer(new NamespaceBuilder) {
   val Template = values(10)
   val Category = values(14)
   val Module = values(828)
-  val WikidataProperty = values(120)
 
   val OntologyClass = values(200)
   val OntologyProperty = values(202)

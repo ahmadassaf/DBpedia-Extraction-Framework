@@ -1,13 +1,12 @@
 package org.dbpedia.extraction.live.transformer;
 
 import org.apache.commons.collections15.Transformer;
-import org.slf4j.Logger;
+import org.apache.log4j.Logger;
 import org.dbpedia.extraction.live.queue.LiveQueueItem;
 import org.dbpedia.extraction.live.util.DBPediaXPathUtil;
 import org.dbpedia.extraction.live.util.ExceptionUtil;
 import org.dbpedia.extraction.live.util.XMLUtil;
 import org.dbpedia.extraction.live.util.XPathUtil;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -22,7 +21,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
  */
 public class NodeToLiveQueueItemTransformer implements Transformer<Node, LiveQueueItem>
 {
-	private static Logger logger = LoggerFactory.getLogger(NodeToLiveQueueItemTransformer.class);
+	private static Logger logger = Logger.getLogger(NodeToLiveQueueItemTransformer.class);
 
 	public LiveQueueItem transform(Node node)
 	{

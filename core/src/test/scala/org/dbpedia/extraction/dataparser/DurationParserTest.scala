@@ -3,14 +3,12 @@ package org.dbpedia.extraction.dataparser
 import org.scalatest.FlatSpec
 import org.dbpedia.extraction.ontology.OntologyDatatypes
 import org.dbpedia.extraction.util.Language
-import org.scalatest.Matchers
+import org.scalatest.matchers.{MatchResult, BeMatcher, ShouldMatchers}
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-import org.scalatest.matchers.BeMatcher
-import org.scalatest.matchers.MatchResult
 
 @RunWith(classOf[JUnitRunner])
-class DurationParserTest extends FlatSpec with Matchers
+class DurationParserTest extends FlatSpec with ShouldMatchers
 {
     "DurationParser" should "return 5 seconds for '5 secs'" in
      {

@@ -1,12 +1,11 @@
 package org.dbpedia.extraction.live.feeder;
 
+import org.apache.log4j.Logger;
 import org.dbpedia.extraction.live.queue.LiveQueue;
 import org.dbpedia.extraction.live.queue.LiveQueueItem;
 import org.dbpedia.extraction.live.queue.LiveQueuePriority;
 import org.dbpedia.extraction.live.util.ExceptionUtil;
 import org.dbpedia.extraction.live.util.Files;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.List;
@@ -21,11 +20,11 @@ import java.util.List;
 public abstract class Feeder extends Thread {
 
     protected static Logger logger;
-    protected final String feederName;
-    protected final LiveQueuePriority queuePriority;
+    protected String feederName;
+    protected LiveQueuePriority queuePriority;
 
-    protected final String defaultStartTime;    //"2011-04-01T15:00:00Z";
-    protected final File latestProcessDateFile;
+    protected String defaultStartTime;    //"2011-04-01T15:00:00Z";
+    protected File latestProcessDateFile;
     protected String latestProcessDate;
 
     private volatile boolean keepRunning = true;
@@ -33,7 +32,7 @@ public abstract class Feeder extends Thread {
     public Feeder(String feederName, LiveQueuePriority queuePriority, String defaultStartTime, String folderBasePath) {
         this.feederName = feederName;
         this.setName("Feeder_"+feederName);
-        logger = LoggerFactory.getLogger(feederName);
+        logger = Logger.getLogger(feederName);
         this.queuePriority = queuePriority;
 
         this.defaultStartTime = defaultStartTime;   //"2011-04-01T15:00:00Z";
@@ -51,7 +50,7 @@ public abstract class Feeder extends Thread {
     * Starts the feeder (it can only start once
     * */
     public void startFeeder() {
-        if (keepRunning) {
+        if (keepRunning == true) {
             initFeeder();
             start();
         }
@@ -78,7 +77,7 @@ public abstract class Feeder extends Thread {
                 latestProcessDate = (Files.readFile(latestProcessDateFile)).trim();
             }
         } catch (Exception exp) {
-            logger.error(ExceptionUtil.toString(exp), exp);
+            logger.error(ExceptionUtil.toString(exp));
         }
         if (latestProcessDate.isEmpty()) {
             latestProcessDate = defaultStartTime;
@@ -107,11 +106,8 @@ public abstract class Feeder extends Thread {
                 for (LiveQueueItem item : getNextItems()) {
                     handleFeedItem(item);
                 }
-            } catch (java.lang.OutOfMemoryError exp) {
-                logger.error(ExceptionUtil.toString(exp), exp);
-                throw new RuntimeException("OutOfMemory Error", exp);
             } catch (Exception exp) {
-                logger.error(ExceptionUtil.toString(exp), exp);
+                logger.error(ExceptionUtil.toString(exp));
                 // On error re-initiate feeder
                 initFeeder();
             }

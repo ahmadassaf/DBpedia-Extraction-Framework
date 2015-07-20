@@ -2,8 +2,8 @@ package org.dbpedia.extraction.live.feeder;
 
 import org.dbpedia.extraction.live.core.LiveOptions;
 import org.dbpedia.extraction.live.helper.MappingAffectedPagesHelper;
-import org.dbpedia.extraction.live.queue.LiveQueueItem;
 import org.dbpedia.extraction.live.queue.LiveQueuePriority;
+import org.dbpedia.extraction.live.queue.LiveQueueItem;
 import scala.collection.JavaConversions;
 
 /**
@@ -27,7 +27,7 @@ public class OAIFeederMappings extends OAIFeeder {
                 pollInterval, sleepInterval, defaultStartTime,
                 folderBasePath);
 
-        String langCode = LiveOptions.language;
+        String langCode = LiveOptions.options.get("language");
         mappingNamespace = "Mapping " + langCode + ":";
 
     }

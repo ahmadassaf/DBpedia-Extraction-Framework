@@ -1,8 +1,7 @@
 package org.dbpedia.extraction.destinations.formatters
 
-import java.net.{MalformedURLException, URI, URISyntaxException}
+import java.net.{URI,URISyntaxException}
 import UriPolicy._
-import org.dbpedia.extraction.util.UriUtils
 
 /**
  * @param policies Mapping from URI positions (as defined in UriPolicy) to URI policy functions.

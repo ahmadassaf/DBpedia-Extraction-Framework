@@ -1,6 +1,5 @@
-templates|2
+templates|1
 Afbeelding label
-Bronvermelding anderstalige Wikipedia
 
 properties|0
 

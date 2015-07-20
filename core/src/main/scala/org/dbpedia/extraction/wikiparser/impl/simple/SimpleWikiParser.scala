@@ -1,12 +1,13 @@
 package org.dbpedia.extraction.wikiparser.impl.simple
 
-import org.dbpedia.extraction.util.{UriUtils, Language, WikiUtil}
+import org.dbpedia.extraction.util.{Language, WikiUtil}
 import org.dbpedia.extraction.wikiparser._
 import org.dbpedia.extraction.wikiparser.impl.wikipedia.{Disambiguation, Redirect}
 import org.dbpedia.extraction.sources.WikiPage
 import org.dbpedia.extraction.util.RichString.wrapString
-import java.net.{URI, URISyntaxException}
+import java.net.{URISyntaxException, MalformedURLException, URL, URI}
 import java.util.logging.{Level, Logger}
+import java.lang.IllegalArgumentException
 
 import SimpleWikiParser._
 
@@ -395,23 +396,12 @@ class SimpleWikiParser extends WikiParser
         {
             // TODO: Add a validation routine which conforms to Mediawiki
             // This will fail for news:// or gopher:// protocols
-
-            //See http://www.mediawiki.org/wiki/Help:Links#External_links
-            val relProtocolDest = if (destination.startsWith("//")) "http:" + destination else destination
-
-            // Do not accept non-absolute links because '[]' can be used as wiki text
-            // e.g. CC1=CC(=CC(=C1O)[N+](=O)[O-])[N+](=O)[O-]
-            if (!UriUtils.hasKnownScheme(relProtocolDest)) throw new WikiParserException("Invalid external link: " + destination, line, source.findLine(line))
-
-            val sameHost = if (relProtocolDest.contains("{{SERVERNAME}}")) relProtocolDest.replace("{{SERVERNAME}}", source.language.baseUri.replace("http://", "")) else relProtocolDest
-
-            ExternalLinkNode(new URI(sameHost), nodes, line, destinationNodes)
-
+            ExternalLinkNode(new URL(destination).toURI, nodes, line, destinationNodes)
         }
         catch
         {
             // As per URL.toURI documentation non-strictly RFC 2396 compliant URLs cannot be parsed to URIs
-            case _ : URISyntaxException => throw new WikiParserException("Invalid external link: " + destination, line, source.findLine(line))
+            case _ : MalformedURLException | _ : URISyntaxException => throw new WikiParserException("Invalid external link: " + destination, line, source.findLine(line))
         }
     }
     

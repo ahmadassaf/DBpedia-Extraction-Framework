@@ -6,9 +6,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 
 import org.apache.commons.collections15.Transformer;
-import org.slf4j.Logger;
+import org.apache.log4j.Logger;
 import org.dbpedia.extraction.live.util.ExceptionUtil;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -22,7 +21,8 @@ import org.w3c.dom.Node;
 public class NodeToDocumentTransformer
 	implements Transformer<Node, Document>
 {
-	private static Logger	logger	= LoggerFactory.getLogger(NodeToDocumentTransformer.class);
+	private static Logger	logger	= Logger
+											.getLogger(NodeToDocumentTransformer.class);
 
 	public Document transform(Node node)
 	{

@@ -66,7 +66,7 @@ object GenerateWikiSettings {
     // TODO: use http://noc.wikimedia.org/conf/wikipedia.dblist instead? It doesn't contain the languages that
     // are rdirected. Do we need them? Are there other differences between wikipedia.dblist and langlist?
     //
-    val source = Source.fromURL("https://noc.wikimedia.org/conf/langlist")(Codec.UTF8)
+    val source = Source.fromURL("http://noc.wikimedia.org/conf/langlist")(Codec.UTF8)
     val wikiLanguages = try source.getLines.toList finally source.close
     val languages = "mappings" :: "commons" :: "wikidata" :: wikiLanguages
     
@@ -75,7 +75,7 @@ object GenerateWikiSettings {
     
     println("generating wiki config for "+languages.length+" languages")
     
-    languages.map { code =>
+    languages.par.map { code =>
       val language = Language(code)
       val file = new File(baseDir, language.wikiCode+"wiki-configuration.xml")
       val disambigFile = new File(baseDir, language.wikiCode+"wiki-disambiguation-templates.xml")

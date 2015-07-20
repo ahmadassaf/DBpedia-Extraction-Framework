@@ -1,8 +1,7 @@
-templates|4
+templates|3
 Cytuj książkę
 Cytuj stronę
 Przypisy
-Strój sportowy
 
 properties|0
 

@@ -71,22 +71,8 @@ class OntologyReader
             {
                 val name = getName(page.title, _.capitalize(page.title.language.locale))
 
-              ontologyBuilder.classes ::= loadClass(name, templateNode)
+                ontologyBuilder.classes ::= loadClass(name, templateNode)
                 // Fill the equivalentClass map
-              for (everyClass <- ontologyBuilder.classes){
-                everyClass.equivClassNames.foreach{
-                  cls =>
-                    if (cls.contains("wikidata:")) {
-                      val wikidataClassName = cls
-                      ontologyBuilder.equivalentClassesMap.find{map => map._1 == name} match {
-                        case Some(map) =>  ontologyBuilder.equivalentClassesMap.updated(map._1, everyClass)
-                        case None => {
-                          ontologyBuilder.equivalentClassesMap += wikidataClassName -> Set(everyClass)
-                        }
-                      }
-                    }
-                }
-              }
 
               for(specificProperty <- loadSpecificProperties(name, templateNode))
                 {
@@ -102,17 +88,20 @@ class OntologyReader
                 {
                   ontologyBuilder.properties ::= property
 
+
                   //add mappings to equivalentPropertiesBuilderMap in the form of  WikidataProp -> Set[equivalentDBprop]
                   property.equivPropertyNames.foreach{prop =>
+
                     if(prop.contains("wikidata:")){
 
                       //search for wikidataprop in the equivalentPropertiesBuilderMap keys if exists add DBprop to the set of DBprop
                       // if not create new key
-                      ontologyBuilder.equivalentPropertiesBuilderMap.find{map => map._1 == prop} match {
+                      ontologyBuilder.equivalentPropertiesBuilderMap.find{map => map._1.name == prop} match {
 
                         case Some(map) =>  ontologyBuilder.equivalentPropertiesBuilderMap.updated(map._1, property)
                         case None => {
-                          ontologyBuilder.equivalentPropertiesBuilderMap += prop -> Set(property)
+                          val wikidataProp = new OntologyProperty(prop, Map(), Map(), null, null, false, Set())
+                          ontologyBuilder.equivalentPropertiesBuilderMap += wikidataProp -> Set(property)
                         }
                       }
 
@@ -197,9 +186,8 @@ class OntologyReader
 
         //Equivalent Properties
         val equivProperties = readTemplatePropertyAsList(node, "owl:equivalentProperty").toSet
-        val superProperties = readTemplatePropertyAsList(node, "rdfs:subPropertyOf").toSet
 
-        Some(new PropertyBuilder(name, labels, comments, isObjectProperty, isFunctional, domain, range, equivProperties, superProperties))
+        Some(new PropertyBuilder(name, labels, comments, isObjectProperty, isFunctional, domain, range, equivProperties))
     }
 
     private def loadSpecificProperties(name : String, node : TemplateNode) : List[SpecificPropertyBuilder] =
@@ -332,8 +320,8 @@ class OntologyReader
         var properties = List[PropertyBuilder]()
         var datatypes = List[Datatype]()
         var specializedProperties = List[SpecificPropertyBuilder]()
-        var equivalentPropertiesBuilderMap = Map[String,Set[PropertyBuilder]] ()        //[wikidataprop,Set[DBpediaeq props]]
-        var equivalentClassesMap = Map[String,Set[ClassBuilder]] ()           //[wikidataclass,Set[DBpediaeq class]]
+        var equivalentPropertiesBuilderMap = Map[OntologyProperty,Set[PropertyBuilder]] ()        //[wikidataprop,Set[DBpediaeq props]]
+        var equivalentClassesMap = Map[OntologyProperty,Set[OntologyProperty]] ()           //[wikidataclass,Set[DBpediaeq class]]
 
         def build() : Ontology  =
         {
@@ -345,8 +333,8 @@ class OntologyReader
                           properties.flatMap(_.build(classMap, typeMap)).map(p => (p.name, p)).toMap,
                           datatypes.map(t => (t.name, t)).toMap,
                           specializedProperties.flatMap(_.build(classMap, propertyMap, typeMap)).toMap,
-                          equivalentPropertiesBuilderMap.map{m=>m._1 -> m._2.flatMap(_.build(classMap,typeMap))},
-                          equivalentClassesMap.map{m=>m._1 -> m._2.flatMap(_.build(classMap))})
+                          equivalentPropertiesBuilderMap.map{m=>m._1 -> m._2.flatMap(_.build(classMap, typeMap))},
+                          equivalentClassesMap)
         }
     }
 
@@ -431,7 +419,7 @@ class OntologyReader
 
     private class PropertyBuilder(val name : String, val labels : Map[Language, String], val comments : Map[Language, String],
                                   val isObjectProperty : Boolean, val isFunctional : Boolean, val domain : String, val range : String,
-                                  val equivPropertyNames : Set[String], val superPropertyNames : Set[String] = Set())
+                                  val equivPropertyNames : Set[String])
     {
         require(name != null, "name != null")
         require(labels != null, "labels != null")
@@ -439,7 +427,6 @@ class OntologyReader
         require(domain != null, "domain != null")
         require(range != null, "range != null")
         require(equivPropertyNames != null, "equivPropertyNames != null")
-        require(superPropertyNames != null, "superPropertyNames != null")
 
         /** Caches the property, which has been build by this builder. */
         var generatedProperty : Option[OntologyProperty] = None
@@ -466,14 +453,7 @@ class OntologyReader
             for (name <- equivPropertyNames) {
               // FIXME: handle equivalent properties in namespaces that we validate
               if (RdfNamespace.validate(name)) logger.warning("Cannot use equivalent property '"+name+"'")
-              else equivProperties += new OntologyProperty(name, Map(), Map(), null, null, false, Set(), Set())
-            }
-
-            var superProperties = Set.empty[OntologyProperty]
-            for (name <- superPropertyNames) {
-              // FIXME: handle equivalent properties in namespaces that we validate
-              if (RdfNamespace.validate(name)) logger.warning("Cannot use super property '"+name+"'")
-              else superProperties += new OntologyProperty(name, Map(), Map(), null, null, false, Set(), Set())
+              else equivProperties += new OntologyProperty(name, Map(), Map(), null, null, false, Set())
             }
 
             if(isObjectProperty)
@@ -494,7 +474,7 @@ class OntologyReader
                     case None => logger.warning("range '"+range+"' of property '"+name+"' not found"); return None
                 }
 
-                generatedProperty = Some(new OntologyObjectProperty(name, labels, comments, domainClass, rangeClass, isFunctional, equivProperties, superProperties))
+                generatedProperty = Some(new OntologyObjectProperty(name, labels, comments, domainClass, rangeClass, isFunctional, equivProperties))
             }
             else
             {
@@ -504,7 +484,7 @@ class OntologyReader
                     case None => logger.warning("range '"+range+"' of property '"+name+"' not found"); return None
                 }
 
-                generatedProperty = Some(new OntologyDatatypeProperty(name, labels, comments, domainClass, rangeType, isFunctional, equivProperties, superProperties))
+                generatedProperty = Some(new OntologyDatatypeProperty(name, labels, comments, domainClass, rangeType, isFunctional, equivProperties))
             }
 
             generatedProperty

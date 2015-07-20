@@ -90,7 +90,7 @@ class ConfigLoader(config: Config)
               XMLSource.fromReaders(articlesReaders, language,
                     title => title.namespace == Namespace.Main || title.namespace == Namespace.File ||
                              title.namespace == Namespace.Category || title.namespace == Namespace.Template ||
-                             title.namespace == Namespace.WikidataProperty || ExtractorUtils.titleContainsCommonsMetadata(title))
+                             ExtractorUtils.titleContainsCommonsMetadata(title))
             }
             
             def articlesSource = _articlesSource

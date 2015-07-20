@@ -1,7 +1,7 @@
 package org.dbpedia.extraction.dataparser
 
 import _root_.org.dbpedia.extraction.sources.WikiPage
-import _root_.org.scalatest.Matchers
+import _root_.org.scalatest.matchers.ShouldMatchers
 import org.scalatest.FlatSpec
 import org.dbpedia.extraction.wikiparser._
 import org.dbpedia.extraction.util.Language
@@ -9,7 +9,7 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class BooleanParserTest extends FlatSpec with Matchers
+class BooleanParserTest extends FlatSpec with ShouldMatchers
 {
     "BooleanParser" should "return true" in
     {
