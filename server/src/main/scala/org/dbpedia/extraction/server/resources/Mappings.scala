@@ -45,6 +45,7 @@ class Mappings(@PathParam("lang") langCode : String)
               <a href="pages/">Source Pages</a><br/>
               <a href="validate/">Validate Pages</a><br/>
               <a href="extractionSamples/">Retrieve extraction samples</a><br/>
+              <a href="redirects/">Redirects</a><br/>
               <a href={"../../statistics/"+language.wikiCode+"/"}>Statistics</a><br/>
               </div>
             </div>
@@ -270,5 +271,59 @@ class Mappings(@PathParam("lang") langCode : String)
         Server.instance.extractor.extract(source, new LimitingDestination(destination, 1000), language)
         
         writer.toString
+    }
+
+
+    /**
+     * Lists all the redirected mapped templates
+     */
+    @GET
+    @Path("redirects/")
+    @Produces(Array("application/xhtml+xml"))
+    def mappedRedirects : Elem =
+    {
+      <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+        {ServerHeader.getHeader("Mapped Templates Redirects", true)}
+        <body>
+          <h2 align="center">Mapped Templates Redirects</h2>
+          <table class="tablesorter table myTable" align="center" style="width:500px; margin:auto">
+            <thead>
+              <tr>
+                <th>From</th>
+                <th>To</th>
+                <th>Simple move</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {
+                val manager = Server.instance.managers(language)
+                val statsHolder = manager.holder
+                val reversedRedirects = statsHolder.reversedRedirects.map(_.swap)
+                var pages = Server.instance.extractor.mappingPageSource(language).map(_.title.decoded).toSet
+
+                for((redirect_from,redirect_to) <- reversedRedirects ) yield
+                {
+                  val rf = WikiTitle.parse(redirect_from, language)
+                  val rt = WikiTitle.parse(redirect_to, language)
+                  val simpleMove = if (pages.contains(rt.decoded)) <span >Merge</span>
+                  else <a href={ "http://mappings.dbpedia.org/index.php/Special:MovePage/Mapping_" + langCode + ":" +rf.decoded }>Move</a>
+                  if (pages.contains(rf.decoded)) {
+                    <tr>
+                      <td>
+                        <a href={"http://mappings.dbpedia.org/index.php/Mapping_" + langCode + ":" +rf.decoded}>{rf.decoded}</a> </td>
+                    <td>
+                      <a href={"http://mappings.dbpedia.org/index.php/Mapping_" + langCode + ":" + rt.decoded}>{rt.decoded}</a>
+                    </td>
+                      <td> { simpleMove }
+                      </td>
+                    </tr>
+                  }
+                }
+              }
+            </tbody>
+          </table>
+        </body>
+      </html>
     }
 }

@@ -19,9 +19,13 @@ class FlagTemplateParser( extractionContext : { def language : Language } ) exte
                 val templateName = templateNode.title.decoded
                 //getCodeMap return en if language code is not configured
 
+<<<<<<< HEAD
                 if((templateName equalsIgnoreCase "flagicon")              //{{flagicon|countryname|variant=|size=}}
                         || (templateName equalsIgnoreCase "flag")          //{{flag|countryname|variant=|size=}}
                         || (templateName equalsIgnoreCase "flagcountry"))  //{{flagcountry|countryname|variant=|size=|name=}}  last parameter is alternative name
+=======
+                if (templates.contains(templateName.toLowerCase))
+>>>>>>> 0b25827388b231ffb40008a66c12bd3bc1ec1719
                 {
                     for (countryNameNode <- templateNode.property("1"))
                     {
@@ -39,10 +43,19 @@ class FlagTemplateParser( extractionContext : { def language : Language } ) exte
                 }
 
                 //template name is actually country code for flagicon template
-                else if((templateName.length == 2 || templateName.length == 3) && (templateName == templateName.toUpperCase))
+                else if ((templateName.length == 2 || templateName.length == 3) && (templateName == templateName.toUpperCase))
                 {
                     val langCodeMap = FlagTemplateParserConfig.getCodeMap(extractionContext.language.wikiCode)
                     langCodeMap.get(templateName).foreach(countryName => return Some(new WikiTitle(countryName, Namespace.Main, extractionContext.language)))
+                }
+                
+                else
+                {
+                    val fullCountryNames = FlagTemplateParserConfig.getFullCountryNames(extractionContext.language.wikiCode)
+                    if (fullCountryNames.contains(templateName))
+                    {
+                        return Some(new WikiTitle(templateName, Namespace.Main, extractionContext.language))
+                    }
                 }
 
                 None

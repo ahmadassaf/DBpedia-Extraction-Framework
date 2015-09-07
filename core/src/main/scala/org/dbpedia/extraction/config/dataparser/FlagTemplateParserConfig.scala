@@ -1,11 +1,45 @@
 package org.dbpedia.extraction.config.dataparser
 
 import java.util.Locale
+import scala.collection.mutable
 
 
 object FlagTemplateParserConfig
 {
+<<<<<<< HEAD
     private val langCodeMap = Map(
+=======
+    val templateMap = Map(
+        "en" -> Set(
+            "flagicon",      //{{flagicon|countryname|variant=|size=}}
+            "flag",          //{{flag|countryname|variant=|size=}}
+            "flagcountry"    //{{flagcountry|countryname|variant=|size=|name=}}
+        ),
+        "es" -> Set(
+            "bandera",       //{{bandera|countryname|variant|tamaño=}}
+            "bandera2"       //{{bandera2|countryname|variant|nombre=|tamaño=}}
+        ),
+        "eu" -> Set(
+            "bandera"        //{{bandera|countryname|variant|tamaina=}}
+        ),
+        "fr" -> Set(
+            "drapeau",       //{{drapeau|countryname|variant|taille=}}
+            "drapeau2"       //{{drapeau2|countryname|variant|année=|domaine=|genre=|nombre=|lien=|taille=|align=}}
+        ),
+        "pl" -> Set(
+            "państwo",       //{{państwo|countryname|wariant=|nazwa=|rozmiar=|altlink=}}
+            "państwol",      //{{państwol|countryname|wariant=|nazwa=|rozmiar=|altlink=}}
+            "państwolink",   //{{państwolink|countryname|wariant=|nazwa=|rozmiar=|altlink=}}
+            "bandera"        //{{bandera|countryname|wariant=|nazwa=|rozmiar=|altlink=}}
+        ),
+        "sv" -> Set(
+            "flagga"         //{{flagga|countryname|variant|namn=}}
+        )
+    )
+    
+      
+    private lazy val baseLangCodeMap = Map(
+>>>>>>> 0b25827388b231ffb40008a66c12bd3bc1ec1719
         //english (en) as _
         // For "ar" configuration, rendering right-to-left may seems like a bug, but it's not.
         // Don't change this else if you know how it is done.
@@ -495,7 +529,9 @@ object FlagTemplateParserConfig
                 "CHN"->"Xina",
                 "CYP"->"Xipre",
                 "ZMB"->"Zàmbia",
-                "ZWE"->"Zimbabwe"
+                "ZWE"->"Zimbabwe",
+                // Non ISO codes
+                "ALE"->"Alemanya"
             ), // ca end
         "el" ->
             Map(
@@ -1123,11 +1159,20 @@ object FlagTemplateParserConfig
                 "LBR"->"Liberia",
                 "LBY"->"Libië",
                 "LIE"->"Liechtenstein",
+<<<<<<< HEAD
                 "LTU"->"Litouwen",
                 "LUX"->"Luxemburg",
                 "MAC"->"Macau",
                 "MKD"->"Macedonië",
                 "MDG"->"Madagaskar",
+=======
+                "LTU"->"Lituanie",
+                "LUX"->"Luxembourg (pays)",
+                "MKD"->"Macédoine (pays)",
+                "MAC"->"Macao",
+                "MDG"->"Madagascar",
+                "MYS"->"Malaisie",
+>>>>>>> 0b25827388b231ffb40008a66c12bd3bc1ec1719
                 "MWI"->"Malawi",
                 "MDV"->"Maldiven",
                 "MYS"->"Maleisië",
@@ -1999,11 +2044,33 @@ object FlagTemplateParserConfig
     )
 
 
-    //for major languages (e.g fr, de, ...) maybe similar to "en", see
-    //http://download.oracle.com/javase/1.4.2/docs/api/java/util/Locale.html
     def getCodeMap(language : String) : Map[String, String] =
     {
+<<<<<<< HEAD
         langCodeMap.get(language) match
+=======
+        synchronized { storedLangCodeMap.getOrElseUpdate(language, internalGetCodeMap(language)) }
+    }
+
+    // handle languages where we need full country name templates eg {{France}} not just {{FRA}}
+    def getFullCountryNames(language : String) : Set[String] =
+    {
+        language match
+        {
+          case "fr" => synchronized { cachedCountryNames.getOrElseUpdate(language, getCodeMap(language).values.toSet) }
+          case _ => Set[String]()
+        }
+    }
+ 
+    private val storedLangCodeMap = mutable.Map[String,Map[String,String]]();
+    private val cachedCountryNames = mutable.Map[String,Set[String]]();
+
+   //for major languages (e.g fr, de, ...) maybe similar to "en", see
+    //http://download.oracle.com/javase/1.4.2/docs/api/java/util/Locale.html
+    private def internalGetCodeMap(language : String) : Map[String, String] =
+    {
+        val isomap = baseLangCodeMap.get(language) match
+>>>>>>> 0b25827388b231ffb40008a66c12bd3bc1ec1719
         {
             case Some(m) => m
             case _ =>
@@ -2014,6 +2081,20 @@ object FlagTemplateParserConfig
                     .toMap
             }
         }
+<<<<<<< HEAD
     }
+=======
 
+        val fullMap = isomap ++ ( ( language match
+            {
+                // NL uses iso2 lang codes
+                case "nl" => iocToIsoMap ++ Locale.getISOCountries.map(code => (code, new Locale(language, code).getISO3Country)).toMap
+                case _ => iocToIsoMap
+            }
+        ) map { case(k,v) => (k,isomap.getOrElse(v,"")) } filter { case (k,v) => v.length > 0 } )
+>>>>>>> 0b25827388b231ffb40008a66c12bd3bc1ec1719
+
+        storedLangCodeMap += language -> fullMap
+        fullMap
+    }
 }

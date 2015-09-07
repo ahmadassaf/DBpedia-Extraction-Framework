@@ -37,12 +37,30 @@ class WikidataSameAsExtractor(
   {
     // This array will hold all the triples we will extract
     val quads = new ArrayBuffer[Quad]()
+<<<<<<< HEAD
     for ((lang,siteLink) <- page.wikiDataItem.getSiteLinks) {
       val l=lang.toString().replace("wiki","")
       Language.get(l) match{
         case Some(dbpedia_lang) => {
           val sitelink = WikiTitle.parse(siteLink.getPageTitle().toString(),dbpedia_lang)
           quads += new Quad(context.language, DBpediaDatasets.WikidataSameAs, subjectUri, sameAsProperty, sitelink.resourceIri, page.wikiPage.sourceUri,null)
+=======
+
+    if (page.wikiPage.title.namespace != Namespace.WikidataProperty) {
+      val itemDocument: ItemDocument = page.wikiDataDocument.asInstanceOf[ItemDocument]
+
+      for ((lang, siteLink) <- itemDocument.getSiteLinks) {
+        val l = lang.toString().replace("wiki", "")
+        try {
+          Language.get(l) match {
+            case Some(dbpedia_lang) => {
+              val resourceIri = dbpedia_lang.resourceUri.append(siteLink.getPageTitle)
+              quads += new Quad(context.language, DBpediaDatasets.WikidataSameAs,
+                subjectUri, sameAsProperty, resourceIri, page.wikiPage.sourceUri, null)
+            }
+            case _ =>
+          }
+>>>>>>> 0b25827388b231ffb40008a66c12bd3bc1ec1719
         }
         case _=>
       }

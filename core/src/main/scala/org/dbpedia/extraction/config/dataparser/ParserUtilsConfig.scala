@@ -69,6 +69,48 @@ object ParserUtilsConfig
             "billion" -> 12,
             "trillion" -> 18
         ),
+<<<<<<< HEAD
+=======
+        "ga" -> Map(
+            "míle" -> 3,
+            "milliún" -> 6,
+            "billiún" -> 9,
+            "míle milliún" -> 9,
+            "trilliún" -> 12,
+            "cuaidrilliún" -> 15
+        ),
+        "gl" -> Map(
+            "mil" -> 3,
+            "miles" -> 3,
+            "milleiro" -> 3,
+            "milleiros" -> 3,
+            "millar" -> 3,
+            "millares" -> 3,
+            "millón" -> 6,
+            "millóns" -> 6,
+            "mil millóns" -> 9,
+            "miles de millóns" -> 9,
+            "billón" -> 12,
+            "billóns" -> 12,
+            "mil billóns" -> 15,
+            "miles de billóns" -> 15,
+            "trillón" -> 18,
+            "trillóns" -> 18,
+            "cuadrillón" -> 24,
+            "cuadrillóns" -> 24
+        ),
+        "it" -> Map(
+            "mille" -> 3,
+            "milione" -> 6,
+            "milioni" -> 6,
+            "milioni di" -> 6,
+            "mln" -> 6,
+            "miliardo" -> 9,
+            "miliardi" -> 9,
+            "miliardi di" -> 9,
+            "bilione" -> 12
+        ),
+>>>>>>> 0b25827388b231ffb40008a66c12bd3bc1ec1719
         "nl" -> Map(
             "honderd" -> 2,
             "duizend" -> 3,

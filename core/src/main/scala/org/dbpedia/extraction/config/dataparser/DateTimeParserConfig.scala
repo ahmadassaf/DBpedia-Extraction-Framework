@@ -16,6 +16,12 @@ object DateTimeParserConfig
         "eo" -> Map("januaro"->1,"februaro"->2,"marto"->3,"aprilo"->4,"majo"->5,"junio"->6,"julio"->7,"aŭgusto"->8,"septembro"->9,"oktobro"->10,"novembro"->11,"decembro"->12),
         "es" -> Map("enero"->1,"febrero"->2,"marzo"->3,"abril"->4,"mayo"->5,"junio"->6,"julio"->7,"agosto"->8,"septiembre"->9,"octubre"->10,"noviembre"->11,"diciembre"->12),
         "fr" -> Map("janvier"->1,"février"->2,"mars"->3,"avril"->4,"mai"->5,"juin"->6,"juillet"->7,"août"->8,"septembre"->9,"octobre"->10,"novembre"->11,"décembre"->12),
+<<<<<<< HEAD
+=======
+        "ga" -> Map("eanáir"->1,"feabhra"->2,"marta"->3,"aibreán"->4,"bealtaine"->5,"meitheamh"->6,"iúil"->7,"lúnasa"->8,"meán fómhair"->9,"deireadh fómhair"->10,"samhain"->11,"nollaig"->12),
+        "gl" -> Map("xaneiro"->1,"febreiro"->2,"marzo"->3,"abril"->4,"maio"->5,"xuño"->6,"xullo"->7,"agosto"->8,"setembro"->9,"outubro"->10,"novembro"->11,"decembro"->12,
+                    "xan"->1,"feb"->2,"mar"->3,"abr"->4,"mai"->5,"xuñ"->6,"xul"->7,"ago"->8,"set"->9,"out"->10,"nov"->11,"dec"->12),
+>>>>>>> 0b25827388b231ffb40008a66c12bd3bc1ec1719
         "hr" -> Map("siječanj"->1,"veljača"->2,"ožujak"->3,"travanj"->4,"svibanj"->5,"lipanj"->6,"srpanj"->7,"kolovoz"->8,"rujan"->9,"listopad"->10,"studeni"->11,"prosinac"->12),
         "id" -> Map("januari"->1,"februari"->2,"maret"->3,"april"->4,"mei"->5,"juni"->6,"juli"->7,"agustus"->8,"september"->9,"oktober"->10,"november"->11,"desember"->12),
         "it" -> Map("gennaio"->1,"febbraio"->2,"marzo"->3,"aprile"->4,"maggio"->5,"giugno"->6,"luglio"->7,"agosto"->8,"settembre"->9,"ottobre"->10,"novembre"->11,"dicembre"->12),
@@ -46,6 +52,11 @@ object DateTimeParserConfig
         "eo" -> Map("a.K." -> -1, "p.K." -> -1),
         "es" -> Map("AC"-> -1, "A\\.C\\."-> -1, "DC"-> 1, "D\\.C\\."-> 1, "AD"-> 1, "A\\.D\\."-> 1, "AEC"-> 1, "A\\.E\\.C\\."-> 1 , "EC"-> 1, "E\\.C\\."-> 1),
         "fr" -> Map("av\\. J\\.-C\\."-> -1, "ap\\. J\\.-C\\." -> 1),
+<<<<<<< HEAD
+=======
+        "ga" -> Map("B\\.C\\." -> -1, "R\\.C\\." -> -1, "r\\. Chr\\." -> -1, "BC" -> -1, "RC" -> -1, "A\\.D\\." -> 1, "AD" -> 1, "I\\.C\\." -> 1, "IC" -> 1),
+        "gl" -> Map("AC"-> -1, "A\\.C\\."-> -1, "DC"-> 1, "D\\.C\\."-> 1, "aC"-> -1, "a\\.C\\."-> -1, "dC"-> 1, "d\\.C\\."-> 1, "AEC"-> -1, "A\\.E\\.C\\."-> -1 , "EC"-> 1, "E\\.C\\."-> 1),
+>>>>>>> 0b25827388b231ffb40008a66c12bd3bc1ec1719
         "it" -> Map("AC"-> -1, "A\\.C\\."-> -1, "DC"-> 1, "D\\.C\\."-> 1, "AD"-> 1, "A\\.D\\."-> 1, "PEV"-> -1, "P\\.E\\.V\\."-> -1, "EV"-> 1, "E\\.V\\." -> 1),
         "nl" -> Map("v\\.Chr\\." -> -1, "n\\.C\\."-> 1, "v\\.C\\." -> -1, "n\\.Chr\\."-> 1, "voor Chr\\." -> -1, "na Chr\\."-> 1), 
         "pt" -> Map("AC"-> -1, "A\\.C\\."-> -1, "DC"-> 1, "D\\.C\\."-> 1, "AD"-> 1, "A\\.D\\."-> 1, "AEC"-> 1, "A\\.E\\.C\\."-> 1 , "EC"-> 1, "E\\.C\\."-> 1)
@@ -59,6 +70,11 @@ object DateTimeParserConfig
         "eo" -> "-a|-an",
         "es" -> "°|\\.°|°\\.",
         "fr" -> "er|nd|ème",
+<<<<<<< HEAD
+=======
+        "ga" -> "ú",
+        "gl" -> "°|\\.°|°\\.|ª|\\.ª|ª\\.|º|\\.º|º\\.",
+>>>>>>> 0b25827388b231ffb40008a66c12bd3bc1ec1719
         "it" -> "°|\\.°|°\\.",
         "nl" -> "ste|de|e",
         "pt" -> "°|\\.°|°\\.",
