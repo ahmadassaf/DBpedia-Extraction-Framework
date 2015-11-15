@@ -26,7 +26,11 @@ extends PropertyMapping
                              DataParserConfig.splitPropertyNodeRegexInfobox.get(context.language.wikiCode).get
                            else DataParserConfig.splitPropertyNodeRegexInfobox.get("en").get
 
+<<<<<<< HEAD
   override val datasets = mappings.flatMap(_.datasets).toSet ++ Set(DBpediaDatasets.OntologyTypes,DBpediaDatasets.OntologyProperties)
+=======
+  override val datasets = mappings.flatMap(_.datasets).toSet ++ Set(DBpediaDatasets.OntologyTypes, DBpediaDatasets.OntologyTypesTransitive, DBpediaDatasets.OntologyPropertiesObjects)
+>>>>>>> 2dfd3a4888d6f710311813ddd6f9ddffeea46195
     
 
   override def extract(node : TemplateNode, subjectUri : String, pageContext : PageContext) : Seq[Quad] =
@@ -85,7 +89,7 @@ extends PropertyMapping
     // only generate triples if we actually extracted some values
     if(! values.isEmpty)
     {
-      graph += new Quad(context.language, DBpediaDatasets.OntologyProperties, originalSubjectUri, correspondingProperty, instanceUri, node.sourceUri);
+      graph += new Quad(context.language, DBpediaDatasets.OntologyPropertiesObjects, originalSubjectUri, correspondingProperty, instanceUri, node.sourceUri);
       
       for (cls <- nodeClass.relatedClasses)
         graph += new Quad(context.language, DBpediaDatasets.OntologyTypes, instanceUri, context.ontology.properties("rdf:type"), cls.uri, node.sourceUri)

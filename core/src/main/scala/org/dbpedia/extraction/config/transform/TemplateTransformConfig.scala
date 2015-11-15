@@ -7,6 +7,8 @@ import java.net.URI
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.immutable
 
+import scala.collection.mutable.ArrayBuffer
+
 /**
  * Template transformations.
  *
@@ -33,10 +35,22 @@ object TemplateTransformConfig {
   /**
    * Extracts all the children of the PropertyNode's in the given TemplateNode
    */
-  private def extractChildren(filter: PropertyNode => Boolean)(node: TemplateNode, lang:Language) : List[Node] = {
+  private def extractChildren(filter: PropertyNode => Boolean, split : Boolean = true)(node: TemplateNode, lang:Language) : List[Node] = {
     // We have to reverse because flatMap prepends to the final list
     // while we want to keep the original order
-    node.children.filter(filter).flatMap(_.children).reverse
+    val children : List[Node] = node.children.filter(filter).flatMap(_.children).reverse
+
+    val splitChildren = new ArrayBuffer[Node]()
+    val splitTxt = if (split) "<br />" else " "
+    for ( c <- children) {
+      splitChildren += new TextNode(splitTxt, c.line)
+      splitChildren += c
+    }
+    if (splitChildren.nonEmpty) {
+      splitChildren += new TextNode(splitTxt, 0)
+    }
+    splitChildren.toList
+
   }
 
   private def identity(node: TemplateNode, lang:Language) : List[Node] = List(node)
@@ -77,6 +91,7 @@ object TemplateTransformConfig {
 
     "en" -> Map(
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       "Dash" -> textNode(" – ") _ ,
       "Spaced ndash" -> textNode(" – ") _ ,
@@ -85,12 +100,23 @@ object TemplateTransformConfig {
       "Marriage" -> extractChildren { p : PropertyNode => p.key != "end" && p.key != "()" }  _,
       "Emdash" -> textNode(" — ") _ ,
 >>>>>>> 0b25827388b231ffb40008a66c12bd3bc1ec1719
+=======
+      "Dash" -> textNode(" - ") _ ,
+      "Spaced ndash" -> textNode(" - ") _ ,
+      "Ndash" -> textNode("-") _ ,
+      "Mdash" -> textNode(" - ") _ ,
+      "Marriage" -> extractChildren { p : PropertyNode => p.key != "end" && p.key != "()" }  _,
+      "Emdash" -> textNode(" - ") _ ,
+>>>>>>> 2dfd3a4888d6f710311813ddd6f9ddffeea46195
       "-" -> textNode("<br />") _ ,
       "Clr" -> textNode("<br />") _ ,
       "Flatlist" -> extractChildren { p : PropertyNode => !(Set("class", "style", "indent").contains(p.key)) }  _,
       "Plainlist" -> extractChildren { p : PropertyNode => !(Set("class", "style", "indent").contains(p.key)) } _ ,
       "Hlist" ->  extractChildren { p : PropertyNode => !(Set("class", "style", "ul_style", "li_style", "indent").contains(p.key)) } _ ,
       "Unbulleted list" -> extractChildren { p : PropertyNode => !(Set("class", "style", "ul_style", "li_style", "indent").contains(p.key)) } _ ,
+      "Lang" -> ((node: TemplateNode, lang:Language) =>
+        List(new TextNode("<br />" + extractTextFromPropertyNode(node.property("3")) + "<br />", node.line))), //TODO: we need to set the language in the TextNode
+
 
       "URL" -> externalLinkNode _ ,
 

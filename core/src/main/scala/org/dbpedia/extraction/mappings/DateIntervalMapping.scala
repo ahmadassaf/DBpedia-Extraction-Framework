@@ -1,7 +1,12 @@
 package org.dbpedia.extraction.mappings
 
 import java.util.logging.Logger
+<<<<<<< HEAD
 import org.dbpedia.extraction.dataparser.DateTimeParser
+=======
+import org.dbpedia.extraction.config.dataparser.DataParserConfig
+import org.dbpedia.extraction.dataparser.{DateTimeParser,StringParser}
+>>>>>>> 2dfd3a4888d6f710311813ddd6f9ddffeea46195
 import org.dbpedia.extraction.ontology.datatypes.Datatype
 import org.dbpedia.extraction.destinations.{DBpediaDatasets, Quad}
 import org.dbpedia.extraction.ontology.OntologyProperty
@@ -30,9 +35,13 @@ extends PropertyMapping
   private val presentString = presentMap.getOrElse(context.language.wikiCode, presentMap("en"))
 
   // TODO: the parser should resolve HTML entities
+<<<<<<< HEAD
   private val intervalSplitRegex = "(—|–|-|&mdash;|&ndash;)"
+=======
+  private val intervalSplitRegex = "(?iu)(" + DataParserConfig.dashVariationsRegex + "|&mdash;|&ndash;" + ( if (splitString.isEmpty) "" else "|" + splitString ) + ")"
+>>>>>>> 2dfd3a4888d6f710311813ddd6f9ddffeea46195
   
-  override val datasets = Set(DBpediaDatasets.OntologyProperties)
+  override val datasets = Set(DBpediaDatasets.OntologyPropertiesLiterals)
 
   override def extract(node : TemplateNode, subjectUri: String, pageContext : PageContext) : Seq[Quad] =
   {
@@ -70,7 +79,7 @@ extends PropertyMapping
       }
 
       //Write start date quad
-      val quad1 = new Quad(context.language, DBpediaDatasets.OntologyProperties, subjectUri, startDateOntologyProperty, startDate.toString, propertyNode.sourceUri)
+      val quad1 = new Quad(context.language, DBpediaDatasets.OntologyPropertiesLiterals, subjectUri, startDateOntologyProperty, startDate.toString, propertyNode.sourceUri)
 
       //Writing the end date is optional if "until present" is specified
       for(endDate <- endDateOpt)
@@ -83,7 +92,7 @@ extends PropertyMapping
         }
 
         //Write end year quad
-        val quad2 = new Quad(context.language, DBpediaDatasets.OntologyProperties, subjectUri, endDateOntologyProperty, endDate.toString, propertyNode.sourceUri)
+        val quad2 = new Quad(context.language, DBpediaDatasets.OntologyPropertiesLiterals, subjectUri, endDateOntologyProperty, endDate.toString, propertyNode.sourceUri)
 
         return Seq(quad1, quad2)
       }

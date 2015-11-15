@@ -20,7 +20,14 @@ class TemplateMapping(
 ) 
 extends Extractor[TemplateNode]
 {
+<<<<<<< HEAD
     override val datasets = mappings.flatMap(_.datasets).toSet ++ Set(DBpediaDatasets.OntologyTypes,DBpediaDatasets.OntologyProperties)
+=======
+    override val datasets = mappings.flatMap(_.datasets).toSet ++ Set(DBpediaDatasets.OntologyTypes, DBpediaDatasets.OntologyTypesTransitive, DBpediaDatasets.OntologyPropertiesObjects)
+
+    private val classOwlThing = context.ontology.classes("owl:Thing")
+    private val propertyRdfType = context.ontology.properties("rdf:type")
+>>>>>>> 2dfd3a4888d6f710311813ddd6f9ddffeea46195
 
     override def extract(node: TemplateNode, subjectUri: String, pageContext: PageContext): Seq[Quad] =
     {
@@ -79,7 +86,7 @@ extends Extractor[TemplateNode]
                 if (condition1_createCorrespondingProperty)
                 {
                     //Connect new instance to the instance created from the root template
-                    graph += new Quad(context.language, DBpediaDatasets.OntologyProperties, instanceUri, correspondingProperty, subjectUri, node.sourceUri)
+                    graph += new Quad(context.language, DBpediaDatasets.OntologyPropertiesObjects, instanceUri, correspondingProperty, subjectUri, node.sourceUri)
                 }
 
                 //Extract properties

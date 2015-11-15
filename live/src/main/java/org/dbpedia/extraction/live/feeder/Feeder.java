@@ -8,6 +8,7 @@ import org.dbpedia.extraction.live.util.ExceptionUtil;
 import org.dbpedia.extraction.live.util.Files;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -97,7 +98,7 @@ public abstract class Feeder extends Thread {
         Files.createFile(latestProcessDateFile, date);
     }
 
-    protected abstract List<LiveQueueItem> getNextItems();
+    protected abstract Collection<LiveQueueItem> getNextItems();
 
     public void run() {
         int counter = 0;

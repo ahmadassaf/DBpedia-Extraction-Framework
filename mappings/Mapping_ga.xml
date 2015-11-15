@@ -32,9 +32,53 @@
 |ceantar        = [[Laighean]]
 |daonra         = 506,211
 |dlús_daonra    = 4,398
+<<<<<<< HEAD
 |staitistic_eile_teideal = Uimhirphlátaí
 |staitistic_eile= D
 --&gt;</text></revision></page><page><title>Mapping ga:Bosca Sonraí Monairc</title><ns>396</ns><id>4224</id><revision><id>14302</id><timestamp>2011-07-17T10:10:39Z</timestamp><text>{{TemplateMapping
+=======
+--&gt;</text></revision></page><page><title>Mapping ga:Bosca Sonraí Albam</title><ns>396</ns><id>11233</id><revision><id>47804</id><timestamp>2015-04-28T13:07:37Z</timestamp><text>{{TemplateMapping
+| mapToClass = Album
+| mappings =
+	{{PropertyMapping | templateProperty = ainm | ontologyProperty = foaf:name }}
+	{{PropertyMapping | templateProperty = léiritheoir | ontologyProperty = producer }}
+	{{PropertyMapping | templateProperty = ceoltóirí | ontologyProperty = artist }}
+	{{PropertyMapping | templateProperty = fad | ontologyProperty = runtime | unit = minute }}
+	{{PropertyMapping | templateProperty = stíl | ontologyProperty = genre }}
+	{{PropertyMapping | templateProperty = dáta | ontologyProperty = releaseDate }}
+	{{PropertyMapping | templateProperty = lipéad | ontologyProperty = recordLabel }}
+}}</text></revision></page><page><title>Mapping ga:Bosca Sonraí Duine</title><ns>396</ns><id>11012</id><revision><id>45255</id><timestamp>2015-02-12T22:00:45Z</timestamp><text>{{TemplateMapping
+| mapToClass = Person
+| mappings =
+&lt;!-- basic parameter --&gt;
+	{{PropertyMapping | templateProperty = ainm | ontologyProperty = foaf:name }}
+	{{PropertyMapping | templateProperty = dáta_breithe | ontologyProperty = birthDate }}
+	{{PropertyMapping | templateProperty = áit_bhreithe | ontologyProperty = birthPlace }}
+	{{PropertyMapping | templateProperty = dáta_báis | ontologyProperty = deathDate }}
+	{{PropertyMapping | templateProperty = áit_bháis | ontologyProperty = deathPlace }}
+	{{PropertyMapping | templateProperty = náisiúntacht | ontologyProperty = nationality }}
+	{{PropertyMapping | templateProperty = náisiúntacht | ontologyProperty = stateOfOrigin}}
+	{{PropertyMapping | templateProperty = céile | ontologyProperty = spouse }}
+	{{PropertyMapping | templateProperty = iomráiteach | ontologyProperty = knownFor }}
+	{{PropertyMapping | templateProperty = gairm | ontologyProperty = occupation }}
+	{{PropertyMapping | templateProperty = duaiseanna | ontologyProperty = award }}
+	{{PropertyMapping | templateProperty = líonláithreán | ontologyProperty = foaf:homepage }}
+
+}}</text></revision></page><page><title>Mapping ga:Bosca Sonraí Eolaí</title><ns>396</ns><id>11195</id><revision><id>47409</id><timestamp>2015-04-01T01:42:49Z</timestamp><text>{{ TemplateMapping | mapToClass = Scientist 
+| mappings = 
+    {{ PropertyMapping | templateProperty = ainm | ontologyProperty = foaf:name }}
+    {{ PropertyMapping | templateProperty = dáta_breithe | ontologyProperty = birthDate }}
+    {{ PropertyMapping | templateProperty = áit_bhreithe | ontologyProperty = birthPlace }}
+    {{ PropertyMapping | templateProperty = dáta_báis | ontologyProperty = deathDate }}
+    {{ PropertyMapping | templateProperty = áit_bháis | ontologyProperty = deathPlace }}
+    {{ PropertyMapping | templateProperty = náisiúntacht | ontologyProperty = nationality }}
+    {{ PropertyMapping | templateProperty = céile | ontologyProperty = spouse }}
+    {{ PropertyMapping | templateProperty = réimsí | ontologyProperty = field }}
+    {{ PropertyMapping | templateProperty = iomráiteach | ontologyProperty = knownFor }}
+    {{ PropertyMapping | templateProperty = duaiseanna | ontologyProperty = award }}
+    {{PropertyMapping | templateProperty = líonláithreán | ontologyProperty = foaf:homepage }}
+}}</text></revision></page><page><title>Mapping ga:Bosca Sonraí Monairc</title><ns>396</ns><id>4224</id><revision><id>14302</id><timestamp>2011-07-17T10:10:39Z</timestamp><text>{{TemplateMapping
+>>>>>>> 2dfd3a4888d6f710311813ddd6f9ddffeea46195
 | mapToClass = Monarch
 | mappings =
 	{{PropertyMapping | templateProperty = ainm | ontologyProperty = foaf:name }}
@@ -46,7 +90,30 @@
 	{{PropertyMapping | templateProperty = áit_bhreithe | ontologyProperty = birthPlace }}
 	{{PropertyMapping | templateProperty = dáta_báis | ontologyProperty = deathDate }}
 	{{PropertyMapping | templateProperty = áit_bháis | ontologyProperty = deathPlace }}
+<<<<<<< HEAD
 }}</text></revision></page><page><title>Mapping ga:Bosca Sonraí Polaiteoir</title><ns>396</ns><id>4161</id><revision><id>14221</id><timestamp>2011-07-15T17:22:40Z</timestamp><text>{{TemplateMapping
+=======
+}}</text></revision></page><page><title>Mapping ga:Bosca Sonraí Nuachtáin</title><ns>396</ns><id>11235</id><revision><id>47829</id><timestamp>2015-04-28T16:11:03Z</timestamp><text>{{TemplateMapping
+| mapToClass = Newspaper
+| mappings =
+	{{PropertyMapping | templateProperty = formáid | ontologyProperty = format }}
+	{{PropertyMapping | templateProperty = tréimhsiúlacht | ontologyProperty = type }}
+        {{PropertyMapping | templateProperty = bunaithe | ontologyProperty = foundingDate }}
+	{{PropertyMapping | templateProperty = úinéir | ontologyProperty = owner }}
+	{{PropertyMapping | templateProperty = dílseánach | ontologyProperty = owner }}
+	{{PropertyMapping | templateProperty = eagarthóir | ontologyProperty = editor }}
+        &lt;!-- 'seoladh' is address, but for this it means headquarters --&gt;
+	{{PropertyMapping | templateProperty = seoladh | ontologyProperty = headquarter }}
+	{{PropertyMapping | templateProperty = ceanncheathrú | ontologyProperty = headquarter }}
+	{{PropertyMapping | templateProperty = ciorclaíocht | ontologyProperty = circulation }}
+	{{PropertyMapping | templateProperty = ainm | ontologyProperty = foaf:name }}
+	{{PropertyMapping | templateProperty = teanga | ontologyProperty = language }}
+	{{PropertyMapping | templateProperty = suíomh | ontologyProperty = foaf:homepage }}
+	{{PropertyMapping | templateProperty = líonláithreán | ontologyProperty = foaf:homepage }}
+        {{PropertyMapping | templateProperty = bunaitheoir | ontologyProperty = foundedBy }}
+        {{PropertyMapping | templateProperty = ISSN | ontologyProperty = issn }}
+}}</text></revision></page><page><title>Mapping ga:Bosca Sonraí Polaiteoir</title><ns>396</ns><id>4161</id><revision><id>45270</id><timestamp>2015-02-13T01:56:06Z</timestamp><text>{{TemplateMapping
+>>>>>>> 2dfd3a4888d6f710311813ddd6f9ddffeea46195
 | mapToClass = Politician
 | mappings =
 	{{PropertyMapping | templateProperty = ainm | ontologyProperty = foaf:name }}
@@ -56,6 +123,86 @@
 	{{PropertyMapping | templateProperty = áit_bháis | ontologyProperty = deathPlace }}
 	{{PropertyMapping | templateProperty = páirtí | ontologyProperty = party }}
 	{{PropertyMapping | templateProperty = céile | ontologyProperty = spouse }}
+<<<<<<< HEAD
+=======
+	{{PropertyMapping | templateProperty = síniú | ontologyProperty = signature }}
+	{{PropertyMapping | templateProperty = líonláithreán | ontologyProperty = foaf:homepage }}
+	{{PropertyMapping | templateProperty = gairm | ontologyProperty = occupation }}
+        {{IntermediateNodeMapping
+          | nodeClass = PersonFunction
+          | correspondingProperty = occupation
+          | mappings =
+            {{PropertyMapping | templateProperty = teideal1 | ontologyProperty = title }}
+            {{PropertyMapping | templateProperty = réamhtheachtaí1 | ontologyProperty = predecessor }}
+            {{PropertyMapping | templateProperty = comharba1 | ontologyProperty = successor }}
+            {{DateIntervalMapping | templateProperty = dátaí1 | startDateOntologyProperty = startDate | endDateOntologyProperty = endDate }}
+            {{DateIntervalMapping | templateProperty = dátaí1 | startDateOntologyProperty = activeYearsStartYear | endDateOntologyProperty = activeYearsEndYear }}
+        }}
+        {{IntermediateNodeMapping
+          | nodeClass = PersonFunction
+          | correspondingProperty = occupation
+          | mappings =
+            {{PropertyMapping | templateProperty = teideal2 | ontologyProperty = title }}
+            {{PropertyMapping | templateProperty = réamhtheachtaí2 | ontologyProperty = predecessor }}
+            {{PropertyMapping | templateProperty = comharba2 | ontologyProperty = successor }}
+            {{DateIntervalMapping | templateProperty = dátaí2 | startDateOntologyProperty = startDate | endDateOntologyProperty = endDate }}
+            {{DateIntervalMapping | templateProperty = dátaí2 | startDateOntologyProperty = activeYearsStartYear | endDateOntologyProperty = activeYearsEndYear }}
+        }}
+        {{IntermediateNodeMapping
+          | nodeClass = PersonFunction
+          | correspondingProperty = occupation
+          | mappings =
+            {{PropertyMapping | templateProperty = teideal3 | ontologyProperty = title }}
+            {{PropertyMapping | templateProperty = réamhtheachtaí3 | ontologyProperty = predecessor }}
+            {{PropertyMapping | templateProperty = comharba3 | ontologyProperty = successor }}
+            {{DateIntervalMapping | templateProperty = dátaí3 | startDateOntologyProperty = startDate | endDateOntologyProperty = endDate }}
+            {{DateIntervalMapping | templateProperty = dátaí3 | startDateOntologyProperty = activeYearsStartYear | endDateOntologyProperty = activeYearsEndYear }}
+        }}
+        {{IntermediateNodeMapping
+          | nodeClass = PersonFunction
+          | correspondingProperty = occupation
+          | mappings =
+            {{PropertyMapping | templateProperty = teideal4 | ontologyProperty = title }}
+            {{PropertyMapping | templateProperty = réamhtheachtaí4 | ontologyProperty = predecessor }}
+            {{PropertyMapping | templateProperty = comharba4 | ontologyProperty = successor }}
+            {{DateIntervalMapping | templateProperty = dátaí4 | startDateOntologyProperty = startDate | endDateOntologyProperty = endDate }}
+            {{DateIntervalMapping | templateProperty = dátaí4 | startDateOntologyProperty = activeYearsStartYear | endDateOntologyProperty = activeYearsEndYear }}
+        }}
+        {{IntermediateNodeMapping
+          | nodeClass = PersonFunction
+          | correspondingProperty = occupation
+          | mappings =
+            {{PropertyMapping | templateProperty = teideal5 | ontologyProperty = title }}
+            {{PropertyMapping | templateProperty = réamhtheachtaí5 | ontologyProperty = predecessor }}
+            {{PropertyMapping | templateProperty = comharba5 | ontologyProperty = successor }}
+            {{DateIntervalMapping | templateProperty = dátaí5 | startDateOntologyProperty = startDate | endDateOntologyProperty = endDate }}
+            {{DateIntervalMapping | templateProperty = dátaí5 | startDateOntologyProperty = activeYearsStartYear | endDateOntologyProperty = activeYearsEndYear }}
+        }}
+        {{IntermediateNodeMapping
+          | nodeClass = PersonFunction
+          | correspondingProperty = occupation
+          | mappings =
+            {{PropertyMapping | templateProperty = teideal6 | ontologyProperty = title }}
+            {{PropertyMapping | templateProperty = réamhtheachtaí6 | ontologyProperty = predecessor }}
+            {{PropertyMapping | templateProperty = comharba6 | ontologyProperty = successor }}
+            {{DateIntervalMapping | templateProperty = dátaí6 | startDateOntologyProperty = startDate | endDateOntologyProperty = endDate }}
+            {{DateIntervalMapping | templateProperty = dátaí6 | startDateOntologyProperty = activeYearsStartYear | endDateOntologyProperty = activeYearsEndYear }}
+        }}
+}}</text></revision></page><page><title>Mapping ga:Bosca Sonraí Pápa</title><ns>396</ns><id>11234</id><revision><id>47810</id><timestamp>2015-04-28T14:25:40Z</timestamp><text>{{TemplateMapping
+| mapToClass = Pope
+| mappings =
+	{{PropertyMapping | templateProperty = Ainm_Gaeilge | ontologyProperty = foaf:name | language=ga }}
+	{{PropertyMapping | templateProperty = Ainm_Breithe | ontologyProperty = foaf:name }}
+	{{PropertyMapping | templateProperty = birth_name | ontologyProperty = foaf:name }}
+	{{PropertyMapping | templateProperty = Dáta_Breithe | ontologyProperty = birthDate }}
+	{{PropertyMapping | templateProperty = Áit_Breithe | ontologyProperty = birthPlace }}
+	{{PropertyMapping | templateProperty = Dáta_Báis | ontologyProperty = deathDate }}
+	{{PropertyMapping | templateProperty = Áit_Bháis | ontologyProperty = deathPlace }}
+	{{PropertyMapping | templateProperty = Tús_a_Réimeas | ontologyProperty = activeYearsStartDate }}
+	{{PropertyMapping | templateProperty = Deireadh_a_Réimeas | ontologyProperty = activeYearsEndDate }}
+	{{PropertyMapping | templateProperty = Réamhtheachtaí | ontologyProperty = predecessor }}
+	{{PropertyMapping | templateProperty = Sraitheor | ontologyProperty = successor }}
+>>>>>>> 2dfd3a4888d6f710311813ddd6f9ddffeea46195
 }}</text></revision></page><page><title>Mapping ga:Bosca Sonraí Scannáin</title><ns>396</ns><id>4221</id><revision><id>14298</id><timestamp>2011-07-17T09:30:23Z</timestamp><text>{{ TemplateMapping | mapToClass = Film 
 | mappings = 
     {{ PropertyMapping | templateProperty = stiúrthóir | ontologyProperty = director }}

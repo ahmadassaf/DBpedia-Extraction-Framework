@@ -12,6 +12,7 @@ import scala.actors.threadpool.Arrays;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -56,8 +57,13 @@ public class OAIFeeder extends Feeder {
     }
 
     @Override
+<<<<<<< HEAD
     protected List<LiveQueueItem> getNextItems() {
         List<LiveQueueItem> i = new ArrayList<LiveQueueItem>();
+=======
+    protected Collection<LiveQueueItem> getNextItems() {
+        List<LiveQueueItem> i = new ArrayList<>();
+>>>>>>> 2dfd3a4888d6f710311813ddd6f9ddffeea46195
         i.add(oaiRecordIterator.next());
         return i;
     }
