@@ -97,7 +97,7 @@ extends Extractor[TemplateNode]
         graph
     }
 
-    private def createMissingTypes(graph: Buffer[Quad], uri : String, node : Node): Unit =
+    private def createMissingTypes(graph: Buffer[Quad], uri : String, node : TemplateNode): Unit =
     {
         val pageClass = node.root.getAnnotation(TemplateMapping.CLASS_ANNOTATION).getOrElse(throw new IllegalArgumentException("missing class Annotation"))
 
@@ -114,11 +114,15 @@ extends Extractor[TemplateNode]
 
         // Create missing type statements
         for (cls <- diffSet)
+<<<<<<< HEAD
           graph += new Quad(context.language, DBpediaDatasets.OntologyTypes, uri, context.ontology.properties("rdf:type"), cls.uri, node.sourceUri)
+=======
+          graph += new Quad(context.language, DBpediaDatasets.OntologyTypes, uri, propertyRdfType, cls.uri, node.sourceUri+"&mappedTemplate="+node.title.encoded)
+>>>>>>> 956c23e923691e3a56d37bdab91acbe742e09e70
 
     }
 
-    private def createInstance(graph: Buffer[Quad], uri : String, node : Node): Unit =
+    private def createInstance(graph: Buffer[Quad], uri : String, node : TemplateNode): Unit =
     {
         val classes = mapToClass.relatedClasses
 
@@ -132,8 +136,16 @@ extends Extractor[TemplateNode]
         }
         
         //Create type statements
+<<<<<<< HEAD
         for (cls <- classes)
           graph += new Quad(context.language, DBpediaDatasets.OntologyTypes, uri, context.ontology.properties("rdf:type"), cls.uri, node.sourceUri)
+=======
+        for (cls <- classes) {
+          // Here we split the transitive types from the direct type assignment
+          val typeDataset = if (cls.equals(mapToClass)) DBpediaDatasets.OntologyTypes else DBpediaDatasets.OntologyTypesTransitive
+          graph += new Quad(context.language, typeDataset, uri, propertyRdfType, cls.uri, node.sourceUri+"&mappedTemplate="+node.title.encoded)
+        }
+>>>>>>> 956c23e923691e3a56d37bdab91acbe742e09e70
     }
 
     /**

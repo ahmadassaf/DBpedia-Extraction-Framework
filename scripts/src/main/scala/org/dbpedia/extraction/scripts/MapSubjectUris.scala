@@ -9,108 +9,75 @@ import org.dbpedia.extraction.util.SimpleWorkers
 import org.dbpedia.extraction.util.Language
 
 /**
- * Maps old object URIs in triple files to new object URIs:
+ * Maps old subject URIs in triple files to new subject URIs:
  * - read one or more triple files that contain the URI mapping:
  *   - the predicate is ignored
- * - read one or more files that need their object URI changed:
+ * - read one or more files that need their subject URI changed:
  *   - the predicate is ignored
- *   - literal values and quads without mapping for object URI are copied unchanged
- * 
- * Redirects SHOULD be resolved in the following datasets:
- * 
- * disambiguations
- * infobox-properties
- * mappingbased-properties
- * page-links
- * persondata
- * topical-concepts
- * 
- * Redirects seem to be so rare in categories that it doesn't make sense to resolve these:
- * 
- * article-categories
- * skos-categories
- * 
- * The following datasets DO NOT have object URIs that can be redirected:
- * 
- * category-labels
- * external-links
- * flickr-wrappr-links
- * geo-coordinates
- * homepages
- * images
- * infobox-property-definitions
- * infobox-test
- * instance-types
- * iri-same-as-uri
- * labels
- * specific-mappingbased-properties
- * 
- * Maybe we should resolve redirects in interlanguage-links, but we would have to integrate
- * redirect resolution into interlanguage link resolution. We're pretty strict when we generate
- * interlanguage-links-same-as. If we resolve redirects in interlanguage-links, we would probably
- * gain a few interlanguage-links (tenths of a percent), but we would not eliminate errors.
- * 
+ *
+ * Redirects in subject position SHOULD be resolved in the following datasets:
+ *
+ * anchor-text
+ *
+ * This is because during the extraction, the targets of the links are used as subjects in the anchor texts dataset
+ * and thus no redirect resolving is performed on them.
+ *
  * Example call:
- * ../run MapObjectUris /data/dbpedia transitive-redirects .nt.gz infobox-properties,mappingbased-properties,... -redirected .nt.gz,.nq.gz 10000-
- * 
- * The following should be redirected (as of 2012-07-11)
- * disambiguations,infobox-properties,mappingbased-properties,page-links,persondata,topical-concepts
- * (specific-mappingbased-properties is not necessary, it has only literal values)
- * 
- * TODO: merge with CanonicalizeUris?
+ * ../run MapSubjectUris /data/dbpedia transitive-redirects .nt.gz anchor-text -redirected .nt.gz,.nq.gz 10000-
+ *
  */
-object MapObjectUris {
-  
+object MapSubjectUris {
+
   private def split(arg: String): Array[String] = {
     arg.split(",").map(_.trim).filter(_.nonEmpty)
   }
-  
+
   def main(args: Array[String]): Unit = {
-    
-    require(args != null && args.length >= 7, 
+
+    require(args != null && args.length >= 7,
       "need at least seven args: " +
-      /*0*/ "base dir, " +
-      /*1*/ "comma-separated names of datasets mapping old URIs to new URIs (e.g. 'transitive-redirects'), "+
-      /*2*/ "mapping file suffix (e.g. '.nt.gz', '.ttl', '.ttl.bz2'), " +
-      /*3*/ "comma-separated names of input datasets (e.g. 'infobox-properties,mappingbased-properties'), "+
-      /*4*/ "output dataset name extension (e.g. '-redirected'), "+
-      /*5*/ "comma-separated input/output file suffixes (e.g. '.nt.gz,.nq.bz2', '.ttl', '.ttl.bz2'), " +
-      /*6*/ "languages or article count ranges (e.g. 'en,fr' or '10000-')")
-    
+        /*0*/ "base dir, " +
+        /*1*/ "comma-separated names of datasets mapping old URIs to new URIs (e.g. 'transitive-redirects'), "+
+        /*2*/ "mapping file suffix (e.g. '.nt.gz', '.ttl', '.ttl.bz2'), " +
+        /*3*/ "comma-separated names of input datasets (e.g. 'anchor-text'), "+
+        /*4*/ "output dataset name extension (e.g. '-redirected'), "+
+        /*5*/ "comma-separated input/output file suffixes (e.g. '.nt.gz,.nq.bz2', '.ttl', '.ttl.bz2'), " +
+        /*6*/ "languages or article count ranges (e.g. 'en,fr' or '10000-')")
+
     val baseDir = new File(args(0))
-    
+
     val mappings = split(args(1))
     require(mappings.nonEmpty, "no mapping datasets")
-    
+
     // Suffix of mapping files, for example ".nt", ".ttl.gz", ".nt.bz2" and so on.
     // This script works with .nt, .ttl, .nq or .tql files, using IRIs or URIs.
     val mappingSuffix = args(2)
     require(mappingSuffix.nonEmpty, "no mapping file suffix")
-    
+
     val inputs = split(args(3))
     require(inputs.nonEmpty, "no input datasets")
-    
+
     val extension = args(4)
     require(extension.nonEmpty, "no result name extension")
-    
+
     // Suffixes of input/output files, for example ".nt", ".ttl.gz", ".nt.bz2" and so on.
     // This script works with .nt, .ttl, .nq or .tql files, using IRIs or URIs.
     val suffixes = split(args(5))
     require(suffixes.nonEmpty, "no input/output file suffixes")
-    
+
     // Use all remaining args as keys or comma or whitespace separated lists of keys
     val languages = parseLanguages(baseDir, args.drop(6))
     require(languages.nonEmpty, "no languages")
-    
+
     // We really want to saturate CPUs and disk, so we use 50% more workers than CPUs
     val workers = SimpleWorkers(1.5, 1.0) { language: Language =>
-      
+
       val finder = new DateFinder(baseDir, language)
-      
+
       // Redirects can have only one target, so we don't really need a MultiMap here.
       // But CanonicalizeUris also uses a MultiMap... TODO: Make this configurable.
       val map = new HashMap[String, Set[String]] with MultiMap[String, String]
-      
+
       for (mappping <- mappings) {
         var count = 0
         QuadReader.readQuads(finder, mappping + mappingSuffix, auto = true) { quad =>
@@ -127,27 +94,21 @@ object MapObjectUris {
         }
         err.println(language.wikiCode+": found "+count+" mappings")
       }
-      
+
       for (input <- inputs; suffix <- suffixes) {
         QuadMapper.mapQuads(finder, input + suffix, input + extension + suffix, required = false) { quad =>
-          if (quad.datatype != null) List(quad) // just copy quad with literal values. TODO: make this configurable
-          else map.get(quad.value) match {
-            case Some(uris) =>
-              for (uri <- uris)
-                yield quad.copy(
-                  value = uri, // change object URI
-                  context = if (quad.context == null) quad.context else quad.context + "&objectMappedFrom="+quad.value) // add change provenance
-            case None => List(quad) // just copy quad without mapping for object URI. TODO: make this configurable
+          map.get(quad.subject) match {
+            case Some(uris) => for (uri <- uris) yield quad.copy(subject = uri, context = quad.context + "&subjectMappedFrom="+quad.subject) // change subject URI
+            case None => List(quad) // just copy quad without mapping for subject URI. TODO: make this configurable
           }
         }
       }
-      
+
     }
-    
+
     workers.start()
     for (language <- languages) workers.process(language)
     workers.stop()
-    
   }
-  
+
 }
