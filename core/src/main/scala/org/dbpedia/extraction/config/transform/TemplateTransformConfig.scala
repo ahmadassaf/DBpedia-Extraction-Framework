@@ -126,6 +126,7 @@ object TemplateTransformConfig {
 
 
       "URL" -> externalLinkNode _ ,
+      "Official website" -> externalLinkNode _ ,
 
       // http://en.wikipedia.org/wiki/Template:ICD10
       // See https://github.com/dbpedia/extraction-framework/issues/40
