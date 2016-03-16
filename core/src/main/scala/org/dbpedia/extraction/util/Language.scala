@@ -1,9 +1,11 @@
 package org.dbpedia.extraction.util
 
 import java.util.Locale
+
+import org.dbpedia.extraction.config.mappings.wikidata.WikidataExtractorConfigFactory
+import org.dbpedia.extraction.ontology.{DBpediaNamespace, RdfNamespace}
+
 import scala.collection.mutable.HashMap
-import org.dbpedia.extraction.ontology.DBpediaNamespace
-import org.dbpedia.extraction.ontology.RdfNamespace
 
 /**
  * Represents a MediaWiki instance and the language used on it. Initially, this class was
@@ -31,6 +33,7 @@ import org.dbpedia.extraction.ontology.RdfNamespace
 class Language private(
   val wikiCode: String,
   val isoCode: String,
+  val iso639_3: String,
   val dbpediaDomain: String,
   val dbpediaUri: String,
   val resourceUri: RdfNamespace,
@@ -60,10 +63,11 @@ object Language extends (String => Language)
   
   val map: Map[String, Language] = locally {
     
-    def language(code : String, iso: String): Language = {
+    def language(code : String, iso_1: String, iso_3: String): Language = {
       new Language(
         code,
-        iso,
+        iso_1,
+        iso_3,
         code+".dbpedia.org",
         "http://"+code+".dbpedia.org",
         new DBpediaNamespace("http://"+code+".dbpedia.org/resource/"),
@@ -74,6 +78,7 @@ object Language extends (String => Language)
     }
     
     val languages = new HashMap[String,Language]
+<<<<<<< HEAD
     
     // All two-letter codes from http://noc.wikimedia.org/conf/langlist as of 2012-04-15,
     // minus the redirected codes cz,dk,jp,sh (they are in the nonIsoCodes map below)
@@ -217,17 +222,23 @@ object Language extends (String => Language)
     )
     
     for (iso <- isoCodes) languages(iso) = language(iso, iso)
+=======
+    val langMapFile = WikidataExtractorConfigFactory.createConfig("/wikitoisomap.json")
+>>>>>>> 807d7bc8fd825da8e404e4d8050d9c6ae3207b0d
 
-    // We could throw an exception if the mapped ISO code is not in the set of ISO codes, but then 
-    // this class (and thus the whole system) wouldn't load, and that set may change depending on 
-    // JDK version, and the affected wiki code may not even be used. Just silently ignore it. 
-    // TODO: let this loop build a list of codes with bad mappings and throw the exception later.
-    for ((code, iso) <- nonIsoCodes) if (isoCodes.contains(iso)) languages(code) = language(code, iso)
-    
+    for (langEntry <- langMapFile.keys())
+    {
+      langMapFile.getValue(langEntry).get("iso639_1") match {
+        case Some(iso_1) if(iso_1.trim.length > 0) =>
+          languages(langEntry) = language(langEntry, iso_1, langMapFile.getValue(langEntry).get("iso639_3").get)
+        case _ =>
+      }
+    }
     languages("commons") =
     new Language(
       "commons",
       "en",
+      "eng",
        // TODO: do DBpedia URIs make sense here? Do we use them at all? Maybe use null instead.
       "commons.dbpedia.org",
       "http://commons.dbpedia.org",
@@ -241,6 +252,7 @@ object Language extends (String => Language)
     new Language(
       "wikidata",
       "en",
+      "eng",
        // TODO: do DBpedia URIs make sense here? Do we use them at all? Maybe use null instead.
       "wikidata.dbpedia.org",
       "http://wikidata.dbpedia.org",
@@ -258,6 +270,7 @@ object Language extends (String => Language)
     new Language(
       "mappings",
       "en",
+      "eng",
       // No DBpedia / RDF namespaces for mappings wiki. 
       "mappings.dbpedia.org",
       "http://mappings.dbpedia.org",
