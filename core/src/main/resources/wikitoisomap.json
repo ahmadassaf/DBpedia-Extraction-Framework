@@ -11,6 +11,11 @@
     "iso639_3": "ace",
     "iso639_1": "id"
   },
+  "ady": {
+    "iso639_3": "ady",
+    "iso639_1": "ru",
+    "comment": "selected iso639_1 by: http://www.ethnologue.com/language/ady"
+  },
   "af": {
     "iso639_3": "afr",
     "iso639_1": "af"
@@ -94,6 +99,11 @@
   "be-x-old": {
     "iso639_3": "",
     "iso639_1": "be"
+  },
+  "be-tarask": {
+    "iso639_3": "",
+    "iso639_1": "be",
+    "comment":"be-x-old will now be redirected to this..."
   },
   "bg": {
     "iso639_3": "bul",

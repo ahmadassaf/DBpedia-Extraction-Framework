@@ -17,7 +17,8 @@ object WikiInfo
 {
   // hard-coded - there probably is no mirror, and the format is very specific.
   // TODO: user might want to use a local file...
-  val URL = new URL("http://s23.org/wikistats/wikipedias_csv.php")
+  // TODO: mayby change this to XML serialization
+  val URL = new URL("http://wikistats.wmflabs.org/api.php?action=dump&table=wikipedias&format=csv")
   
   // Most browsers would save the file with this name, because s23.org returns it in a http header.
   val FileName = "wikipedias.csv"
@@ -60,7 +61,7 @@ object WikiInfo
       if (fields.length < 15) throw new Exception("expected [15] fields, found ["+fields.length+"] in line ["+line+"]")
       
       val pages = try fields(5).toInt
-      catch { case nfe: NumberFormatException => throw new Exception("expected page count in field with index [5], found line ["+line+"]") }
+      catch { case nfe: NumberFormatException => 0 }
       
       val wikiCode = fields(2)
       if (! ConfigUtils.LanguageRegex.pattern.matcher(fields(2)).matches) throw new Exception("expected language code in field with index [2], found line ["+line+"]")
