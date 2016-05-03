@@ -40,7 +40,10 @@ private class NamespaceBuilder {
   
   // map from language to mapping namespace (only mapping namespaces)
   val mappings = new HashMap[Language, Namespace]
-  
+
+  // map from chapter language to mapping namespace
+  val chapters = new HashMap[Language, Namespace]
+
   // map from namespace name to namespace (only dbpedia namespaces)
   val dbpedias = new HashMap[String, Namespace]
     
@@ -79,6 +82,7 @@ private class NamespaceBuilder {
   
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   val map = Map(
     "en"->204,"de"->208,"fr"->210,"it"->212,"es"->214,"nl"->216,"pt"->218,"pl"->220,"ru"->222,
     "cs"->224,"ca"->226,"bn"->228,"hi"->230,"ja"->232,"zh"->236,"hu"->238,"commons"->240,
@@ -94,6 +98,16 @@ private class NamespaceBuilder {
   for ((lang,code) <- mappingsFile.configMap)
     mappings(Language(lang)) = ns(new Integer(code.get("code").get), "Mapping "+lang, true)
 >>>>>>> 9d399688a4f8550abea1e60d4aa72ffed0118a01
+=======
+  for ((lang,properties) <- mappingsFile.configMap) {
+    val nns : Namespace = ns(new Integer(properties.get("code").get), "Mapping " + lang, true)
+    mappings(Language(lang)) = nns
+    properties.get("chapter") match{
+      case Some(b) => if(java.lang.Boolean.parseBoolean(b)) chapters(Language(lang)) = nns
+      case None =>
+    }
+  }
+>>>>>>> cee9756fca6c2f6ec7218b905458401f5e165d62
 }
 
 /**
@@ -112,7 +126,12 @@ private[wikiparser] class NamespaceBuilderDisposer(builder: NamespaceBuilder) {
    * Immutable map from language to namespace containing only the mapping namespaces on http://mappings.dbpedia.org.
    */
   val mappings: Map[Language, Namespace]  = builder.mappings.toMap // toMap makes immutable
-  
+
+  /**
+    * Immutable map from language to namespace containing only the chapter namespaces
+    */
+  val chapters: Map[Language, Namespace]  = builder.chapters.toMap // toMap makes immutable
+
   /**
    * Immutable map from namespace name to namespace containing only the DBpedia namespaces.
    */
