@@ -435,12 +435,114 @@
         {{ PropertyMapping | templateProperty = émissions | ontologyProperty = show}}
         {{ PropertyMapping | templateProperty = chaînes | ontologyProperty = channel}}
         {{ PropertyMapping | templateProperty = site web | ontologyProperty = foaf:homepage}}
+<<<<<<< HEAD
 }}</text></revision></page><page><title>Mapping fr:Infobox Appareil photo numérique</title><ns>210</ns><id>6552</id><revision><id>24169</id><timestamp>2013-03-01T15:22:22Z</timestamp><text>{{TemplateMapping
+=======
+}}</text></revision></page><page><title>Mapping fr:Infobox Animation et bande dessinée asiatiques/Entête</title><ns>210</ns><id>9583</id><revision><id>35501</id><timestamp>2014-06-28T00:24:57Z</timestamp><text>{{ConditionalMapping
+| cases =
+  {{Condition 
+     | templateProperty = style entête
+     | operator         = equals
+     | value            = œuvre
+     | mapping          = {{TemplateMapping | mapToClass = Work | header = 0 
+                              | mappings =
+                                  {{PropertyMapping | templateProperty = titre | ontologyProperty = foaf:name}}
+                                  {{PropertyMapping | templateProperty = titreJaponais | ontologyProperty = originalTitle | language = ja}}
+                                  {{PropertyMapping | templateProperty = titreKanji | ontologyProperty = originalTitle | language = ja}}
+                          }}
+  }}
+  {{Condition 
+     | templateProperty = style entête
+     | operator         = equals
+     | value            = personnalité
+     | mapping          = {{TemplateMapping | mapToClass = Person | header = 0
+                              | mappings =
+                                  {{PropertyMapping | templateProperty = nom | ontologyProperty = foaf:name}}
+                                  {{PropertyMapping | templateProperty = nomKanji | ontologyProperty = originalTitle | language = ja}}
+                                  {{PropertyMapping | templateProperty = naissance | ontologyProperty = birthDate}}
+                                  {{PropertyMapping | templateProperty = mort | ontologyProperty = deathDate}}
+                          }}
+  }}
+| defaultMappings =
+        {{PropertyMapping | templateProperty = origine | ontologyProperty = country}}
+        {{PropertyMapping | templateProperty = genre | ontologyProperty = genre}}
+        {{PropertyMapping | templateProperty = type | ontologyProperty = type}}
+        {{PropertyMapping | templateProperty = thème | ontologyProperty = subjectTerm}}
+}}</text></revision></page><page><title>Mapping fr:Infobox Animation et bande dessinée asiatiques/Livre</title><ns>210</ns><id>9582</id><revision><id>45429</id><timestamp>2015-02-24T20:52:09Z</timestamp><text>{{ConditionalMapping
+| cases =
+  {{Condition 
+     | templateProperty = origine
+     | operator         = equals
+     | value            = Japon
+     | mapping          = {{TemplateMapping | mapToClass = Manga | header = 0 }}
+  }}
+  {{Condition 
+     | templateProperty = origine
+     | operator         = equals
+     | value            = Corée du Sud
+     | mapping          = {{TemplateMapping | mapToClass = Manhwa | header = 0 }}
+  }}
+  {{Condition 
+     | templateProperty = origine
+     | operator         = equals
+     | value            = Chine
+     | mapping          = {{TemplateMapping | mapToClass = Manhua | header = 0 }}
+  }}
+  {{Condition 
+     | operator         = otherwise
+     | mapping          = {{TemplateMapping | mapToClass = Comic | header = 0 }}
+  }}
+| defaultMappings =
+        {{PropertyMapping | templateProperty = titre | ontologyProperty = foaf:name}}
+        {{PropertyMapping | templateProperty = origine | ontologyProperty = country}}
+        {{PropertyMapping | templateProperty = auteur | ontologyProperty = writer}}
+        {{PropertyMapping | templateProperty = nb_volumes | ontologyProperty = numberOfVolumes}}
+        {{PropertyMapping | templateProperty = éditeur | ontologyProperty = publisher}}
+        {{PropertyMapping | templateProperty = éditeur_francophone | ontologyProperty = publisher}}
+        {{PropertyMapping | templateProperty = éditeur_original | ontologyProperty = firstPublisher}}
+        {{PropertyMapping | templateProperty = dessinateur | ontologyProperty = illustrator}}
+        {{PropertyMapping | templateProperty = illustrateur | ontologyProperty = illustrator}}
+        {{PropertyMapping | templateProperty = premier_volume | ontologyProperty = firstPublicationDate}}
+        {{PropertyMapping | templateProperty = dernier_volume | ontologyProperty = lastPublicationDate}}
+        {{PropertyMapping | templateProperty = sortie | ontologyProperty = releaseDate}}
+        {{PropertyMapping | templateProperty = format | ontologyProperty = literaryGenre}}
+        {{PropertyMapping | templateProperty = genre | ontologyProperty = literaryGenre}}
+}}</text></revision></page><page><title>Mapping fr:Infobox Animation et bande dessinée asiatiques/Vidéo</title><ns>210</ns><id>9581</id><revision><id>47396</id><timestamp>2015-03-31T23:27:24Z</timestamp><text>{{ConditionalMapping
+| cases =
+  {{Condition 
+     | templateProperty = type
+     | operator         = equals
+     | value            = animation
+     | mapping          = {{TemplateMapping 
+                               | mapToClass = Anime 
+                               | correspondingClass = Comic
+                               | correspondingProperty = dct:source
+                               | header = 0 }}
+  }}
+| defaultMappings =
+        {{PropertyMapping | templateProperty = titre | ontologyProperty = foaf:name}}
+        {{PropertyMapping | templateProperty = origine | ontologyProperty = country}}
+        {{PropertyMapping | templateProperty = réalisateur | ontologyProperty = director}}
+        {{PropertyMapping | templateProperty = studio_animation | ontologyProperty = animator}}
+        {{PropertyMapping | templateProperty = nb_épisodes | ontologyProperty = numberOfEpisodes}}
+        {{PropertyMapping | templateProperty = début_diffusion | ontologyProperty = openingDate}}
+        {{PropertyMapping | templateProperty = fin_diffusion | ontologyProperty = closingDate}}
+        {{PropertyMapping | templateProperty = date_sortie | ontologyProperty = releaseDate}}
+        {{PropertyMapping | templateProperty = chaine | ontologyProperty = channel}}
+        {{PropertyMapping | templateProperty = scénariste | ontologyProperty = writer}}
+        {{PropertyMapping | templateProperty = compositeur | ontologyProperty = composer}}
+        {{PropertyMapping | templateProperty = producteur | ontologyProperty = producedBy}}
+        {{PropertyMapping | templateProperty = genre | ontologyProperty = genre}}
+        {{PropertyMapping | templateProperty = durée | ontologyProperty = runtime | unit = Time}}
+        {{PropertyMapping | templateProperty = licence_original | ontologyProperty = license}}
+        {{PropertyMapping | templateProperty = licence_francophone | ontologyProperty = license}}
+}}</text></revision></page><page><title>Mapping fr:Infobox Appareil photo numérique</title><ns>210</ns><id>6552</id><revision><id>50312</id><timestamp>2016-01-27T10:14:21Z</timestamp><text>{{TemplateMapping
+>>>>>>> bb7ec4d4910127f0a576f68270ff4e32707146d1
 | mapToClass = DigitalCamera
 | mappings =
 	{{PropertyMapping | templateProperty = nom | ontologyProperty = foaf:name }}
-	{{PropertyMapping | templateProperty = fabriquant | ontologyProperty = manufacturer }}
 	{{PropertyMapping | templateProperty = poids | ontologyProperty = weight | unit = gram }}
+	{{PropertyMapping | templateProperty = nombre_pixels | ontologyProperty = numberOfPixels }}
 }}</text></revision></page><page><title>Mapping fr:Infobox Arbitre</title><ns>210</ns><id>6340</id><revision><id>27167</id><timestamp>2013-07-08T14:49:57Z</timestamp><text>{{TemplateMapping
 | mapToClass = Referee
 | mappings =
@@ -6062,7 +6164,87 @@
         {{PropertyMapping | templateProperty = travaux | ontologyProperty = knownFor}}
         {{PropertyMapping | templateProperty = detracteur | ontologyProperty = detractor}}
         {{PropertyMapping | templateProperty = partisan | ontologyProperty = disciple}}
+<<<<<<< HEAD
 }}</text></revision></page><page><title>Mapping fr:Infobox Rugbyman</title><ns>210</ns><id>5858</id><revision><id>28040</id><timestamp>2013-08-12T13:17:40Z</timestamp><text>{{TemplateMapping
+=======
+}}</text></revision></page><page><title>Mapping fr:Infobox Quartier</title><ns>210</ns><id>11687</id><revision><id>51068</id><timestamp>2016-05-12T16:23:19Z</timestamp><text>{{ TemplateMapping 
+| mapToClass = CityDistrict
+| mappings = 
+    {{PropertyMapping | templateProperty = nom | ontologyProperty = foaf:name }}
+    {{PropertyMapping | templateProperty = légende | ontologyProperty = thumbnailCaption }}
+    {{PropertyMapping | templateProperty = pays | ontologyProperty = country }}
+    {{PropertyMapping | templateProperty = division | ontologyProperty = isPartOf }}
+    {{PropertyMapping | templateProperty = division2 | ontologyProperty = isPartOf }}
+    {{PropertyMapping | templateProperty = division3 | ontologyProperty = isPartOf }}
+    {{PropertyMapping | templateProperty = division4 | ontologyProperty = isPartOf }}
+    {{PropertyMapping | templateProperty = division5 | ontologyProperty = isPartOf }}
+    {{PropertyMapping | templateProperty = division6 | ontologyProperty = isPartOf }}
+    {{PropertyMapping | templateProperty = division7 | ontologyProperty = isPartOf }}
+    {{PropertyMapping | templateProperty = division8 | ontologyProperty = isPartOf }}
+    {{PropertyMapping | templateProperty = division9 | ontologyProperty = isPartOf }}
+    {{PropertyMapping | templateProperty = division10 | ontologyProperty = isPartOf }}
+    {{IntermediateNodeMapping
+    | nodeClass = PoliticalFunction
+    | correspondingProperty = politicalLeader
+    | mappings =
+       {{PropertyMapping | templateProperty = autorité  | ontologyProperty = authority }}
+       {{PropertyMapping | templateProperty = titre autorité | ontologyProperty = title }}
+    }}
+    {{IntermediateNodeMapping
+    | nodeClass = PoliticalFunction
+    | correspondingProperty = politicalLeader
+    | mappings =
+       {{PropertyMapping | templateProperty = autorité2  | ontologyProperty = authority }}
+       {{PropertyMapping | templateProperty = titre autorité2 | ontologyProperty = title }}
+    }}
+    {{IntermediateNodeMapping
+    | nodeClass = PoliticalFunction
+    | correspondingProperty = politicalLeader
+    | mappings =
+       {{PropertyMapping | templateProperty = autorité3  | ontologyProperty = authority }}
+       {{PropertyMapping | templateProperty = titre autorité3 | ontologyProperty = title }}
+    }}
+    {{IntermediateNodeMapping
+    | nodeClass = PoliticalFunction
+    | correspondingProperty = politicalLeader
+    | mappings =
+       {{PropertyMapping | templateProperty = autorité4  | ontologyProperty = authority }}
+       {{PropertyMapping | templateProperty = titre autorité4 | ontologyProperty = title }}
+    }}
+    {{PropertyMapping | templateProperty = url | ontologyProperty = foaf:homepage }}
+    {{PropertyMapping | templateProperty = sites touristiques | ontologyProperty = touristicSite }}
+    {{IntermediateNodeMapping
+    | nodeClass = Demographics
+    | correspondingProperty = demographics
+    | mappings =
+       {{PropertyMapping | templateProperty = population | ontologyProperty = populationTotal }} 
+       {{PropertyMapping | templateProperty = année_pop | ontologyProperty = year }} 
+    }}
+    {{PropertyMapping | templateProperty = cp | ontologyProperty = postalCode }}
+    {{GeocoordinatesMapping | latitude = latitude  | longitude = longitude }}
+    {{PropertyMapping | templateProperty = type coord | ontologyProperty = typeCoordinate }}
+
+    {{IntermediateNodeMapping
+    | nodeClass = Altitude
+    | correspondingProperty = altitude
+    | mappings =
+       {{PropertyMapping | templateProperty = altitude | ontologyProperty = value }} 
+    }}
+    {{IntermediateNodeMapping
+        | nodeClass = Agglomeration
+        | correspondingProperty = agglomeration
+        | mappings = 
+           {{IntermediateNodeMapping
+           | nodeClass = Area
+           | correspondingProperty = wholeArea
+           | mappings =
+              {{PropertyMapping | templateProperty = superficie | ontologyProperty = value }} 
+           }}
+        }}
+    {{PropertyMapping | templateProperty = eau | ontologyProperty = watercourse }}
+
+}}</text></revision></page><page><title>Mapping fr:Infobox Rugbyman</title><ns>210</ns><id>5858</id><revision><id>35427</id><timestamp>2014-06-24T21:50:57Z</timestamp><text>{{TemplateMapping
+>>>>>>> bb7ec4d4910127f0a576f68270ff4e32707146d1
  | mapToClass = RugbyPlayer
  | mappings = 
          {{ PropertyMapping | templateProperty = nom | ontologyProperty = foaf:name }}

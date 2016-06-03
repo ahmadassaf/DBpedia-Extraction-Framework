@@ -9,8 +9,7 @@ import java.util.logging.{Level, Logger}
 
 import com.hp.hpl.jena.rdf.model.{Model, ModelFactory, Resource}
 import com.hp.hpl.jena.vocabulary.RDF
-import org.apache.commons.io.filefilter.IOFileFilter
-import org.apache.jena.atlas.json.{JsonString, JSON, JsonObject}
+import org.apache.jena.atlas.json.{JSON, JsonObject}
 import org.dbpedia.extraction.destinations.{DBpediaDatasets, Dataset}
 import org.dbpedia.extraction.util.{OpenRdfUtils, Language}
 import org.openrdf.rio.RDFFormat
@@ -96,7 +95,7 @@ object DataIdGenerator {
     val sparqlEndpoint = configMap.get("sparqlEndpoint").getAsString.value
     require(configMap.get("sparqlEndpoint") == null || URI.create(sparqlEndpoint) != null, "Please specify a valid sparql endpoint!")
 
-    val coreList = configMap.get("coreDatasets").getAsArray().toArray().map(x => (x.asInstanceOf[JsonString].value().toString))
+    var coreList = List("")
 
     val license = configMap.get("licenseUri").getAsString.value
     require(URI.create(license) != null, "Please enter a valid license uri (odrl license)")
@@ -335,250 +334,253 @@ object DataIdGenerator {
       dist
     }
 
+    val dumpFile = "^[a-zA-Z0-9-_]+".r
+
+    def extractDataID(outer: File, dir: File): Unit =
+    {
+      val innerPath = if(outer.getName == "core") "" else outer.getName
+      val lang = Language.get(dir.getName.replace("_", "-")) match {
+        case Some(l) => l
+        case _ =>
+          logger.log(Level.INFO, "no language found for: " + dir.getName)
+          null
+      }
+      val fileFilter = ("^[^$]+_[a-z-_]+(" + extensions.foldLeft(new StringBuilder) { (sb, s) => sb.append("|" + s.getAsString.value()) }.toString.substring(1) + "|.xml)" + compression).replace(".", "\\.").r
+
+      //have to use processes to avoid symlink problem with listFiles
+      val commandRes: String = ("ls -1 " + dir.getAbsolutePath).!!
+      val distributions = commandRes.split("\\n").flatMap(x => fileFilter.findFirstIn(x)).map(_.trim.replace("-", "_")).toList.sorted
+
+      //windows:
+      //val distributions = dir.listFiles(filter).map(x => x.getName.replace("-", "_")).toList.sorted
+
+      if(dir.getName == "core")
+        coreList = distributions.flatMap( dis => dumpFile.findFirstIn(dis))
+
+      if (lang != null && distributions.map(x => x.contains("short_abstracts") || x.contains("interlanguage_links")).foldRight(false)(_ || _)) {
+        currentDataid = ModelFactory.createDefaultModel()
+        val topsetModel = ModelFactory.createDefaultModel()
+        val agentModel = ModelFactory.createDefaultModel()
+        val mainModel = ModelFactory.createDefaultModel()
+        stmtModel = ModelFactory.createDefaultModel()
+
+        addPrefixes(currentDataid)
+        addPrefixes(topsetModel)
+        addPrefixes(mainModel)
+        addPrefixes(agentModel)
+        addPrefixes(stmtModel)
+
+        val ttlOutFile = new File(dir.getAbsolutePath.replace("\\", "/") + "/" + configMap.get("outputFileTemplate").getAsString.value + "_" + lang.wikiCode.replace("-", "_") + ".ttl")
+        val jldOutFile = new File(dir.getAbsolutePath.replace("\\", "/") + "/" + configMap.get("outputFileTemplate").getAsString.value + "_" + lang.wikiCode.replace("-", "_") + ".json")
+        logger.log(Level.INFO, "started DataId: " + ttlOutFile.getAbsolutePath)
+
+        uri = currentDataid.createResource(webDir + innerPath + "/" + lang.wikiCode.replace("-", "_") + "/" + configMap.get("outputFileTemplate").getAsString.value + "_" + lang.wikiCode.replace("-", "_") + ".ttl")
+        require(uri != null, "Please provide a valid directory")
+        currentDataid.add(uri, RDF.`type`, currentDataid.createResource(currentDataid.getNsPrefixURI("dataid") + "DataId"))
+
+        //statements
+        versionStatement = addSimpleStatement("version", idVersion, idVersion)
+        rightsStatement = addSimpleStatement("rights", "dbpedia-rights", rights, Language.English)
+        dataidStandard = addSimpleStatement(null, null, "DataID - dataset metadata ontology", Language.English, staticModel.createResource("http://dataid.dbpedia.org/ns/core"))
+        dataidLdStandard = addSimpleStatement(null, null, "DataID-LD - dataset metadata ontology with linked data extension", Language.English, staticModel.createResource("http://dataid.dbpedia.org/ns/ld"))
+
+        val creator = addAgent(agentModel, lang, configMap.get("creator").getAsObject)
+        val maintainer = addAgent(agentModel, lang, configMap.get("maintainer").getAsObject)
+        val contact = addAgent(agentModel, lang, configMap.get("contact").getAsObject)
+        require(creator != null, "Please define an dataid:Agent as a Creator in the dataid stump file (use dataid:Authorization).")
+
+        currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dc"), "modified"), currentDataid.createTypedLiteral(dateformat.format(new Date()), currentDataid.getNsPrefixURI("xsd") + "date"))
+        currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dc"), "issued"), currentDataid.createTypedLiteral(dateformat.format(new Date()), currentDataid.getNsPrefixURI("xsd") + "date"))
+        currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dataid"), "hasAccessLevel"), currentDataid.createResource(currentDataid.getNsPrefixURI("dataid") + "PublicAccess"))
+        currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dataid"), "latestVersion"), uri)
+        currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dataid"), "associatedAgent"), creator)
+        currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dataid"), "associatedAgent"), maintainer)
+        currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dataid"), "associatedAgent"), contact)
+        currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dc"), "title"), currentDataid.createLiteral("DataID meta data for the " + lang.locale.getLanguage + " DBpedia", "en"))
+        currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dc"), "conformsTo"), dataidStandard)
+        currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dc"), "conformsTo"), dataidLdStandard)
+        currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dc"), "publisher"), creator)
+        currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dc"), "hasVersion"), versionStatement)
+        catalogModel.add(catalog, catalogModel.createProperty(catalogModel.getNsPrefixURI("dcat"), "record"), uri)
+
+        topset = addDataset(topsetModel, lang, "dataset", creator, true)
+
+        catalogModel.add(catalog, catalogModel.createProperty(catalogModel.getNsPrefixURI("dcat"), "dataset"), topset)
+        currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("foaf"), "primaryTopic"), topset)
+        topsetModel.add(topset, topsetModel.createProperty(topsetModel.getNsPrefixURI("foaf"), "isPrimaryTopicOf"), uri)
+        topsetModel.add(topset, topsetModel.createProperty(topsetModel.getNsPrefixURI("void"), "vocabulary"), topsetModel.createResource(vocabulary))
+        topsetModel.add(topset, topsetModel.createProperty(topsetModel.getNsPrefixURI("void"), "vocabulary"), topsetModel.createResource(vocabulary.replace(".owl", ".nt")))
+        topsetModel.add(topset, topsetModel.createProperty(topsetModel.getNsPrefixURI("dc"), "description"), topsetModel.createLiteral(configMap.get("description").getAsString.value, "en"))
+        topsetModel.add(topset, topsetModel.createProperty(topsetModel.getNsPrefixURI("dc"), "title"), topsetModel.createLiteral("DBpedia root dataset for language: " + lang.wikiCode.replace("-", "_") + " version: " + dbpVersion, "en"))
+
+        if (rights != null)
+          topsetModel.add(topset, topsetModel.createProperty(topsetModel.getNsPrefixURI("dc"), "rights"), rightsStatement)
+
+        if ((configMap.get("addDmpProps").getAsBoolean.value()))
+          addDmpStatements(topsetModel, topset)
+
+        var lastFile: String = null
+        var dataset: Resource = null
+        for (dis <- distributions) {
+          if(dis.contains("_" + dir.getName))
+          {
+            if (lastFile != dis.substring(0, dis.lastIndexOf("_" + dir.getName))) {
+              lastFile = dis.substring(0, dis.lastIndexOf("_" + dir.getName))
+              dataset = addDataset(mainModel, lang, dis, creator)
+              topsetModel.add(topset, topsetModel.createProperty(topsetModel.getNsPrefixURI("void"), "subset"), dataset)
+              mainModel.add(dataset, mainModel.createProperty(mainModel.getNsPrefixURI("dc"), "isPartOf"), topset)
+            }
+            dumpFile.findFirstIn(dis) match {
+              case Some(l) =>
+                if(coreList.contains(l))
+                  mainModel.add(addSparqlEndpoint(dataset))
+              case None =>
+            }
+            addDistribution(mainModel, dataset, lang, outer.getName, dis, creator)
+          }
+        }
+
+        //TODO validate & publish DataIds online!!!
+
+        //dataidModel.add(staticModel)                                                     //adding type statements
+        currentDataid.write(new FileOutputStream(ttlOutFile), "TURTLE")
+        currentDataid.add(agentModel)
+        var baos = new ByteArrayOutputStream()
+        agentModel.write(baos, "TURTLE")
+        var outString = new String(baos.toByteArray(), Charset.defaultCharset())
+        outString = "\n#### Agents & Authorizations ####\n" +
+          outString.replaceAll("(@prefix).*\\n", "")
+
+        currentDataid.add(topsetModel)
+        baos = new ByteArrayOutputStream()
+        topsetModel.write(baos, "TURTLE")
+        outString += "\n########## Main Dataset ##########\n" +
+          new String(baos.toByteArray(), Charset.defaultCharset()).replaceAll("(@prefix).*\\n", "")
+
+        currentDataid.add(mainModel)
+        baos = new ByteArrayOutputStream()
+        mainModel.write(baos, "TURTLE")
+        outString += "\n#### Datasets & Distributions ####\n" +
+          new String(baos.toByteArray(), Charset.defaultCharset()).replaceAll("(@prefix).*\\n", "")
+
+        currentDataid.add(stmtModel)
+        baos = new ByteArrayOutputStream()
+        stmtModel.write(baos, "TURTLE")
+        outString += "\n########### Statements ###########\n" +
+          new String(baos.toByteArray(), Charset.defaultCharset()).replaceAll("(@prefix).*\\n", "")
+
+        currentDataid.add(staticModel)
+        baos = new ByteArrayOutputStream()
+        staticModel.write(baos, "TURTLE")
+        outString += "\n########### MediaTypes ###########\n" +
+          new String(baos.toByteArray(), Charset.defaultCharset()).replaceAll("(@prefix).*\\n", "")
+
+        var os = new FileOutputStream(ttlOutFile, true)
+        var printStream = new PrintStream(os)
+        printStream.print(outString)
+        printStream.close()
+
+        outString = OpenRdfUtils.writeSerialization(OpenRdfUtils.convertToOpenRdfModel(currentDataid), RDFFormat.JSONLD)
+        os = new FileOutputStream(jldOutFile, false)
+        printStream = new PrintStream(os)
+        printStream.print(outString)
+        printStream.close()
+
+        logger.log(Level.INFO, "finished DataId: " + ttlOutFile.getAbsolutePath)
+      }
+    }
+
+    def addDmpStatements(model: Model, dataset: Resource): Unit = {
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "usefulness"), model.createLiteral(configMap.get("dmpusefulness").getAsString.value, "en"))
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "similarData"), model.createLiteral(configMap.get("dmpsimilarData").getAsString.value, "en"))
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "reuseAndIntegration"), model.createLiteral(configMap.get("dmpreuseAndIntegration").getAsString.value, "en"))
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "additionalSoftware"), model.createLiteral(configMap.get("dmpadditionalSoftware").getAsString.value, "en"))
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "repositoryUrl"), model.createResource(configMap.get("dmprepositoryUrl").getAsString.value))
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "growth"), model.createLiteral(configMap.get("dmpgrowth").getAsString.value, "en"))
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "archiveLink"), model.createResource(configMap.get("dmparchiveLink").getAsString.value))
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "preservation"), model.createLiteral(configMap.get("dmppreservation").getAsString.value, "en"))
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "openness"), model.createLiteral(configMap.get("dmpopenness").getAsString.value, "en"))
+    }
+
+    def addDataset(model: Model, lang: Language, currentFile: String, associatedAgent: Resource, toplevelSet: Boolean = false): Resource = {
+      val datasetName = if (currentFile.contains("_")) currentFile.substring(0, currentFile.lastIndexOf("_")) else currentFile
+      val dataset = model.createResource(uri.getURI + "?set=" + datasetName)
+      model.add(dataset, RDF.`type`, model.createResource(model.getNsPrefixURI("dataid") + "Dataset"))
+      if (!toplevelSet) //not!
+      {
+        model.add(dataset, model.createProperty(model.getNsPrefixURI("void"), "rootResource"), topset)
+
+
+        datasetDescriptions.find(x => stringCompareIgnoreDash(x.name, datasetName)) match {
+          case Some(d) => {
+            model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "title"), model.createLiteral(d.name.replace("-", " ").replace("_", " "), "en"))
+            model.add(dataset, model.createProperty(model.getNsPrefixURI("rdfs"), "label"), model.createLiteral(d.name.replace("-", " ").replace("_", " "), "en"))
+          }
+          case None => {
+            model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "title"), model.createLiteral(currentFile.substring(0, currentFile.lastIndexOf("_")).replace("-", " ").replace("_", " ") + " dataset", "en"))
+            model.add(dataset, model.createProperty(model.getNsPrefixURI("rdfs"), "label"), model.createLiteral(currentFile.substring(0, currentFile.lastIndexOf("_")).replace("-", " ").replace("_", " ") + " dataset", "en"))
+          }
+        }
+
+        datasetDescriptions.find(x => stringCompareIgnoreDash(x.name, datasetName) && x.description != null) match {
+          case Some(d) => model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "description"), model.createLiteral(d.description, "en"))
+          case None => {
+            model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "description"), model.createLiteral("DBpedia dataset " + datasetName + ", subset of " + topset.getLocalName, "en"))
+            err.println("Could not find description for dataset: " + lang.wikiCode.replace("-", "_") + "/" + currentFile)
+          }
+        }
+      }
+
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dcat"), "landingPage"), model.createResource("http://dbpedia.org/"))
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("foaf"), "page"), model.createResource(documentation))
+      //TODO done by DataId Hub
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "hasVersion"), versionStatement)
+      //TODO model.add(dataset, model.createProperty(model.getNsPrefixURI("dataid"), "latestVersion"), dataset)
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dataid"), "hasAccessLevel"), model.createResource(model.getNsPrefixURI("dataid") + "PublicAccess"))
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dataid"), "associatedAgent"), associatedAgent)
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "modified"), model.createTypedLiteral(dateformat.format(new Date()), model.getNsPrefixURI("xsd") + "date"))
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "issued"), model.createTypedLiteral(dateformat.format(new Date()), model.getNsPrefixURI("xsd") + "date"))
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "license"), model.createResource(license))
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "publisher"), associatedAgent)
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dcat"), "keyword"), model.createLiteral("DBpedia", "en"))
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dcat"), "keyword"), model.createLiteral(datasetName, "en"))
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "conformsTo"), dataidStandard)
+      model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "conformsTo"), dataidLdStandard)
+
+      if (lang.iso639_3 != null && lang.iso639_3.length > 0)
+        model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "language"), model.createResource("http://lexvo.org/id/iso639-3/" + lang.iso639_3))
+
+      lbpMap.get(("core-i18n/" + lang.wikiCode.replace("-", "_") + "/" + currentFile).replace(compression, "")) match {
+        case Some(triples) =>
+          model.add(dataset, model.createProperty(model.getNsPrefixURI("void"), "triples"), model.createTypedLiteral((new Integer(triples.get("lines").get) - 2), model.getNsPrefixURI("xsd") + "integer"))
+        case None =>
+      }
+      dataset
+    }
+
     //TODO links...
     //visit all subdirectories, determine if its a dbpedia language dir, and create a DataID for this language
-    for (outer <- dump.listFiles().filter(_.isDirectory)) {
+    extractDataID(dump, new File(dump, "core"))
+    for (outer <- dump.listFiles().filter(_.isDirectory).filter(_.getName != "core")) {
       //core has other structure (no languages)
-      val realDir = if(outer.getName == "core") dump else outer
-      for (dir <- realDir.listFiles().filter(_.isDirectory).filter(!_.getName.startsWith("."))) {
-        val innerPath = if(outer.getName == "core") "" else outer.getName
-        val lang = Language.get(dir.getName.replace("_", "-")) match {
-          case Some(l) => l
-          case _ =>
-            logger.log(Level.INFO, "no language found for: " + dir.getName)
-            null
-        }
-        val filterstring = ("^[^$]+_" + dir.getName + "(" + extensions.foldLeft(new StringBuilder) { (sb, s) => sb.append("|" + s.getAsString.value()) }.toString.substring(1) + "|.xml)" + compression).replace(".", "\\.")
-        val filter = new IOFileFilter {
-          override def accept(file: File): Boolean = {
-            if (file.getName.matches(filterstring))
-              true
-            else
-              false
-          }
-
-          override def accept(dir: File, name: String): Boolean = {
-            if (name.matches(filterstring))
-              true
-            else
-              false
-          }
-        }
-        //have to use processes to avoid symlink problem with listFiles
-          val commandRes: String = ("ls -1 " + dir.getAbsolutePath).!!
-          val distributions = commandRes.split("\\n").map(_.trim).toList.sorted
-
-          if (lang != null && distributions.map(x => x.contains("short-abstracts") || x.contains("interlanguage-links")).foldRight(false)(_ || _)) {
-            currentDataid = ModelFactory.createDefaultModel()
-            val topsetModel = ModelFactory.createDefaultModel()
-            val agentModel = ModelFactory.createDefaultModel()
-            val mainModel = ModelFactory.createDefaultModel()
-            stmtModel = ModelFactory.createDefaultModel()
-
-            addPrefixes(currentDataid)
-            addPrefixes(topsetModel)
-            addPrefixes(mainModel)
-            addPrefixes(agentModel)
-            addPrefixes(stmtModel)
-
-            val ttlOutFile = new File(dir.getAbsolutePath.replace("\\", "/") + "/" + configMap.get("outputFileTemplate").getAsString.value + "_" + lang.wikiCode.replace("-", "_") + ".ttl")
-            val jldOutFile = new File(dir.getAbsolutePath.replace("\\", "/") + "/" + configMap.get("outputFileTemplate").getAsString.value + "_" + lang.wikiCode.replace("-", "_") + ".json")
-            logger.log(Level.INFO, "started DataId: " + ttlOutFile.getAbsolutePath)
-
-            uri = currentDataid.createResource(webDir + innerPath + "/" + lang.wikiCode.replace("-", "_") + "/" + configMap.get("outputFileTemplate").getAsString.value + "_" + lang.wikiCode.replace("-", "_") + ".ttl")
-            require(uri != null, "Please provide a valid directory")
-            currentDataid.add(uri, RDF.`type`, currentDataid.createResource(currentDataid.getNsPrefixURI("dataid") + "DataId"))
-
-            //statements
-            versionStatement = addSimpleStatement("version", idVersion, idVersion)
-            rightsStatement = addSimpleStatement("rights", "dbpedia-rights", rights, Language.English)
-            dataidStandard = addSimpleStatement(null, null, "DataID - dataset metadata ontology", Language.English, staticModel.createResource("http://dataid.dbpedia.org/ns/core"))
-            dataidLdStandard = addSimpleStatement(null, null, "DataID-LD - dataset metadata ontology with linked data extension", Language.English, staticModel.createResource("http://dataid.dbpedia.org/ns/ld"))
-
-            val creator = addAgent(agentModel, lang, configMap.get("creator").getAsObject)
-            val maintainer = addAgent(agentModel, lang, configMap.get("maintainer").getAsObject)
-            val contact = addAgent(agentModel, lang, configMap.get("contact").getAsObject)
-            require(creator != null, "Please define an dataid:Agent as a Creator in the dataid stump file (use dataid:Authorization).")
-
-            currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dc"), "modified"), currentDataid.createTypedLiteral(dateformat.format(new Date()), currentDataid.getNsPrefixURI("xsd") + "date"))
-            currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dc"), "issued"), currentDataid.createTypedLiteral(dateformat.format(new Date()), currentDataid.getNsPrefixURI("xsd") + "date"))
-            currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dataid"), "hasAccessLevel"), currentDataid.createResource(currentDataid.getNsPrefixURI("dataid") + "PublicAccess"))
-            currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dataid"), "latestVersion"), uri)
-            currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dataid"), "associatedAgent"), creator)
-            currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dataid"), "associatedAgent"), maintainer)
-            currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dataid"), "associatedAgent"), contact)
-            currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dc"), "title"), currentDataid.createLiteral("DataID meta data for the " + lang.locale.getLanguage + " DBpedia", "en"))
-            currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dc"), "conformsTo"), dataidStandard)
-            currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dc"), "conformsTo"), dataidLdStandard)
-            currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dc"), "publisher"), creator)
-            currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("dc"), "hasVersion"), versionStatement)
-            catalogModel.add(catalog, catalogModel.createProperty(catalogModel.getNsPrefixURI("dcat"), "record"), uri)
-
-            topset = addDataset(topsetModel, lang, "dataset", creator, true)
-
-            catalogModel.add(catalog, catalogModel.createProperty(catalogModel.getNsPrefixURI("dcat"), "dataset"), topset)
-            currentDataid.add(uri, currentDataid.createProperty(currentDataid.getNsPrefixURI("foaf"), "primaryTopic"), topset)
-            topsetModel.add(topset, topsetModel.createProperty(topsetModel.getNsPrefixURI("foaf"), "isPrimaryTopicOf"), uri)
-            topsetModel.add(topset, topsetModel.createProperty(topsetModel.getNsPrefixURI("void"), "vocabulary"), topsetModel.createResource(vocabulary))
-            topsetModel.add(topset, topsetModel.createProperty(topsetModel.getNsPrefixURI("void"), "vocabulary"), topsetModel.createResource(vocabulary.replace(".owl", ".nt")))
-            topsetModel.add(topset, topsetModel.createProperty(topsetModel.getNsPrefixURI("dc"), "description"), topsetModel.createLiteral(configMap.get("description").getAsString.value, "en"))
-            topsetModel.add(topset, topsetModel.createProperty(topsetModel.getNsPrefixURI("dc"), "title"), topsetModel.createLiteral("DBpedia root dataset for language: " + lang.wikiCode.replace("-", "_") + " version: " + dbpVersion, "en"))
-
-            if (rights != null)
-              topsetModel.add(topset, topsetModel.createProperty(topsetModel.getNsPrefixURI("dc"), "rights"), rightsStatement)
-
-            if ((configMap.get("addDmpProps").getAsBoolean.value()))
-              addDmpStatements(topsetModel, topset)
-
-            var lastFile: String = null
-            var dataset: Resource = null
-            for (dis <- distributions) {
-              if (lastFile != dis.substring(0, dis.lastIndexOf("_"))) {
-                lastFile = dis.substring(0, dis.lastIndexOf("_"))
-                dataset = addDataset(mainModel, lang, dis, creator)
-                topsetModel.add(topset, topsetModel.createProperty(topsetModel.getNsPrefixURI("void"), "subset"), dataset)
-                mainModel.add(dataset, mainModel.createProperty(mainModel.getNsPrefixURI("dc"), "isPartOf"), topset)
-              }
-              if (coreList.contains(dis.substring(0, dis.lastIndexOf('.')))) {
-                mainModel.add(addSparqlEndpoint(dataset))
-              }
-              addDistribution(mainModel, dataset, lang, realDir.getName, dis, creator)
-            }
-
-            //TODO validate & publish DataIds online!!!
-
-            //dataidModel.add(staticModel)                                                     //adding type statements
-            currentDataid.write(new FileOutputStream(ttlOutFile), "TURTLE")
-            currentDataid.add(agentModel)
-            var baos = new ByteArrayOutputStream()
-            agentModel.write(baos, "TURTLE")
-            var outString = new String(baos.toByteArray(), Charset.defaultCharset())
-            outString = "\n#### Agents & Authorizations ####\n" +
-              outString.replaceAll("(@prefix).*\\n", "")
-
-            currentDataid.add(topsetModel)
-            baos = new ByteArrayOutputStream()
-            topsetModel.write(baos, "TURTLE")
-            outString += "\n########## Main Dataset ##########\n" +
-              new String(baos.toByteArray(), Charset.defaultCharset()).replaceAll("(@prefix).*\\n", "")
-
-            currentDataid.add(mainModel)
-            baos = new ByteArrayOutputStream()
-            mainModel.write(baos, "TURTLE")
-            outString += "\n#### Datasets & Distributions ####\n" +
-              new String(baos.toByteArray(), Charset.defaultCharset()).replaceAll("(@prefix).*\\n", "")
-
-            currentDataid.add(stmtModel)
-            baos = new ByteArrayOutputStream()
-            stmtModel.write(baos, "TURTLE")
-            outString += "\n########### Statements ###########\n" +
-              new String(baos.toByteArray(), Charset.defaultCharset()).replaceAll("(@prefix).*\\n", "")
-
-            currentDataid.add(staticModel)
-            baos = new ByteArrayOutputStream()
-            staticModel.write(baos, "TURTLE")
-            outString += "\n########### MediaTypes ###########\n" +
-              new String(baos.toByteArray(), Charset.defaultCharset()).replaceAll("(@prefix).*\\n", "")
-
-            var os = new FileOutputStream(ttlOutFile, true)
-            var printStream = new PrintStream(os)
-            printStream.print(outString)
-            printStream.close()
-
-            outString = OpenRdfUtils.writeSerialization(OpenRdfUtils.convertToOpenRdfModel(currentDataid), RDFFormat.JSONLD)
-            os = new FileOutputStream(jldOutFile, false)
-            printStream = new PrintStream(os)
-            printStream.print(outString)
-            printStream.close()
-
-            logger.log(Level.INFO, "finished DataId: " + ttlOutFile.getAbsolutePath)
-          }
-        }
-      }
-
-      def addDmpStatements(model: Model, dataset: Resource): Unit = {
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "usefulness"), model.createLiteral(configMap.get("dmpusefulness").getAsString.value, "en"))
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "similarData"), model.createLiteral(configMap.get("dmpsimilarData").getAsString.value, "en"))
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "reuseAndIntegration"), model.createLiteral(configMap.get("dmpreuseAndIntegration").getAsString.value, "en"))
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "additionalSoftware"), model.createLiteral(configMap.get("dmpadditionalSoftware").getAsString.value, "en"))
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "repositoryUrl"), model.createResource(configMap.get("dmprepositoryUrl").getAsString.value))
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "growth"), model.createLiteral(configMap.get("dmpgrowth").getAsString.value, "en"))
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "archiveLink"), model.createResource(configMap.get("dmparchiveLink").getAsString.value))
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "preservation"), model.createLiteral(configMap.get("dmppreservation").getAsString.value, "en"))
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dmp"), "openness"), model.createLiteral(configMap.get("dmpopenness").getAsString.value, "en"))
-      }
-
-      def addDataset(model: Model, lang: Language, currentFile: String, associatedAgent: Resource, toplevelSet: Boolean = false): Resource = {
-        val datasetName = if (currentFile.contains("_")) currentFile.substring(0, currentFile.lastIndexOf("_")) else currentFile
-        val dataset = model.createResource(uri.getURI + "?set=" + datasetName)
-        model.add(dataset, RDF.`type`, model.createResource(model.getNsPrefixURI("dataid") + "Dataset"))
-        if (!toplevelSet) //not!
-        {
-          model.add(dataset, model.createProperty(model.getNsPrefixURI("void"), "rootResource"), topset)
-
-
-          datasetDescriptions.find(x => stringCompareIgnoreDash(x.name, datasetName)) match {
-            case Some(d) => {
-              model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "title"), model.createLiteral(d.name.replace("-", " ").replace("_", " "), "en"))
-              model.add(dataset, model.createProperty(model.getNsPrefixURI("rdfs"), "label"), model.createLiteral(d.name.replace("-", " ").replace("_", " "), "en"))
-            }
-            case None => {
-              model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "title"), model.createLiteral(currentFile.substring(0, currentFile.lastIndexOf("_")).replace("-", " ").replace("_", " ") + " dataset", "en"))
-              model.add(dataset, model.createProperty(model.getNsPrefixURI("rdfs"), "label"), model.createLiteral(currentFile.substring(0, currentFile.lastIndexOf("_")).replace("-", " ").replace("_", " ") + " dataset", "en"))
-            }
-          }
-
-          datasetDescriptions.find(x => stringCompareIgnoreDash(x.name, datasetName) && x.description != null) match {
-            case Some(d) => model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "description"), model.createLiteral(d.description, "en"))
-            case None => {
-              model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "description"), model.createLiteral("DBpedia dataset " + datasetName + ", subset of " + topset.getLocalName, "en"))
-              err.println("Could not find description for dataset: " + lang.wikiCode.replace("-", "_") + "/" + currentFile)
-            }
-          }
-        }
-
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dcat"), "landingPage"), model.createResource("http://dbpedia.org/"))
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("foaf"), "page"), model.createResource(documentation))
-        //TODO done by DataId Hub
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "hasVersion"), versionStatement)
-        //TODO model.add(dataset, model.createProperty(model.getNsPrefixURI("dataid"), "latestVersion"), dataset)
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dataid"), "hasAccessLevel"), model.createResource(model.getNsPrefixURI("dataid") + "PublicAccess"))
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dataid"), "associatedAgent"), associatedAgent)
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "modified"), model.createTypedLiteral(dateformat.format(new Date()), model.getNsPrefixURI("xsd") + "date"))
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "issued"), model.createTypedLiteral(dateformat.format(new Date()), model.getNsPrefixURI("xsd") + "date"))
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "license"), model.createResource(license))
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "publisher"), associatedAgent)
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dcat"), "keyword"), model.createLiteral("DBpedia", "en"))
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dcat"), "keyword"), model.createLiteral(datasetName, "en"))
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "conformsTo"), dataidStandard)
-        model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "conformsTo"), dataidLdStandard)
-
-        if (lang.iso639_3 != null && lang.iso639_3.length > 0)
-          model.add(dataset, model.createProperty(model.getNsPrefixURI("dc"), "language"), model.createResource("http://lexvo.org/id/iso639-3/" + lang.iso639_3))
-
-        lbpMap.get(("core-i18n/" + lang.wikiCode.replace("-", "_") + "/" + currentFile).replace(compression, "")) match {
-          case Some(triples) =>
-            model.add(dataset, model.createProperty(model.getNsPrefixURI("void"), "triples"), model.createTypedLiteral((new Integer(triples.get("lines").get) - 2), model.getNsPrefixURI("xsd") + "integer"))
-          case None =>
-        }
-        dataset
-      }
-      //write catalog
-
-      catalogModel.write(new FileOutputStream(new File(dump + "/" + dbpVersion + "_dataid_catalog.ttl")), "TURTLE")
-
-      val outString = OpenRdfUtils.writeSerialization(OpenRdfUtils.convertToOpenRdfModel(catalogModel), RDFFormat.JSONLD).replace(".ttl\"", ".json\"")
-      val os = new FileOutputStream(new File(dump + "/" + dbpVersion + "_dataid_catalog.json"), false)
-      val printStream = new PrintStream(os)
-      printStream.print(outString)
-      printStream.close()
+      for (dir <- outer.listFiles().filter(_.isDirectory).filter(!_.getName.startsWith(".")))
+        extractDataID(outer, dir)
     }
+    //write catalog
 
-    def stringCompareIgnoreDash(str1: String, str2: String): Boolean = {
-      val s1 = str1.trim.toLowerCase()
-      val s2 = str2.trim.toLowerCase()
-      val zw = s1.replace("-", "_") == s2.replace("-", "_")
-      zw
-    }
+    catalogModel.write(new FileOutputStream(new File(dump + "/" + dbpVersion + "_dataid_catalog.ttl")), "TURTLE")
+
+    val outString = OpenRdfUtils.writeSerialization(OpenRdfUtils.convertToOpenRdfModel(catalogModel), RDFFormat.JSONLD).replace(".ttl\"", ".json\"")
+    val os = new FileOutputStream(new File(dump + "/" + dbpVersion + "_dataid_catalog.json"), false)
+    val printStream = new PrintStream(os)
+    printStream.print(outString)
+    printStream.close()
   }
 
+  def stringCompareIgnoreDash(str1: String, str2: String): Boolean = {
+    val s1 = str1.trim.toLowerCase()
+    val s2 = str2.trim.toLowerCase()
+    val zw = s1.replace("-", "_") == s2.replace("-", "_")
+    zw
+  }
+}

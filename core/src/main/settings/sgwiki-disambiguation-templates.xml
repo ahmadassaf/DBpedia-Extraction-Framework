@@ -1,5 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 <?xml version="1.0"?><api servedby="mw1144"><error code="missingtitle" info="The page you specified doesn&#039;t exist" /></api>
 =======
 <?xml version="1.0"?><api servedby="mw1207"><error code="missingtitle" info="The page you specified doesn&#039;t exist" xml:space="preserve">See https://sg.wikipedia.org/w/api.php for API usage</error></api>
 >>>>>>> 2dfd3a4888d6f710311813ddd6f9ddffeea46195
+=======
+<?xml version="1.0"?><api servedby="mw1204"><error code="missingtitle" info="The page you specified doesn&#039;t exist" xml:space="preserve">See https://sg.wikipedia.org/w/api.php for API usage</error></api>
+>>>>>>> bb7ec4d4910127f0a576f68270ff4e32707146d1

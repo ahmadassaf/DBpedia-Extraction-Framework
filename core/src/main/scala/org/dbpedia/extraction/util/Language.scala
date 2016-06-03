@@ -1,11 +1,13 @@
 package org.dbpedia.extraction.util
 
-import java.util.Locale
+import java.util.logging.{Level, Logger}
+import java.util.{MissingResourceException, Locale}
 
-import org.dbpedia.extraction.config.mappings.wikidata.WikidataExtractorConfigFactory
+import org.dbpedia.extraction.config.mappings.wikidata.{JsonConfig, WikidataExtractorConfigFactory}
 import org.dbpedia.extraction.ontology.{DBpediaNamespace, RdfNamespace}
 
 import scala.collection.mutable.HashMap
+import scala.io.{Codec, Source}
 
 /**
  * Represents a MediaWiki instance and the language used on it. Initially, this class was
@@ -44,13 +46,13 @@ class Language private(
 )
 {
     val locale = new Locale(isoCode)
+
     
     /** 
      * Wikipedia dump files use this prefix (with underscores), e.g. be_x_old, but
      * Wikipedia domains use the wikiCode (with dashes), e.g. http://be-x-old.wikipedia.org
      */
     val filePrefix = wikiCode.replace('-', '_')
-    
     /**
      */
     override def toString = "wiki="+wikiCode+",locale="+locale.getLanguage
@@ -61,6 +63,10 @@ class Language private(
 object Language extends (String => Language)
 {
   implicit val wikiCodeOrdering = Ordering.by[Language, String](_.wikiCode)
+
+  val logger = Logger.getLogger(Language.getClass.getName)
+
+  val wikipediaLanguageUrl = "https://noc.wikimedia.org/conf/langlist"
   
   val map: Map[String, Language] = locally {
     
@@ -78,8 +84,9 @@ object Language extends (String => Language)
         "http://"+code+".wikipedia.org/w/api.php"
       )
     }
-    
+
     val languages = new HashMap[String,Language]
+<<<<<<< HEAD
 <<<<<<< HEAD
     
     // All two-letter codes from http://noc.wikimedia.org/conf/langlist as of 2012-04-15,
@@ -227,15 +234,46 @@ object Language extends (String => Language)
 =======
     val langMapFile = WikidataExtractorConfigFactory.createConfig("/wikitoisomap.json")
 >>>>>>> 807d7bc8fd825da8e404e4d8050d9c6ae3207b0d
+=======
+    val source = Source.fromURL(wikipediaLanguageUrl)(Codec.UTF8)
+    val wikiLanguageCodes = try source.getLines.toList finally source.close
 
-    for (langEntry <- langMapFile.keys())
-    {
-      langMapFile.getValue(langEntry).get("iso639_1") match {
-        case Some(iso_1) if(iso_1.trim.length > 0) =>
-          languages(langEntry) = language(langEntry, langMapFile.getValue(langEntry).get("name").get, iso_1, langMapFile.getValue(langEntry).get("iso639_3").get)
-        case _ =>
+    val specialLangs: JsonConfig = WikidataExtractorConfigFactory.createConfig("/addonlangs.json").asInstanceOf[JsonConfig]
+>>>>>>> bb7ec4d4910127f0a576f68270ff4e32707146d1
+
+    for ((lang,properties) <- specialLangs.configMap) {
+      {
+        properties.get("dbpediaDomain") match{
+          case Some(dom) => languages(lang) = new Language(
+            properties.get("wikiCode").get,
+            properties.get("name").get,
+            properties.get("isoCode").get,
+            properties.get("iso639_3").get,
+            dom,
+            properties.get("dbpediaUri").get,
+            new DBpediaNamespace(properties.get("resourceUri").get),
+            new DBpediaNamespace(properties.get("propertyUri").get),
+            properties.get("baseUri").get,
+            properties.get("apiUri").get
+          )
+          case None => languages(lang) = language(properties.get("wikiCode").get, properties.get("name").get, properties.get("isoCode").get, properties.get("iso639_3").get)
+        }
       }
     }
+
+    for (langEntry <- wikiLanguageCodes)
+    {
+      val loc = new Locale(langEntry)
+      try {
+        languages(langEntry) = language(langEntry, loc.getDisplayName, loc.getLanguage, loc.getISO3Language)
+      }
+      catch{
+        case mre : MissingResourceException =>
+          if(!languages.keySet.contains(langEntry))
+            logger.log(Level.WARNING, "Language not found: " + langEntry + ". To extract this language, please edit the addonLanguage.json in core.")
+      }
+    }
+<<<<<<< HEAD
     languages("commons") =
     new Language(
       "commons",
@@ -295,6 +333,8 @@ object Language extends (String => Language)
       "http://mappings.dbpedia.org",
       "http://mappings.dbpedia.org/api.php"
     )
+=======
+>>>>>>> bb7ec4d4910127f0a576f68270ff4e32707146d1
 
     languages.toMap // toMap makes immutable
   }
@@ -339,4 +379,5 @@ object Language extends (String => Language)
    * Gets a language object for a Wikipedia language code, or the default if the given code is unknown.
    */
   def getOrElse(code: String, default: => Language) : Language = map.getOrElse(code, default)
+
 }

@@ -2802,8 +2802,13 @@ Ficha de localidad de Colombia
 {{PropertyMapping | templateProperty = mapa_loc | ontologyProperty = country }}
 {{PropertyMapping | templateProperty = mapa_loc_1 | ontologyProperty = province }}
 {{GeocoordinatesMapping | latitudeDegrees = latd  | latitudeMinutes = latm  | latitudeSeconds = lats  | latitudeDirection = latNS  | longitudeDegrees = longd  | longitudeMinutes = longm  | longitudeSeconds = longs  | longitudeDirection = longEW }}
+<<<<<<< HEAD
 }}</text></revision></page><page><title>Mapping es:Ficha de localidad de España</title><ns>214</ns><id>4698</id><revision><id>15820</id><timestamp>2011-11-03T18:13:41Z</timestamp><text>{{TemplateMapping
 | mapToClass = AdministrativeRegion
+=======
+}}</text></revision></page><page><title>Mapping es:Ficha de localidad de España</title><ns>214</ns><id>4698</id><revision><id>49570</id><timestamp>2015-11-22T15:14:11Z</timestamp><text>{{TemplateMapping
+| mapToClass = Municipality
+>>>>>>> bb7ec4d4910127f0a576f68270ff4e32707146d1
 | mappings =
 {{ConstantMapping | ontologyProperty = country | value = Spain}}
 {{PropertyMapping | templateProperty = cod_provincia | ontologyProperty = areaCode }}
@@ -2822,7 +2827,11 @@ Ficha de localidad de Colombia
 {{PropertyMapping | templateProperty = imagen | ontologyProperty = picture }}
 {{PropertyMapping | templateProperty = municipio | ontologyProperty = municipality }}
 {{PropertyMapping | templateProperty = web | ontologyProperty = foaf:homepage }}
+<<<<<<< HEAD
 {{PropertyMapping | templateProperty = población | ontologyProperty = city }}
+=======
+{{PropertyMapping | templateProperty = población | ontologyProperty = populationTotal }}
+>>>>>>> bb7ec4d4910127f0a576f68270ff4e32707146d1
 {{PropertyMapping | templateProperty = gentilicio | ontologyProperty = demonym }}
 {{PropertyMapping | templateProperty = patrón | ontologyProperty = saint }}
 {{PropertyMapping | templateProperty = patrona | ontologyProperty = saint }}
@@ -2847,7 +2856,7 @@ Ficha de localidad de Colombia
 {{PropertyMapping | templateProperty = altitud_min | ontologyProperty = minimumElevation | unit = metre }}
 {{PropertyMapping | templateProperty = alcalde_año | ontologyProperty = activeYearsStartYear }}
 {{PropertyMapping | templateProperty = alcaldesa_año | ontologyProperty = activeYearsStartYear }}
-{{PropertyMapping | templateProperty = censo | ontologyProperty = populationTotal }}
+{{PropertyMapping | templateProperty = censo | ontologyProperty = CensusYear }}
 {{GeocoordinatesMapping | latitudeDegrees = latd  | latitudeMinutes = latm  | latitudeSeconds = lats  | latitudeDirection = latNS  | longitudeDegrees = longd  | longitudeMinutes = longm  | longitudeSeconds = longs  | longitudeDirection = longEW }}
 }}</text></revision></page><page><title>Mapping es:Ficha de localidad de Francia</title><ns>214</ns><id>4678</id><revision><id>15937</id><timestamp>2011-11-03T19:46:49Z</timestamp><text>{{TemplateMapping
 | mapToClass = AdministrativeRegion
@@ -2939,8 +2948,13 @@ Ficha de localidad de Colombia
 {{PropertyMapping | templateProperty = mapa_loc | ontologyProperty = country }}
 {{PropertyMapping | templateProperty = mapa_loc_1 | ontologyProperty = province }}
 {{GeocoordinatesMapping | latitudeDegrees = latd  | latitudeMinutes = latm  | latitudeSeconds = lats  | latitudeDirection = latNS  | longitudeDegrees = longd  | longitudeMinutes = longm  | longitudeSeconds = longs  | longitudeDirection = longEW }}
+<<<<<<< HEAD
 }}</text></revision></page><page><title>Mapping es:Ficha de localidad de México</title><ns>214</ns><id>6042</id><revision><id>20278</id><timestamp>2012-12-18T16:42:43Z</timestamp><text>{{TemplateMapping
 | mapToClass = AdministrativeRegion
+=======
+}}</text></revision></page><page><title>Mapping es:Ficha de localidad de México</title><ns>214</ns><id>6042</id><revision><id>49567</id><timestamp>2015-11-22T15:12:58Z</timestamp><text>{{TemplateMapping
+| mapToClass = Municipality
+>>>>>>> bb7ec4d4910127f0a576f68270ff4e32707146d1
 | mappings =
         {{PropertyMapping | templateProperty = Nombre común | ontologyProperty = foaf:name }}
         {{PropertyMapping | templateProperty = Nombreoficial | ontologyProperty = foaf:name }}
@@ -2954,8 +2968,13 @@ Ficha de localidad de Colombia
         {{PropertyMapping | templateProperty = Estado  | ontologyProperty = country }}
      
      
+<<<<<<< HEAD
 }}</text></revision></page><page><title>Mapping es:Ficha de localidad de Polonia</title><ns>214</ns><id>4739</id><revision><id>15870</id><timestamp>2011-11-03T18:54:07Z</timestamp><text>{{TemplateMapping
 | mapToClass = AdministrativeRegion
+=======
+}}</text></revision></page><page><title>Mapping es:Ficha de localidad de Polonia</title><ns>214</ns><id>4739</id><revision><id>49569</id><timestamp>2015-11-22T15:13:20Z</timestamp><text>{{TemplateMapping
+| mapToClass = Municipality
+>>>>>>> bb7ec4d4910127f0a576f68270ff4e32707146d1
 | mappings =
 {{ConstantMapping | ontologyProperty = country | value = Poland}}
 {{PropertyMapping | templateProperty = cod_provincia | ontologyProperty = areaCode }}
@@ -2975,7 +2994,11 @@ Ficha de localidad de Colombia
 {{PropertyMapping | templateProperty = densidad| ontologyProperty = density}}
 {{PropertyMapping | templateProperty = fundador | ontologyProperty = foundedBy}}
 {{PropertyMapping | templateProperty = web | ontologyProperty = foaf:homepage }}
+<<<<<<< HEAD
 {{PropertyMapping | templateProperty = población | ontologyProperty = city }}
+=======
+{{PropertyMapping | templateProperty = población | ontologyProperty = populationTotal }}
+>>>>>>> bb7ec4d4910127f0a576f68270ff4e32707146d1
 {{PropertyMapping | templateProperty = gentilicio | ontologyProperty = demonym }}
 {{PropertyMapping | templateProperty = provincia | ontologyProperty = province }}
 {{PropertyMapping | templateProperty = mancomunidad | ontologyProperty = region }}
@@ -2989,8 +3012,13 @@ Ficha de localidad de Colombia
 {{PropertyMapping | templateProperty = mapa_loc | ontologyProperty = country }}
 {{PropertyMapping | templateProperty = mapa_loc_1 | ontologyProperty = province }}
 {{GeocoordinatesMapping | latitudeDegrees = latd  | latitudeMinutes = latm  | latitudeSeconds = lats  | latitudeDirection = latNS  | longitudeDegrees = longd  | longitudeMinutes = longm  | longitudeSeconds = longs  | longitudeDirection = longEW }}
+<<<<<<< HEAD
 }}</text></revision></page><page><title>Mapping es:Ficha de localidad de Rumania</title><ns>214</ns><id>4741</id><revision><id>15872</id><timestamp>2011-11-03T18:54:59Z</timestamp><text>{{TemplateMapping
 | mapToClass = AdministrativeRegion
+=======
+}}</text></revision></page><page><title>Mapping es:Ficha de localidad de Rumania</title><ns>214</ns><id>4741</id><revision><id>49568</id><timestamp>2015-11-22T15:13:10Z</timestamp><text>{{TemplateMapping
+| mapToClass = Municipality
+>>>>>>> bb7ec4d4910127f0a576f68270ff4e32707146d1
 | mappings =
 {{ConstantMapping | ontologyProperty = country | value = Rumania }}
 {{PropertyMapping | templateProperty = cod_provincia | ontologyProperty = areaCode }}
@@ -3010,7 +3038,11 @@ Ficha de localidad de Colombia
 {{PropertyMapping | templateProperty = densidad| ontologyProperty = density}}
 {{PropertyMapping | templateProperty = fundador | ontologyProperty = foundedBy}}
 {{PropertyMapping | templateProperty = web | ontologyProperty = foaf:homepage }}
+<<<<<<< HEAD
 {{PropertyMapping | templateProperty = población | ontologyProperty = city }}
+=======
+{{PropertyMapping | templateProperty = población | ontologyProperty = populationTotal }}
+>>>>>>> bb7ec4d4910127f0a576f68270ff4e32707146d1
 {{PropertyMapping | templateProperty = gentilicio | ontologyProperty = demonym }}
 {{PropertyMapping | templateProperty = provincia | ontologyProperty = province }}
 {{PropertyMapping | templateProperty = mancomunidad | ontologyProperty = region }}

@@ -8814,6 +8814,55 @@ Im Englischen nicht bekannt/verwendet:
 {{ PropertyMapping | templateProperty = NAME | ontologyProperty = foaf:name }}
 {{ PropertyMapping | templateProperty = TYP | ontologyProperty = type }}
 
+<<<<<<< HEAD
+=======
+&lt;!--
+{{Literatur
+| Autor=
+| Herausgeber=
+| Titel=
+| TitelErg=
+| Sammelwerk=
+| WerkErg=
+| Reihe=
+| Band=
+| Nummer=
+| Auflage=
+| Verlag=
+| Ort=
+| Jahr=
+| Monat=
+| Tag=
+| Kapitel=
+| Seiten=
+| Spalten=
+| ISBN=                 *
+| ISBNistFormalFalsch=
+| ISSN=
+| Kommentar=
+| Originaltitel=
+| Originaljahr=
+| Originalort=
+| Originalsprache=
+| Übersetzer=
+| Online=
+| arxiv=
+| DOI=
+| DNB=
+| LCCN=
+| OCLC=
+| PMC=
+| PMID=
+| ZDB=
+| Zugriff=2015-03-24
+| Typ=
+}}
+--&gt;</text></revision></page><page><title>Mapping de:MusicBrainz Künstler</title><ns>208</ns><id>11543</id><revision><id>50307</id><timestamp>2016-01-26T09:42:33Z</timestamp><text>{{TemplateMapping 
+| mapToClass = Agent 
+| mappings = 
+  {{ PropertyMapping | templateProperty = name | ontologyProperty = foaf:name }}
+  {{ PropertyMapping | templateProperty = id | ontologyProperty = mbaId }}
+>>>>>>> bb7ec4d4910127f0a576f68270ff4e32707146d1
 }}</text></revision></page><page><title>Mapping de:NFTPlayer</title><ns>208</ns><id>9195</id><revision><id>31934</id><timestamp>2014-02-18T13:23:43Z</timestamp><text>{{TemplateMapping
 | mapToClass = owl:Thing
 | mappings =
