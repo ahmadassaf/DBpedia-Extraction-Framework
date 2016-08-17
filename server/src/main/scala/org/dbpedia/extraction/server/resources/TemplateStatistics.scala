@@ -130,7 +130,7 @@ class   TemplateStatistics(@PathParam("lang") langCode: String, @QueryParam("p")
 
                 <table class="table table-condensed" align="center" style="width:500px; margin:auto">
                     <caption>The color codes:</caption>
-                    <tr><td class={mappedSuccessClass}>template is mapped withl more than {"%2.0f".format(goodThreshold*100)}%</td></tr>
+                    <tr><td class={mappedSuccessClass}>template is mapped with more than {"%2.0f".format(goodThreshold*100)}%</td></tr>
                     <tr><td class={mappedActiveClass}>template is mapped with more than {"%2.0f".format(mediumThreshold*100)}%</td></tr>
                     <tr><td class={mappedWarningClass}>template is mapped with less than {"%2.0f".format(mediumThreshold*100)}%</td></tr>
                     <tr><td class={mappedDangerClass}>template is not mapped</td></tr>
@@ -251,5 +251,64 @@ class   TemplateStatistics(@PathParam("lang") langCode: String, @QueryParam("p")
       <a href={cookieQuery('?', 100000)}>all&nbsp;templates</a>
     </p>
   }
+<<<<<<< HEAD
   
 }
+=======
+
+  /**
+   * Retrieves mapping statistics as json
+   */
+  @GET
+  @Path("json/")
+  @Produces(Array("application/json"))
+  def getAsJson: String = {
+
+    var builder = new StringBuilder
+
+    // start object
+    builder append '{'
+
+    var statistics = new ArrayBuffer[Language]
+    if (langCode == "*")
+      for ((language, manager) <- Server.instance.managers) {
+        statistics += language
+      }
+    else {
+      val language = Language.getOrElse(langCode, throw new WebApplicationException(new Exception("invalid language " + langCode), 404))
+      statistics += language
+    }
+
+    // list of json files per language
+    builder append statistics.map( language =>
+      getJsonTemplate(language.wikiCode, Server.instance.managers(language).holder)
+    ).mkString(",")
+
+    // end object
+    builder append '}'
+
+    builder.toString()
+  }
+
+  private def getJsonTemplate(lang: String, stats: MappingStatsHolder) : String = {
+    var builder = new StringBuilder
+
+    builder append "\"" append lang append "\""
+    builder append ": {"
+
+    builder append "\"templateMappedCount\":" append stats.mappedTemplateCount append ","
+    builder append "\"templateCount\":" append stats.templateCount append ","
+    builder append "\"propertyMappedCount\":" append stats.mappedPropertyCount append ","
+    builder append "\"propertyCount\":" append stats.propertyCount append ","
+    builder append "\"templateMappedUsedCount\":" append stats.mappedTemplateUseCount append ","
+    builder append "\"templateUsedCount\":" append stats.templateUseCount append ","
+    builder append "\"propertyMappedUsedCount\":" append stats.mappedPropertyUseCount append ","
+    builder append "\"propertyUsedCount\":" append stats.propertyUseCount
+    builder append "}"
+
+    builder.toString()
+
+
+  }
+}
+>>>>>>> 39911a3fdbc3e198f3ea8707670c016878426b4a

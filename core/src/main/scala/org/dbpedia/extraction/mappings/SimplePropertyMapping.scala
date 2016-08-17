@@ -15,17 +15,31 @@ import scala.language.reflectiveCalls
 
 class SimplePropertyMapping (
   val templateProperty : String, // IntermediateNodeMapping and CreateMappingStats requires this to be public
+<<<<<<< HEAD
   ontologyProperty : OntologyProperty,
   select : String,
   unit : Datatype,
   private var language : Language,
   factor : Double,
+=======
+  val ontologyProperty : OntologyProperty,
+  val select : String,  // rml mappings require this to be public (e.g. ModelMapper)
+  val prefix : String,  // rml mappings require this to be public (e.g. ModelMapper)
+  val suffix : String,  // rml mappings require this to be public (e.g. ModelMapper)
+  val transform : String, // rml mappings require this to be public (e.g. ModelMapper)
+  val unit : Datatype,  // rml mappings require this to be public (e.g. ModelMapper)
+  var language : Language,  // rml mappings require this to be public (e.g. ModelMapper)
+  val factor : Double,  // rml mappings require this to be public (e.g. ModelMapper)
+>>>>>>> 39911a3fdbc3e198f3ea8707670c016878426b4a
   context : {
     def ontology : Ontology
     def redirects : Redirects  // redirects required by DateTimeParser and UnitValueParser
     def language : Language
   }
 )
+
+
+
 extends PropertyMapping
 {
     val selector: List[_] => List[_] =

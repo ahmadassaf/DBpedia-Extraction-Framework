@@ -9,9 +9,15 @@ import org.dbpedia.extraction.wikiparser.AnnotationKey
 import scala.language.reflectiveCalls
 
 class TemplateMapping( 
+<<<<<<< HEAD
   mapToClass : OntologyClass,
   correspondingClass : OntologyClass,
   correspondingProperty : OntologyProperty,
+=======
+  val mapToClass : OntologyClass,
+  val correspondingClass : OntologyClass, // must be public val for converting to rml
+  val correspondingProperty : OntologyProperty, // must be public for converting to rml
+>>>>>>> 39911a3fdbc3e198f3ea8707670c016878426b4a
   val mappings : List[PropertyMapping], // must be public val for statistics
   context: {
     def ontology : Ontology

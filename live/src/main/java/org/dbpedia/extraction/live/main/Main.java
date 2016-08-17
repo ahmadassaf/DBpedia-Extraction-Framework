@@ -4,6 +4,7 @@ package org.dbpedia.extraction.live.main;
 import org.apache.log4j.PropertyConfigurator;
 import org.dbpedia.extraction.live.core.LiveOptions;
 import org.dbpedia.extraction.live.feeder.Feeder;
+import org.dbpedia.extraction.live.feeder.RCStreamFeeder;
 import org.dbpedia.extraction.live.feeder.OAIFeeder;
 import org.dbpedia.extraction.live.feeder.OAIFeederMappings;
 import org.dbpedia.extraction.live.feeder.UnmodifiedFeeder;
@@ -54,7 +55,18 @@ public class Main {
 
     public static void initLive() {
 
+<<<<<<< HEAD
         PropertyConfigurator.configure("log4j.live.properties");
+=======
+        JDBCUtil.execSQL("SET names utf8");
+
+        if (Boolean.parseBoolean(LiveOptions.options.get("feeder.rcstream.enabled")) == true) {
+            feeders .add(new RCStreamFeeder("RCStreamFeeder", LiveQueuePriority.LivePriority,
+                LiveOptions.options.get("uploaded_dump_date"), LiveOptions.options.get("working_directory"),
+                LiveOptions.options.get("feeder.rcstream.room")));
+        }
+
+>>>>>>> 39911a3fdbc3e198f3ea8707670c016878426b4a
         if (Boolean.parseBoolean(LiveOptions.options.get("feeder.mappings.enabled")) == true) {
             long pollInterval = Long.parseLong(LiveOptions.options.get("feeder.mappings.pollInterval"));
             long sleepInterval = Long.parseLong(LiveOptions.options.get("feeder.mappings.sleepInterval"));

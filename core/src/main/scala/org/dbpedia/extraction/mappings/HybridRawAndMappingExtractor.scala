@@ -24,13 +24,20 @@ class HybridRawAndMappingExtractor(
 extends PageNodeExtractor {
   private val rawinfoboxExtractor = new InfoboxExtractor(context)
   private val mappingExtractor = new MappingExtractor(context)
+  private val language = context.language
+
+  private val enableMappingExtractor = Namespace.mappings.contains(language)
 
   override val datasets = (rawinfoboxExtractor.datasets ++ mappingExtractor.datasets) + DBpediaDatasets.InfoboxPropertiesMapped
 
   override def extract(page: PageNode, subjectUri: String, pageContext: PageContext): Seq[Quad] = {
 
 
-    val mappedGraph = mappingExtractor.extract(page, subjectUri, pageContext)
+    val mappedGraph =
+      // check if the mappings exist for a language
+      if (enableMappingExtractor) mappingExtractor.extract(page, subjectUri, pageContext)
+      else Seq.empty
+
     val rawGraph = rawinfoboxExtractor.extract(page, subjectUri, pageContext)
 
     return mappedGraph ++ splitRawGraph(rawGraph, mappedGraph)
@@ -38,15 +45,16 @@ extends PageNodeExtractor {
 
   private def splitRawGraph(rawGraph: Seq[Quad], mappedGraph: Seq[Quad]): Seq[Quad] = {
     // we store an index of (infobox, property, absolute-line) for each mapped fact and split raw facts with the same index
-    val mappedIndex = mappedGraph.map( q => extractTemplatePropertyAndLine(q.context)).toSet
+    val mappedIndex = mappedGraph.flatMap( q => extractTemplatePropertyAndLine(q.context)).toSet
 
     val newRawGraph = new ArrayBuffer[Quad]
     rawGraph
       .foreach( q => {
+        val tuple = extractTemplatePropertyAndLine(q.context)
         if (! q.dataset.equals(DBpediaDatasets.InfoboxProperties.name)) {
           newRawGraph += q.copy()
         }
-        else if (mappedIndex.contains( extractTemplatePropertyAndLine(q.context))) {
+        else if ( tuple.isDefined && mappedIndex.contains( tuple.get)) {
           newRawGraph += q.copy(context = q.context + "&mapped=")
         }
         else {
@@ -59,7 +67,7 @@ extends PageNodeExtractor {
 
   private def extractTemplatePropertyAndLine(quadContext: String): Option[Tuple3[String, String, String]] ={
     val splitted = quadContext.split('#') // go to the fragment
-    if (splitted.size != 2 ) {
+    if (splitted.length != 2 ) {
       None
     } else {
       // create a map from parameters
