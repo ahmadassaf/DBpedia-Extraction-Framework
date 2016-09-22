@@ -92,6 +92,7 @@ public class LiveConfigReader {
     }
 
     /**
+<<<<<<< HEAD
      * Reads the value indicating whether the application should work in multithreading or single threading mode
      */
     private static void readMultihreadingMode() {
@@ -108,6 +109,9 @@ public class LiveConfigReader {
 
     /**
      * Reads each langauge along with its set of extractors
+=======
+     * Reads each language along with its set of extractors
+>>>>>>> 594261ac5fae789587c40ae2bfe473b8ae003aa5
      */
     private static void readExtractors(){
         NodeList languageNodes = doc.getElementsByTagName(LANUAGE_TAGNAME);

@@ -100,10 +100,22 @@
         <dependency>
             <groupId>org.sweble.wikitext</groupId>
             <artifactId>swc-engine</artifactId>
+<<<<<<< HEAD
             <version>1.1.1-SNAPSHOT</version>
+=======
+            <version>2.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.sweble.wom3</groupId>
+            <artifactId>sweble-wom3</artifactId>
+            <version>2.1.0</version>
+            <type>pom</type>
+>>>>>>> 594261ac5fae789587c40ae2bfe473b8ae003aa5
         </dependency>
 
-	 <dependency>
+
+
+        <dependency>
 		<groupId>org.wikidata.wdtk</groupId>
 		<artifactId>wdtk-dumpfiles</artifactId>
 <<<<<<< HEAD

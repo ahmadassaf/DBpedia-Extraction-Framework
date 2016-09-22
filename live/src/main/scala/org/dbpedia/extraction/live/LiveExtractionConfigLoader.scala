@@ -6,7 +6,7 @@ import java.util.Properties
 import java.io.File
 import org.apache.log4j.Logger
 import org.dbpedia.extraction.mappings._
-import org.dbpedia.extraction.util.Language
+import org.dbpedia.extraction.util.{ExtractorUtils, Language}
 import org.dbpedia.extraction.sources.{WikiPage, WikiSource, Source, XMLSource}
 import org.dbpedia.extraction.wikiparser._
 import org.dbpedia.extraction.destinations._
@@ -37,7 +37,14 @@ object LiveExtractionConfigLoader
   private var extractors : List[Extractor[_]] = null;
   private var reloadOntologyAndMapping = true;
   private var ontologyAndMappingsUpdateTime : Long = 0;
+<<<<<<< HEAD
   val logger = Logger.getLogger("LiveExtractionConfigLoader");
+=======
+  private val language = Language.apply(LiveOptions.language)
+  private val namespaces = if (language == Language.Commons) ExtractorUtils.commonsNamespacesContainingMetadata
+    else Set(Namespace.Main, Namespace.Template, Namespace.Category)
+  val logger = LoggerFactory.getLogger("LiveExtractionConfigLoader");
+>>>>>>> 594261ac5fae789587c40ae2bfe473b8ae003aa5
 
   /** Ontology source */
   val ontologySource = WikiSource.fromNamespaces(
@@ -47,7 +54,11 @@ object LiveExtractionConfigLoader
 
   /** Mappings source */
   val mappingsSource =  WikiSource.fromNamespaces(
+<<<<<<< HEAD
     namespaces = Set(Namespace.mappings(Language.apply(LiveOptions.options.get("language")))),
+=======
+    namespaces = Set(Namespace.mappings(language)),
+>>>>>>> 594261ac5fae789587c40ae2bfe473b8ae003aa5
     url = new URL(Language.Mappings.apiUri),
     language = Language.Mappings );
 
@@ -136,12 +147,8 @@ object LiveExtractionConfigLoader
     for (wikiPage <- articlesSource)
     {
 
-      if(wikiPage.title.namespace == Namespace.Main ||
-        wikiPage.title.namespace == Namespace.Template ||
-        wikiPage.title.namespace == Namespace.Category)
+      if(namespaces.contains(wikiPage.title.namespace))
       {
-
-
 
         val liveCache = new JSONCache(wikiPage.id, wikiPage.title.decoded)
 

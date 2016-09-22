@@ -5,6 +5,7 @@ import org.apache.log4j.PropertyConfigurator;
 import org.dbpedia.extraction.live.core.LiveOptions;
 import org.dbpedia.extraction.live.feeder.Feeder;
 import org.dbpedia.extraction.live.feeder.RCStreamFeeder;
+import org.dbpedia.extraction.live.feeder.AllPagesFeeder;
 import org.dbpedia.extraction.live.feeder.OAIFeeder;
 import org.dbpedia.extraction.live.feeder.OAIFeederMappings;
 import org.dbpedia.extraction.live.feeder.UnmodifiedFeeder;
@@ -66,7 +67,15 @@ public class Main {
                 LiveOptions.options.get("feeder.rcstream.room")));
         }
 
+<<<<<<< HEAD
 >>>>>>> 39911a3fdbc3e198f3ea8707670c016878426b4a
+=======
+        if (Boolean.parseBoolean(LiveOptions.options.get("feeder.allpages.enabled")) == true) {
+            feeders .add(new AllPagesFeeder("AllPagesFeeder", LiveQueuePriority.LivePriority,
+                    LiveOptions.options.get("uploaded_dump_date"), LiveOptions.options.get("working_directory")));
+        }
+
+>>>>>>> 594261ac5fae789587c40ae2bfe473b8ae003aa5
         if (Boolean.parseBoolean(LiveOptions.options.get("feeder.mappings.enabled")) == true) {
             long pollInterval = Long.parseLong(LiveOptions.options.get("feeder.mappings.pollInterval"));
             long sleepInterval = Long.parseLong(LiveOptions.options.get("feeder.mappings.sleepInterval"));

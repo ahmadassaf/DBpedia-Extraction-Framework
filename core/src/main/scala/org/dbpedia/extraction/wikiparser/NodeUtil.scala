@@ -1,5 +1,16 @@
 package org.dbpedia.extraction.wikiparser
 
+<<<<<<< HEAD
+=======
+import java.util.logging.Logger
+import java.net.{URI, URISyntaxException}
+
+import org.dbpedia.extraction.util.Language
+import org.dbpedia.extraction.util.UriUtils
+
+import scala.collection.mutable.ListBuffer
+
+>>>>>>> 594261ac5fae789587c40ae2bfe473b8ae003aa5
 /**
  * Utility functions for working with nodes.
  */
@@ -154,4 +165,23 @@ object NodeUtil
 
         splitNodes.reverse
     }
+<<<<<<< HEAD
 }
+=======
+
+    def filterEmptyTextNodes(list : List[Node]) : List[Node] = {
+        return list.filter(x => isEmptyTextNode(x))
+    }
+
+    def isEmptyTextNode(node : Node) : Boolean = {
+
+        if(!node.isInstanceOf[TextNode]){
+            return true;
+        }
+
+        return ! node.asInstanceOf[TextNode].text.trim.isEmpty
+
+    }
+
+}
+>>>>>>> 594261ac5fae789587c40ae2bfe473b8ae003aa5

@@ -58,7 +58,11 @@ object DBpediaDatasets
     val KMLFiles = new Dataset("kml_files", "Description of KML files from Commons")
     val AnchorText = new Dataset("anchor_text", "Texts used in links to refer to Wikipedia articles from other Wikipedia articles.")
     val SurfaceForms = new Dataset("surface_forms", "Texts used to refer to Wikipedia articles. Includes the anchor texts data, the names of redirects pointing to an article and the actual article name.")
+<<<<<<< HEAD
 >>>>>>> 807d7bc8fd825da8e404e4d8050d9c6ae3207b0d
+=======
+    val Sounds = new Dataset("sounds", "audio files and sounds from Wikipedia articles.")
+>>>>>>> 594261ac5fae789587c40ae2bfe473b8ae003aa5
 
     /**
      * Mapping based
@@ -119,7 +123,11 @@ object DBpediaDatasets
     val LongAbstracts = new Dataset("long_abstracts", "Full abstracts of Wikipedia articles, usually the first section.")
     val MissingShortAbstracts = new Dataset("missing_short_abstracts")
     val MissingLongAbstracts = new Dataset("missing_long_abstracts")
+<<<<<<< HEAD
 >>>>>>> 807d7bc8fd825da8e404e4d8050d9c6ae3207b0d
+=======
+    val LinkedAbstracts = new Dataset("linked_abstracts", "This is a temporary dataset for the NIF extraction of Abstracts. It shall be deleted after NIF extraction is finished.")
+>>>>>>> 594261ac5fae789587c40ae2bfe473b8ae003aa5
 
     /**
      * Links
@@ -141,6 +149,7 @@ object DBpediaDatasets
     val OutDegree = new Dataset("out_degree", "Number of links emerging from a Wikipedia article and pointing to another Wikipedia article.")
     val FreebaseLinks = new Dataset("freebase_links", "This file contains the back-links (owl:sameAs) to the Freebase dataset.")
     val GeonamesLinks = new Dataset("geonames_links", "This file contains the back-links (owl:sameAs) to the Geonames dataset.")
+    val CommonsLink = new Dataset("commons_page_links", "Dataset containing links between a language-locale DBpedia instance and DBpedia Commons.")
 
 >>>>>>> 807d7bc8fd825da8e404e4d8050d9c6ae3207b0d
 
